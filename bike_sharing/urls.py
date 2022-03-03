@@ -19,7 +19,12 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import include, path
 
+
 urlpatterns = [
     path('polls/', include('station_admin.urls')),
     path('admin/', admin.site.urls),
 ]
+
+admin.site.site_header = "Station Admin"
+admin.site.site_title = "Station Admin Portal"
+admin.site.index_title = "Station portal"
