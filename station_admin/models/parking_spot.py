@@ -1,12 +1,10 @@
 from django.db import models
+from .site import Site
+
 
 class ParkingSpot(models.Model):
-
-
-    #SpotType = models.TextChoices(SCOOTER_TYPE, BIKE_TYPE)
-
     taken = models.BooleanField()
-    #spot_type = models.CharField(choices=SpotType.choices, max_length=50)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
     class SpotType(models.TextChoices):
         SCOOTER = 'scooter'
@@ -17,3 +15,6 @@ class ParkingSpot(models.Model):
         choices=SpotType.choices,
         default=SpotType.BIKE,
     )
+
+    def __str__(self):
+        return f"{self.id} - {self.spot_type}"
