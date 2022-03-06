@@ -23,6 +23,7 @@ from django.urls import include, path
 urlpatterns = [
     path('polls/', include('station_admin.urls')),
     path('admin/', admin.site.urls),
+    path('client/', include('station_client.urls'))
 ]
 
 admin.site.site_header = "Station Admin"
