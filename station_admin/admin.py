@@ -1,5 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+from .models import Site
 
-from .models import Question
-
-admin.site.register(Question)
+admin.site.register(Site)
+#admin.site.unregister(Group)
