@@ -2,7 +2,7 @@ from django.urls import path
 
 # from . import views
 from .views import RegistrationView
-#from views.client import IndexView # sitaip nepavyksta
+#from views.station_admin import IndexView # sitaip nepavyksta
 from .views import IndexView
 
 urlpatterns = [
