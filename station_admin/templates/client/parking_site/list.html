@@ -1,0 +1,27 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="container">
+        {% for site in sites %}
+            <div class="card mb-2">
+                <img src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ site.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ site.street }}, {{ site.city }}</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                        the card's content.</p>
+
+                    <p>
+                        <img style="width: 30px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                        {{ site.get_available_bike_spots|length }} / {{ site.get_bike_spots|length }}
+                    </p>
+                    <p>
+                        <img style="width: 30px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                        {{ site.get_available_scooter_spots|length }} / {{ site.get_scooter_spots|length }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}
