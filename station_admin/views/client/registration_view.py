@@ -18,11 +18,7 @@ class RegistrationView(View):
         form = UserCreationForm(request.POST)
 
         if form.is_valid():
-            form.save()
-            username = authenticate(username=form.cleaned_data['username'])
-            password = authenticate(username=form.cleaned_data['password1'])
-
-            user = authenticate(username=username, password=password)
+            user = form.save()
             login(request, user)
 
             return redirect('index')
