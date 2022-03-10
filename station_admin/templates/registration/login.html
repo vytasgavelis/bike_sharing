@@ -1,4 +1,5 @@
 {% extends 'client/base.html' %}
+{% load static %}
 
 {% block content %}
     {% if form.errors %}
@@ -8,14 +9,27 @@
     {% if next %}
         <p>You cant access that page</p>
     {% endif %}
-    Login form
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
 
-        <p>Username: {{ form.username }}</p>
-        <p>Password: {{ form.password }}</p>
+    <main class="container text-center form-signin border rounded">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <img style="width: 40px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <p><input type="submit" value="login"></p>
-        <input type="hidden" name="next" value="{{ next }}">
-    </form>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="{{ form.username.id_for_label }}"
+                       name="{{ form.username.html_name }}" placeholder="name@example.com">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="{{ form.password.id_for_label }}"
+                       name="{{ form.password.html_name }}">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </main>
 {% endblock %}
