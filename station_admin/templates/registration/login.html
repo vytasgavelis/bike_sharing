@@ -2,10 +2,6 @@
 {% load static %}
 
 {% block content %}
-    {% if form.errors %}
-        <p>There is some form errors</p>
-    {% endif %}
-
     {% if next %}
         <p>You cant access that page</p>
     {% endif %}
@@ -13,6 +9,21 @@
     <main class="container text-center form-signin border rounded">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
+
+            {% if form.errors %}
+                {% for field_name, errors in form.errors.items %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field_name }}
+                        <hr>
+                        <ul>
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <img style="width: 40px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
