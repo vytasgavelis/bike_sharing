@@ -2,8 +2,10 @@ from django.db import models
 from django.db.models import QuerySet
 
 # TODO: use inline forms to edit parking spot in site form.
+from django.contrib import admin
 from station_admin.models.charge_rule import ChargeRule
-
+from station_admin.provider import qr_code_url_provider
+from django.utils.html import format_html
 
 class Site(models.Model):
     name = models.CharField(max_length=200)
@@ -51,3 +53,7 @@ class Site(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} - {self.street}, {self.city}"
+
+    @admin.display
+    def get_qr_code_url_html(self) -> str:
+        return format_html('<a href="{}">Download</a>', qr_code_url_provider.get_url(5))

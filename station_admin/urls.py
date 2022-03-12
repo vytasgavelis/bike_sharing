@@ -6,9 +6,12 @@ from .views import RegistrationView
 from .views import IndexView
 #from .views.client import ParkingSiteListView
 from .views.client.parking import ParkingSiteListView
+from .views.admin.qr_code_download_view import QrCodeDownloadView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('register', RegistrationView.as_view(), name='register'),
-    path('parking-site', ParkingSiteListView.as_view(), name='parking_site_list')
+    path('parking-site', ParkingSiteListView.as_view(), name='parking_site_list'),
+    #todo: add following to admin urls.
+    path('qr-code/<int:qr_code_id>/', QrCodeDownloadView.as_view(), name='qr_code_download'),
 ]
