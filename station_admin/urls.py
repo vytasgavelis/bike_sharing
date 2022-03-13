@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 # from . import views
@@ -16,5 +17,5 @@ urlpatterns = [
     path('parking-site', ParkingSiteListView.as_view(), name='parking_site_list'),
     # todo: add following to admin urls.
     path('site/<int:id>/qr-code', staff_member_required(QrCodeDownloadView.as_view()), name='qr_code_download'),
-    path('site/<int:id>/gate/open', ParkingGateOpeningView.as_view(), name='parking_gate_open'),
+    path('site/<int:id>/gate/open', login_required(ParkingGateOpeningView.as_view()), name='parking_gate_open'),
 ]

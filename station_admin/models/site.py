@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import QuerySet
+from django.contrib.auth.models import User
 
 # TODO: use inline forms to edit parking spot in site form.
 from django.contrib import admin
@@ -58,5 +59,8 @@ class Site(models.Model):
 
     @admin.display
     def get_qr_code_url_html(self) -> str:
-        #TODO: move this outside model
+        # TODO: move this outside model
         return format_html('<a href="{}">Download QR code</a>', qr_code_url_provider.get_url(self.id))
+
+    def enough_credits_for_parking(self, user: User) -> bool:
+        return user.userprofile.credits >= self.parking_charge_rule.get_min_parking_price()

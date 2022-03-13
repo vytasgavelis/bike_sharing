@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block content %}
-    {% if next %}
-        <p>You cant access that page</p>
-    {% endif %}
-
     <main class="container text-center form-signin border rounded">
+    {% if next %}
+        <div class="alert alert-danger mt-3" role="alert">
+            You need to be logged in.
+        </div>
+    {% endif %}
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
 

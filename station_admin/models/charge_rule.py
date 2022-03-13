@@ -17,3 +17,7 @@ class ChargeRule(models.Model):
 
     def __str__(self) -> str:
         return f"{self.price}€ - {self.max_time_mins} min."
+
+    def get_min_parking_price(self) -> int:
+        # Hardcoded 5 minutes as min parking time
+        return self.price * 5
