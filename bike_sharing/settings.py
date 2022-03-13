@@ -125,3 +125,4 @@ LOGIN_REDIRECT_URL = '/station/'
 LOGOUT_REDIRECT_URL = '/station/'
 
 BASE_URL = 'http://127.0.0.1:8000'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

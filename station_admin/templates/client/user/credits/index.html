@@ -1,0 +1,12 @@
+{% extends 'client/base.html' %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1>Credits index page</h1>
+{% endblock %}
