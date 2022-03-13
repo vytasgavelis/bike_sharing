@@ -4,7 +4,6 @@ from django.db.models import QuerySet
 # TODO: use inline forms to edit parking spot in site form.
 from django.contrib import admin
 
-from station_admin.models.qr_code import QrCode
 from station_admin.models.charge_rule import ChargeRule
 #from station_admin.provider import qr_code_url_provider
 from django.utils.html import format_html
@@ -35,13 +34,6 @@ class Site(models.Model):
         related_name='rent_charge_rule',
         null=True,
         blank=True,
-    )
-
-    qr_code = models.ForeignKey(
-        QrCode,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True
     )
 
     def get_available_spots(self, spot_type: str) -> QuerySet:
