@@ -3,9 +3,12 @@ from django.db.models import QuerySet
 
 # TODO: use inline forms to edit parking spot in site form.
 from django.contrib import admin
+
+from station_admin.models.qr_code import QrCode
 from station_admin.models.charge_rule import ChargeRule
-from station_admin.provider import qr_code_url_provider
+#from station_admin.provider import qr_code_url_provider
 from django.utils.html import format_html
+
 
 class Site(models.Model):
     name = models.CharField(max_length=200)
@@ -17,7 +20,7 @@ class Site(models.Model):
     gate_open_url = models.CharField(max_length=100, null=True, blank=True)
     lock_open_url = models.CharField(max_length=100, null=True, blank=True)
 
-    #TODO: maybe this should not allow for nulls.
+    # TODO: maybe this should not allow for nulls.
     parking_charge_rule = models.ForeignKey(
         ChargeRule,
         on_delete=models.CASCADE,
@@ -32,6 +35,13 @@ class Site(models.Model):
         related_name='rent_charge_rule',
         null=True,
         blank=True,
+    )
+
+    qr_code = models.ForeignKey(
+        QrCode,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
     )
 
     def get_available_spots(self, spot_type: str) -> QuerySet:
@@ -56,4 +66,6 @@ class Site(models.Model):
 
     @admin.display
     def get_qr_code_url_html(self) -> str:
-        return format_html('<a href="{}">Download</a>', qr_code_url_provider.get_url(5))
+        #TODO: move this outside model
+        #return format_html('<a href="{}">Download</a>', qr_code_url_provider.get_url(self.id))
+        return 'random+url'
