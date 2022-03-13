@@ -6,12 +6,13 @@ from station_admin.models.site import Site
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
 from django.contrib import messages
 
+
 class ParkingGateOpeningView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
         site_id = kwargs['id']
 
         try:
-            parking_handler.start_parking_session(
+            parking_handler.open_site_door(
                 self.request.user, Site.objects.get(pk=site_id)
             )
         except NotEnoughCreditsException:

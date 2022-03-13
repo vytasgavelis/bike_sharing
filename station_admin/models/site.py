@@ -63,4 +63,7 @@ class Site(models.Model):
         return format_html('<a href="{}">Download QR code</a>', qr_code_url_provider.get_url(self.id))
 
     def enough_credits_for_parking(self, user: User) -> bool:
+        if not self.parking_charge_rule:
+            return False
+
         return user.userprofile.credits >= self.parking_charge_rule.get_min_parking_price()
