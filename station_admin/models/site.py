@@ -5,7 +5,7 @@ from django.db.models import QuerySet
 from django.contrib import admin
 
 from station_admin.models.charge_rule import ChargeRule
-#from station_admin.provider import qr_code_url_provider
+from station_admin.provider import qr_code_url_provider
 from django.utils.html import format_html
 
 
@@ -59,5 +59,4 @@ class Site(models.Model):
     @admin.display
     def get_qr_code_url_html(self) -> str:
         #TODO: move this outside model
-        #return format_html('<a href="{}">Download</a>', qr_code_url_provider.get_url(self.id))
-        return 'random+url'
+        return format_html('<a href="{}">Download QR code</a>', qr_code_url_provider.get_url(self.id))
