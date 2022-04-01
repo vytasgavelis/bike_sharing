@@ -5,7 +5,7 @@ import uuid
 
 class QrCodeProvider:
     def get_gate_open_png(self, site_id: int) -> str:
-        return self._create_png(BASE_URL + reverse('parking_gate_open', args=[site_id]))
+        return self._create_png(BASE_URL + reverse('parking_site_service_list', args=[site_id]))
 
     def _create_png(self, content: str) -> str:
         img = qrcode.make(content)

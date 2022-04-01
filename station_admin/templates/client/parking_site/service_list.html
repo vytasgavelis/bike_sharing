@@ -1,0 +1,66 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="container text-center border rounded">
+        <h3>{{ site.name }}</h3>
+        <img class="img-fluid" src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg">
+        <h3>What would you like to do?</h3>
+        <div class="row justify-content-center">
+            <div class="col-4 m-4">
+                {% if site.get_available_bike_spots|length %}
+                    <a href="{% url 'parking_gate_open' site.id 'bike' %}" class="w-100 btn btn-lg btn-primary">
+                        <div>Park my bike</div>
+                        <div>
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                        </div>
+                    </a>
+                {% else %}
+                    <p>Sorry :( bike parking is unavailable at the moment</p>
+                {% endif %}
+            </div>
+            <div class="col-4 m-4">
+                {% if site.is_bike_rent_available %}
+                    <a href="#" class="w-100 btn btn-lg btn-primary">
+                        <div>Rent a bike</div>
+                        <div>
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                        </div>
+                    </a>
+                {% else %}
+                    <p>Sorry :( bike renting is unavailable at the moment</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4 m-4">
+                {% if site.get_available_scooter_spots|length %}
+                    <a href="#" class="w-100 btn btn-lg btn-primary">
+                        <div>Park my scooter</div>
+                        <div>
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                        </div>
+                    </a>
+                {% else %}
+                    <p>Sorry :( scooter parking is unavailable at the moment</p>
+                {% endif %}
+            </div>
+            <div class="col-4 m-4">
+                {% if site.is_scooter_rent_available %}
+                    <a href="#" class="w-100 btn btn-lg btn-primary">
+                        <div>Rent a scooter</div>
+                        <div>
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                        </div>
+                    </a>
+                {% else %}
+                    <p>Sorry :( scooter renting is unavailable at the moment</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </main>
+{% endblock %}

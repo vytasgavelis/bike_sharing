@@ -54,6 +54,12 @@ class Site(models.Model):
         # TODO: use type from constant
         return self.get_available_spots('scooter')
 
+    def is_bike_rent_available(self) -> bool:
+        return True
+
+    def is_scooter_rent_available(self) -> bool:
+        return True
+
     def __str__(self) -> str:
         return f"{self.name} - {self.street}, {self.city}"
 

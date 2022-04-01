@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>f356ca7f-18ce-4369-ade4-f32212949c24.SCHEMA:symfony_test</OriginalElement>
+  <nodes>
+    <node x="449.375" y="150.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user</node>
+    <node x="97.25" y="739.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_chargerule</node>
+    <node x="92.25" y="1211.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_parkingspot</node>
+    <node x="0.0" y="486.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_admin_log</node>
+    <node x="801.0" y="227.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_permission</node>
+    <node x="260.0" y="541.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_userprofile</node>
+    <node x="88.75" y="887.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_site</node>
+    <node x="399.0576923076923" y="0.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_content_type</node>
+    <node x="458.5" y="739.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_migrations</node>
+    <node x="1003.0" y="541.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group_permissions</node>
+    <node x="804.0" y="541.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_groups</node>
+    <node x="684.5" y="739.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_session</node>
+    <node x="521.0" y="596.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_user_permissions</node>
+    <node x="1046.5" y="249.0">f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_user_permissions" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_permission" relationship="REFERENCES">
+      <point x="65.75" y="-49.0" />
+      <point x="718.25" y="455.0" />
+      <point x="893.5" y="455.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group_permissions" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group" relationship="REFERENCES">
+      <point x="57.5" y="-49.0" />
+      <point x="1175.5" y="445.0" />
+      <point x="1123.0" y="445.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_site" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_chargerule" relationship="REFERENCES">
+      <point x="-64.25" y="-137.0" />
+      <point x="153.0" y="862.0" />
+      <point x="157.25" y="862.0" />
+      <point x="-60.0" y="49.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group_permissions" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_permission" relationship="REFERENCES">
+      <point x="-57.5" y="-49.0" />
+      <point x="1060.5" y="455.0" />
+      <point x="893.5" y="455.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_admin_log" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user" relationship="REFERENCES">
+      <point x="60.0" y="-104.0" />
+      <point x="180.0" y="465.0" />
+      <point x="544.375" y="465.0" />
+      <point x="0.0" y="137.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_userprofile" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user" relationship="REFERENCES">
+      <point x="0.0" y="-49.0" />
+      <point x="380.5" y="465.0" />
+      <point x="544.375" y="465.0" />
+      <point x="0.0" y="137.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_groups" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_group" relationship="REFERENCES">
+      <point x="44.75" y="-49.0" />
+      <point x="938.25" y="445.0" />
+      <point x="1123.0" y="445.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_admin_log" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_content_type" relationship="REFERENCES">
+      <point x="-60.0" y="-104.0" />
+      <point x="60.0" y="465.0" />
+      <point x="115.0" y="465.0" />
+      <point x="115.0" y="124.0" />
+      <point x="500.5576923076923" y="124.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_permission" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.django_content_type" relationship="REFERENCES">
+      <point x="0.0" y="-60.0" />
+      <point x="893.5" y="124.0" />
+      <point x="500.5576923076923" y="124.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_groups" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user" relationship="REFERENCES">
+      <point x="-44.75" y="-49.0" />
+      <point x="848.75" y="465.0" />
+      <point x="544.375" y="465.0" />
+      <point x="0.0" y="137.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_parkingspot" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.station_admin_site" relationship="REFERENCES">
+      <point x="0.0" y="-60.0" />
+      <point x="0.0" y="137.0" />
+    </edge>
+    <edge source="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_user_permissions" target="f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user" relationship="REFERENCES">
+      <point x="-65.75" y="-49.0" />
+      <point x="586.75" y="465.0" />
+      <point x="544.375" y="465.0" />
+      <point x="0.0" y="137.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8499999999999999" showDependencies="false" x="481.0000000000001" y="636.0000000000001" />
+  <SelectedNodes>
+    <node>f356ca7f-18ce-4369-ade4-f32212949c24.TABLE:symfony_test.auth_user_user_permissions</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

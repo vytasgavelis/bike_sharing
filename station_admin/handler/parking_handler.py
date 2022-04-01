@@ -13,9 +13,11 @@ class ParkingHandler:
         if not site.gate_open_url or not site.external_id:
             raise SiteNotConfiguredCorrectlyException
 
+        #TODO: send external_id via request body.
         response = requests.post(f"{site.gate_open_url}/{site.external_id}")
 
         if response.status_code != 200:
             raise ErrorOpeningSiteGateException
 
-
+    def start_session(self, user: User, site: Site) -> None:
+        pass
