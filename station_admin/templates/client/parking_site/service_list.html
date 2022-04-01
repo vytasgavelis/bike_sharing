@@ -36,7 +36,7 @@
         <div class="row justify-content-center">
             <div class="col-4 m-4">
                 {% if site.get_available_scooter_spots|length %}
-                    <a href="#" class="w-100 btn btn-lg btn-primary">
+                    <a href="{% url 'parking_gate_open' site.id 'scooter' %}" class="w-100 btn btn-lg btn-primary">
                         <div>Park my scooter</div>
                         <div>
                             <img style="width: 40px"

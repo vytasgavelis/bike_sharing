@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import View
 from station_admin.handler import parking_handler
 from station_admin.models.site import Site
@@ -24,4 +24,4 @@ class ParkingGateOpeningView(View):
 
         parking_handler.start_session(self.request.user, site, parking_spot_type)
 
-        return HttpResponse(f"opening parking gate for site: {1}!")
+        return render(self.request, 'client/parking_site/parking_session_start_success.html')
