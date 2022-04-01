@@ -63,6 +63,9 @@ class Site(models.Model):
     def __str__(self) -> str:
         return f"{self.name} - {self.street}, {self.city}"
 
+    def get_formatted_address(self) -> str:
+        return f"{self.street}, {self.city}"
+
     @admin.display
     def get_qr_code_url_html(self) -> str:
         # TODO: move this outside model

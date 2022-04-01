@@ -2,26 +2,54 @@
 {% load static %}
 {% block content %}
     <main class="container">
-        {% for site in sites %}
-            <div class="card mb-2">
-                <img src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
-                     alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ site.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ site.street }}, {{ site.city }}</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's content.</p>
-
-                    <p>
-                        <img style="width: 30px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
-                        {{ site.get_available_bike_spots|length }} / {{ site.get_bike_spots|length }}
-                    </p>
-                    <p>
-                        <img style="width: 30px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
-                        {{ site.get_available_scooter_spots|length }} / {{ site.get_scooter_spots|length }}
-                    </p>
-                </div>
+        <div class="row justify-content-center border">
+            <div class="col m-4 border text-center">
+                <h3>My parking sessions</h3>
+                {% for parking_session in active_sessions %}
+                    <div>
+                        {{ parking_session.parking_spot.site.name }} <br>
+                        {{ parking_session.parking_spot.site.get_formatted_address }} <br>
+                        {{ parking_session.parking_spot.spot_type }}
+                        {% if parking_session.parking_spot.spot_type == 'bike' %}
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                        {% else %}
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                        {% endif %}
+                        <br>
+                        {% if parking_session.charge_rule.max_time_mins %}
+                            {{ parking_session.get_elapsed_minutes }} / {{ parking_session.charge_rule.max_time_mins }} show this time in normal time
+                        {% else %}
+                            {{ parking_session.get_elapsed_minutes }} / ∞
+                        {% endif %}
+                    </div>
+                    <br>
+                {% endfor %}
             </div>
-        {% endfor %}
+            <div class="col-7 m-4 border">
+                {% for site in sites %}
+                    <div class="card mb-2">
+                        <img src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
+                             alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ site.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ site.street }}, {{ site.city }}</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of
+                                the card's content.</p>
+
+                            <p>
+                                <img style="width: 30px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                                {{ site.get_available_bike_spots|length }} / {{ site.get_bike_spots|length }}
+                            </p>
+                            <p>
+                                <img style="width: 30px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                                {{ site.get_available_scooter_spots|length }} / {{ site.get_scooter_spots|length }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
     </main>
 {% endblock %}
