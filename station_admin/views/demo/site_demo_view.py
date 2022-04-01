@@ -4,7 +4,7 @@ from django.views import View
 
 
 class SiteDemoView(View):
-    return_failed = True
+    return_failed = False
 
     def post(self, *args, **kwargs) -> HttpResponse:
         if self.return_failed:
