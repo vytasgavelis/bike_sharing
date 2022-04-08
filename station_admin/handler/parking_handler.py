@@ -9,6 +9,7 @@ from station_admin.models.parking_session import ParkingSession
 from station_admin.models.parking_spot import ParkingSpot
 from copy import deepcopy
 from station_admin.models.charge_rule import ChargeRule
+from station_admin.repository.parking_session_repository import ParkingSessionRepository
 
 class ParkingHandler:
     def open_site_door(self, user: User, site: Site) -> None:
@@ -18,11 +19,10 @@ class ParkingHandler:
         if not site.gate_open_url or not site.external_id:
             raise SiteNotConfiguredCorrectlyException
 
-        #TODO: send external_id via request body.
-        response = requests.post(f"{site.gate_open_url}")
+        response = requests.post(f"{site.gate_open_url}", json={'id': site.external_id})
 
-        # if response.status_code != 200:
-        #     raise ErrorOpeningSiteGateException()
+        if response.status_code != 200:
+            raise ErrorOpeningSiteGateException()
 
     def start_session(self, user: User, site: Site, spot_type: str) -> None:
         spot: ParkingSpot = site.get_available_spots(spot_type).first()
@@ -44,3 +44,21 @@ class ParkingHandler:
         copied_charge_rule.save()
         session.save()
         spot.save()
+
+    def end_session(self, session: ParkingSession, site: Site, user: User) -> None:
+        if not site.gate_open_url or not site.external_id:
+            raise SiteNotConfiguredCorrectlyException('Site is not configured correctly.')
+
+        response = requests.post(site.gate_open_url, json={'id': site.external_id})
+
+        if response.status_code != 200:
+            raise ErrorOpeningSiteGateException('Could not open site doors.')
+
+        session.end_time = datetime.datetime.now()
+        user.userprofile.credits -= session.get_price()
+        session.parking_spot.taken = False
+
+        session.save()
+        user.userprofile.save()
+        session.parking_spot.save()
+

@@ -4,6 +4,7 @@ from station_admin.models import ParkingSpot
 from station_admin.models.charge_rule import ChargeRule
 from django.contrib.auth.models import User
 from datetime import datetime, timezone, timedelta
+from django.db.models import QuerySet
 
 
 class ParkingSession(models.Model):
@@ -12,7 +13,8 @@ class ParkingSession(models.Model):
     parking_spot = models.ForeignKey(ParkingSpot, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     charge_rule = models.ForeignKey(ChargeRule, on_delete=models.CASCADE)
-    #TODO: add relation to session here so this can be filtered out in the admin.
+
+    # TODO: add relation to session here so this can be filtered out in the admin.
 
     class Meta:
         db_table = "parking_session"
