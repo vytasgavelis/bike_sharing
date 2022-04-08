@@ -2,34 +2,48 @@
 {% load static %}
 {% block content %}
     <main class="container">
-        <div class="row justify-content-center border">
-            <div class="col m-4 border text-center">
-                <h3>My parking sessions</h3>
+        <div class="row justify-content-center">
+            <div class="col m-4">
+                <h3 class="text-center">My parking sessions</h3>
                 {% for parking_session in active_sessions %}
-                    <div>
-                        {{ parking_session.parking_spot.site.name }} <br>
-                        {{ parking_session.parking_spot.site.get_formatted_address }} <br>
-                        {{ parking_session.parking_spot.spot_type }}
-                        {% if parking_session.parking_spot.spot_type == 'bike' %}
-                            <img style="width: 40px"
-                                 src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
-                        {% else %}
-                            <img style="width: 40px"
-                                 src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
-                        {% endif %}
-                        <br>
-                        {% if parking_session.charge_rule.max_time_mins %}
-                            {{ parking_session.get_elapsed_minutes }} / {{ parking_session.charge_rule.max_time_mins }} show this time in normal time
-                        {% else %}
-                            {{ parking_session.get_elapsed_minutes }} / ∞
-                        {% endif %}
+                    <div class="card text-left rounded border-dark border-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ parking_session.parking_spot.site.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ parking_session.parking_spot.site.get_formatted_address }}</h6>
+                            <p class="card-text">
+                                {% if parking_session.parking_spot.spot_type == 'bike' %}
+                                    Bike
+                                    <img style="width: 40px"
+                                         src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                                {% else %}
+                                    Scooter
+                                    <img style="width: 40px"
+                                         src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                Elapsed time:
+                                {% if parking_session.charge_rule.max_time_mins %}
+                                    <span {% if parking_session.is_max_time_exceeded %} class="text-danger" {% endif %}>
+                                        {{ parking_session.get_elapsed_minutes }} /
+                                        {{ parking_session.charge_rule.get_max_time_formatted }}
+                                    </span>
+                                {% else %}
+                                    {{ parking_session.get_elapsed_minutes }} / ∞
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                Price: {{ parking_session.get_price }} €
+                            </p>
+                        </div>
                     </div>
                     <br>
                 {% endfor %}
             </div>
-            <div class="col-7 m-4 border">
+            <div class="col-7 m-4">
+                <h3 class="text-center">Sites</h3>
                 {% for site in sites %}
-                    <div class="card mb-2">
+                    <div class="card mb-2 rounded border-dark border-2">
                         <img src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
                              alt="...">
                         <div class="card-body">

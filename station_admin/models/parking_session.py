@@ -20,6 +20,16 @@ class ParkingSession(models.Model):
     def get_elapsed_minutes(self) -> str:
         return self.format_timedelta(datetime.now(timezone.utc) - self.start_time)
 
+    def get_price(self) -> float:
+        elapsed_minutes = int((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
+
+        return elapsed_minutes * self.charge_rule.price
+
+    def is_max_time_exceeded(self) -> bool:
+        elapsed_minutes = int((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
+
+        return elapsed_minutes >= self.charge_rule.max_time_mins
+
     def format_timedelta(self, delta: timedelta) -> str:
         """Formats a timedelta duration to [N days] %H:%M:%S format"""
         seconds = int(delta.total_seconds())

@@ -21,8 +21,8 @@ class ParkingHandler:
         #TODO: send external_id via request body.
         response = requests.post(f"{site.gate_open_url}")
 
-        if response.status_code != 200:
-            raise ErrorOpeningSiteGateException()
+        # if response.status_code != 200:
+        #     raise ErrorOpeningSiteGateException()
 
     def start_session(self, user: User, site: Site, spot_type: str) -> None:
         spot: ParkingSpot = site.get_available_spots(spot_type).first()
