@@ -6,7 +6,10 @@ from django.contrib.auth.models import User
 
 class ParkingSessionRepository:
     @staticmethod
-    def find_active_sessions(user: User, site: Site) -> list[ParkingSession]:
+    def find_active_sessions(user: User, site: Site = None) -> list[ParkingSession]:
         user_sessions = ParkingSession.objects.filter(user=user, end_time=None)
+
+        if not site:
+            return user_sessions
 
         return [session for session in user_sessions if session.parking_spot.site == site]
