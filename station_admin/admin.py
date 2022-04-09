@@ -8,9 +8,12 @@ from .models.vehicle import Vehicle
 
 admin.site.register(ParkingSpot)
 admin.site.register(ChargeRule)
-admin.site.register(RentSpot)
 admin.site.register(Vehicle)
 
 @admin.register(Site)
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('name', 'street', 'city', 'get_qr_code_url_html',)
+
+@admin.register(RentSpot)
+class RentSpotAdmin(admin.ModelAdmin):
+    list_display = ('id', 'site', 'spot_type', 'external_id', 'get_qr_code_url_html')

@@ -70,7 +70,7 @@ class Site(models.Model):
     @admin.display
     def get_qr_code_url_html(self) -> str:
         # TODO: move this outside model
-        return format_html('<a href="{}">Download QR code</a>', qr_code_url_provider.get_url(self.id))
+        return format_html('<a href="{}">Download QR code</a>', qr_code_url_provider.get_site_qrcode_url(self.id))
 
     def enough_credits_for_parking(self, user: User) -> bool:
         if not self.parking_charge_rule:
