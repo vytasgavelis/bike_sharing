@@ -19,6 +19,7 @@ class Site(models.Model):
     external_id = models.CharField(max_length=50)
     gate_open_url = models.CharField(max_length=100, null=True, blank=True)
     lock_open_url = models.CharField(max_length=100, null=True, blank=True)
+    lock_close_url = models.CharField(max_length=100, null=True, blank=True)
 
     # TODO: maybe this should not allow for nulls.
     parking_charge_rule = models.ForeignKey(
