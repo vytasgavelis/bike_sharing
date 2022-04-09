@@ -47,7 +47,7 @@
                         <img src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
                              alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{ site.name }}</h5>
+                            <a href="{% url 'parking_site_service_list' site.id %}"><h5 class="card-title">{{ site.name }}</h5></a>
                             <h6 class="card-subtitle mb-2 text-muted">{{ site.street }}, {{ site.city }}</h6>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk
                                 of

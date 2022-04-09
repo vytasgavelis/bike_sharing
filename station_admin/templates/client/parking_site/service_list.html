@@ -15,8 +15,8 @@
              src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg">
         <h3>What would you like to do?</h3>
         <div class="row justify-content-center">
-            <div class="col-4 m-4">
-                {% if user_has_parking_session_in_site %}
+            {% if user_has_parking_session_in_site %}
+                <div class="col-4 m-4">
                     <a href="{% url 'end_parking_session' site.id user.id %}" class="w-100 btn btn-lg btn-danger">
                         <div>End parking session</div>
                         <div>
@@ -24,18 +24,43 @@
                                  src="{% static 'station_admin/client/img/svg/stop.svg' %}">
                         </div>
                     </a>
-                {% elif site.get_available_bike_spots|length %}
-                    <a href="{% url 'parking_gate_open' site.id 'bike' %}" class="w-100 btn btn-lg btn-primary">
-                        <div>Park my bike</div>
-                        <div>
-                            <img style="width: 40px"
-                                 src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                </div>
+            {% else %}
+                <div class="col-4 m-4">
+                    {% if site.get_available_bike_spots|length %}
+                        <a href="{% url 'parking_gate_open' site.id 'bike' %}" class="w-100 btn btn-lg btn-primary">
+                            <div>Park my bike</div>
+                            <div>
+                                <img style="width: 40px"
+                                     src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                            </div>
+                        </a>
+                    {% else %}
+                        <div class="w-100 btn btn-lg btn-secondary">
+                            <div>Sorry no bike spots available</div>
+                            <div>:(</div>
                         </div>
-                    </a>
-                {% else %}
-                    <p>Sorry :( bike parking is unavailable at the moment</p>
-                {% endif %}
-            </div>
+                    {% endif %}
+                </div>
+                <div class="col-4 m-4">
+                    {% if site.get_available_scooter_spots|length %}
+                        <a href="{% url 'parking_gate_open' site.id 'scooter' %}" class="w-100 btn btn-lg btn-primary">
+                            <div>Park my scooter</div>
+                            <div>
+                                <img style="width: 40px"
+                                     src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                            </div>
+                        </a>
+                    {% else %}
+                        <div class="w-100 btn btn-lg btn-secondary">
+                            <div>Sorry no scooter spots available</div>
+                            <div>:(</div>
+                        </div>
+                    {% endif %}
+                </div>
+                </div>
+            {% endif %}
+        <div class="row justify-content-center">
             <div class="col-4 m-4">
                 {% if site.is_bike_rent_available %}
                     <a href="#" class="w-100 btn btn-lg btn-primary">
@@ -47,30 +72,6 @@
                     </a>
                 {% else %}
                     <p>Sorry :( bike renting is unavailable at the moment</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-4 m-4">
-                {#            TODO: dont allow to park while session is in progress#}
-                {% if user_has_parking_session_in_site %}
-                    <a href="{% url 'end_parking_session' site.id user.id %}" class="w-100 btn btn-lg btn-danger">
-                        <div>End parking session</div>
-                        <div>
-                            <img style="width: 40px"
-                                 src="{% static 'station_admin/client/img/svg/stop.svg' %}">
-                        </div>
-                    </a>
-                {% elif site.get_available_scooter_spots|length %}
-                    <a href="{% url 'parking_gate_open' site.id 'scooter' %}" class="w-100 btn btn-lg btn-primary">
-                        <div>Park my scooter</div>
-                        <div>
-                            <img style="width: 40px"
-                                 src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
-                        </div>
-                    </a>
-                {% else %}
-                    <p>Sorry :( scooter parking is unavailable at the moment</p>
                 {% endif %}
             </div>
             <div class="col-4 m-4">
