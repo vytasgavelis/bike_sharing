@@ -22,6 +22,10 @@ class ChargeRule(models.Model):
         # Hardcoded 5 minutes as min parking time
         return self.price * 5
 
+    def get_min_renting_price(self) -> int:
+        # Hardcoded 5 minutes as min renting time
+        return self.price * 5
+
     def get_max_time_formatted(self) -> str:
         hours = int(self.max_time_mins / 60)
         minutes = self.max_time_mins - hours * 60

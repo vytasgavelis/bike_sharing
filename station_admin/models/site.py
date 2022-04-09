@@ -79,6 +79,12 @@ class Site(models.Model):
 
         return user.userprofile.credits >= self.parking_charge_rule.get_min_parking_price()
 
+    def enough_credits_for_renting(self, user: User) -> bool:
+        if not self.rent_charge_rule:
+            return False
+
+        return user.userprofile.credits >= self.rent_charge_rule.get_min_renting_price()
+
     def get_available_rent_bikes_spots(self) -> QuerySet:
         return self.get_bike_rent_spots().exclude(vehicle=None)
 
