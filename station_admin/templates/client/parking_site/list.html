@@ -62,6 +62,15 @@
                                 <img style="width: 30px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
                                 {{ site.get_available_scooter_spots|length }} / {{ site.get_scooter_spots|length }}
                             </p>
+                            <p>Price: {{ site.parking_charge_rule.price }} € / min</p>
+                            <p>
+                                Max parking time:
+                                {% if site.parking_charge_rule.max_time_mins %}
+                                    {{ site.parking_charge_rule.get_max_time_formatted }}
+                                {% else %}
+                                    ∞
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
                 {% endfor %}

@@ -8,6 +8,7 @@ from django.contrib import admin
 from station_admin.models.charge_rule import ChargeRule
 from station_admin.provider import qr_code_url_provider
 from django.utils.html import format_html
+from station_admin.enum.vehicle_type import VehicleType
 
 
 class Site(models.Model):
@@ -77,3 +78,15 @@ class Site(models.Model):
             return False
 
         return user.userprofile.credits >= self.parking_charge_rule.get_min_parking_price()
+
+    def get_available_rent_bikes_spots(self) -> QuerySet:
+        return self.get_bike_rent_spots().exclude(vehicle=None)
+
+    def get_available_rent_scooter_spots(self) -> QuerySet:
+        return self.get_scooter_rent_spots().exclude(vehicle=None)
+
+    def get_bike_rent_spots(self) -> QuerySet:
+        return self.rentspot_set.filter(spot_type=VehicleType.BIKE)
+
+    def get_scooter_rent_spots(self) -> QuerySet:
+        return self.rentspot_set.filter(spot_type=VehicleType.SCOOTER)

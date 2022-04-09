@@ -13,11 +13,13 @@ from .views.client.parking.parking_site_service_view import ParkingSiteServiceVi
 from .views.client.parking.parking_session_end_view import ParkingSessionEndView
 from django.views.decorators.csrf import csrf_exempt
 from .views.client.rent.start_rent_session_view import StartRentSessionView
+from .views.client.rent.renting_site_list_view import RentingSiteListView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('register', RegistrationView.as_view(), name='register'),
     path('parking-site', ParkingSiteListView.as_view(), name='parking_site_list'),
+    path('renting', RentingSiteListView.as_view(), name='renting_site_list'),
     path('parking-site/<int:id>/services', login_required(ParkingSiteServiceView.as_view()),
          name='parking_site_service_list'),
     # todo: add following to admin urls.
