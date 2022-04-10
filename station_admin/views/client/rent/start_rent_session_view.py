@@ -11,13 +11,13 @@ class StartRentSessionView(View):
 
         try:
             rent_handler.open_rent_spot_lock(rent_spot_id, self.request.user)
-        except NotEnoughCreditsException as e:
-            raise e
+            rent_handler.start_session(rent_spot_id, self.request.user)
+        except NotEnoughCreditsException:
             messages.error(self.request, 'You don\'t have enough credits to use parking.')
             return redirect('user_credits')
         except Exception as e:
-            raise e
             messages.error(self.request, str(e))
             return redirect('renting_site_list')
 
-        return HttpResponse('all ok :)')
+        messages.success(self.request, 'Rent session has been started!')
+        return redirect('renting_site_list')

@@ -2,19 +2,13 @@
 {% load static %}
 {% block content %}
     <main class="container text-center border rounded">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
         <h3>{{ site.name }}</h3>
         <img class="img-fluid"
              src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg">
         <h3>What would you like to do?</h3>
         <div class="row justify-content-center">
+            {% include 'client/error_list.html' %}
+
             {% if user_has_parking_session_in_site %}
                 <div class="col-4 m-4">
                     <a href="{% url 'end_parking_session' site.id user.id %}" class="w-100 btn btn-lg btn-danger">

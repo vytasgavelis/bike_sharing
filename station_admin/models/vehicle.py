@@ -11,3 +11,4 @@ class Vehicle(models.Model):
         choices=VehicleType.choices,
         default=VehicleType.BIKE
     )
+    #TODO: rename this to vehicle_type
