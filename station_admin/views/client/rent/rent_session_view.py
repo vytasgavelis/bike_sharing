@@ -5,10 +5,11 @@ from django.contrib import messages
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
 from django.shortcuts import redirect, render
 
-class StartRentSessionView(View):
+class RentSessionView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
         rent_spot_id = kwargs['id']
 
+        # if user_helper.has_active_rent_session
         try:
             rent_handler.open_rent_spot_lock(rent_spot_id, self.request.user)
             rent_handler.start_session(rent_spot_id, self.request.user)

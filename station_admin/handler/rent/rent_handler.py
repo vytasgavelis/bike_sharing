@@ -8,7 +8,7 @@ from copy import deepcopy
 from station_admin.models.rent_session import RentSession
 import datetime
 from station_admin.models.vehicle import Vehicle
-
+from station_admin.helper import user_helper
 
 class RentHandler:
     def open_rent_spot_lock(self, spot_id: int, user: User) -> None:
@@ -16,6 +16,12 @@ class RentHandler:
 
         if not spot:
             raise Exception('Rent spot was not found.')
+
+        if not spot.vehicle:
+            raise Exception('Spot does not have a vehicle.')
+
+        if user_helper.has_active_rent_session(user):
+            raise Exception('User already has rent session in progress.')
 
         site = spot.site
 
