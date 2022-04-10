@@ -6,40 +6,40 @@
             {% include 'client/error_list.html' %}
             <div class="col m-4">
                 <h3 class="text-center">My renting sessions</h3>
-{#                {% for parking_session in active_sessions %}#}
-{#                    <div class="card text-left rounded border-dark border-2">#}
-{#                        <div class="card-body">#}
-{#                            <h5 class="card-title">{{ parking_session.parking_spot.site.name }}</h5>#}
-{#                            <h6 class="card-subtitle mb-2 text-muted">{{ parking_session.parking_spot.site.get_formatted_address }}</h6>#}
-{#                            <p class="card-text">#}
-{#                                {% if parking_session.parking_spot.spot_type == 'bike' %}#}
-{#                                    Bike#}
-{#                                    <img style="width: 40px"#}
-{#                                         src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">#}
-{#                                {% else %}#}
-{#                                    Scooter#}
-{#                                    <img style="width: 40px"#}
-{#                                         src="{% static 'station_admin/client/img/svg/scooter.svg' %}">#}
-{#                                {% endif %}#}
-{#                            </p>#}
-{#                            <p class="card-text">#}
-{#                                Elapsed time:#}
-{#                                {% if parking_session.charge_rule.max_time_mins %}#}
-{#                                    <span {% if parking_session.is_max_time_exceeded %} class="text-danger" {% endif %}>#}
-{#                                        {{ parking_session.get_elapsed_minutes }} /#}
-{#                                        {{ parking_session.charge_rule.get_max_time_formatted }}#}
-{#                                    </span>#}
-{#                                {% else %}#}
-{#                                    {{ parking_session.get_elapsed_minutes }} / ∞#}
-{#                                {% endif %}#}
-{#                            </p>#}
-{#                            <p class="card-text">#}
-{#                                Price: {{ parking_session.get_price }} €#}
-{#                            </p>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <br>#}
-{#                {% endfor %}#}
+                {% for rent_session in active_sessions %}
+                    <div class="card text-left rounded border-dark border-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ rent_session.taken_from_spot.site.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ rent_session.taken_from_spot.site.get_formatted_address }}</h6>
+                            <p class="card-text">
+                                {% if rent_session.taken_from_spot.spot_type == 'bike' %}
+                                    Bike
+                                    <img style="width: 40px"
+                                         src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                                {% else %}
+                                    Scooter
+                                    <img style="width: 40px"
+                                         src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                Elapsed time:
+                                {% if rent_session.charge_rule.max_time_mins %}
+                                    <span {% if rent_session.is_max_time_exceeded %} class="text-danger" {% endif %}>
+                                        {{ rent_session.get_elapsed_minutes }} /
+                                        {{ rent_session.charge_rule.get_max_time_formatted }}
+                                    </span>
+                                {% else %}
+                                    {{ rent_session.get_elapsed_minutes }} / ∞
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                Price: {{ rent_session.get_price }} €
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
             </div>
             <div class="col-7 m-4">
                 <h3 class="text-center">Sites</h3>
