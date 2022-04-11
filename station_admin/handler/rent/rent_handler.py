@@ -13,12 +13,7 @@ from station_admin.models.vehicle import Vehicle
 from station_admin.helper import user_helper
 
 class RentHandler:
-    def open_rent_spot_lock(self, spot_id: int, user: User) -> None:
-        spot = RentSpot.objects.get(pk=spot_id)
-
-        if not spot:
-            raise Exception('Rent spot was not found.')
-
+    def open_rent_spot_lock(self, spot: RentSpot, user: User) -> None:
         site = spot.site
 
         user_helper.validate_is_eligible_for_rent(spot, user)
@@ -28,14 +23,8 @@ class RentHandler:
         if response.status_code != 200:
             raise Exception('Could not open vehicle lock.')
 
-    def start_session(self, spot_id: int, user: User) -> None:
-        spot = RentSpot.objects.get(pk=spot_id)
-
-        if not spot:
-            raise Exception('Rent spot was not found.')
-
-        if not spot.vehicle:
-            raise Exception('Rent spot does not have vehicle.')
+    def start_session(self, spot: RentSpot, user: User) -> None:
+        user_helper.validate_is_eligible_for_rent(spot, user)
 
         site = spot.site
         vehicle = spot.vehicle
