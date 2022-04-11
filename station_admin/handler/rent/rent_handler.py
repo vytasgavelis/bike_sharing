@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
 from station_admin.exception.site_not_configured_correctly_exception import SiteNotConfiguredCorrectlyException
 from station_admin.exception.spot_missing_vehicle_exception import SpotMissingVehicleException
 from station_admin.exception.user_already_has_rent_session_exception import UserAlreadyHasRentSessionException
+from station_admin.models import Site
 from station_admin.models.rent_spot import RentSpot
 import requests
 from station_admin.models.charge_rule import ChargeRule
@@ -11,6 +14,8 @@ from station_admin.models.rent_session import RentSession
 import datetime
 from station_admin.models.vehicle import Vehicle
 from station_admin.helper import user_helper
+from station_admin.repository import renting_session_repository
+
 
 class RentHandler:
     def open_rent_spot_lock(self, spot: RentSpot, user: User) -> None:
@@ -37,6 +42,36 @@ class RentHandler:
         copied_charge_rule.save()
         session.save()
         vehicle.save()
+
+    def end_session(self, spot: RentSpot, user: User) -> None:
+        self._validate_is_eligible_for_rent_completion(spot, user)
+
+        self._close_rent_spot_lock(spot)
+
+    def _close_rent_spot_lock(self, spot: RentSpot) -> None:
+        site = spot.site
+        if not site.lock_open_url or not site.lock_close_url:
+            raise SiteNotConfiguredCorrectlyException
+
+        response = requests.post(f"{site.lock_close_url}", json={'id': spot.external_id})
+
+        if response.status_code != 200:
+            raise Exception('Could not close vehicle lock.')
+
+    def _validate_is_eligible_for_rent_completion(self, spot: RentSpot, user: User) -> None:
+        try:
+            if spot.vehicle:
+                raise Exception('Spot already has vehicle in it.')
+        except ObjectDoesNotExist:
+            pass
+
+        session = renting_session_repository.find_active_session(user)
+        if not session:
+            raise Exception('User does not have active rent session')
+
+        rented_vehicle = session.vehicle
+        if spot.spot_type != rented_vehicle.spot_type:
+            raise Exception('Rent spot and vehicle types do not match.')
 
     def clone_charge_rule(self, charge_rule: ChargeRule) -> ChargeRule:
         copied_charge_rule: ChargeRule = deepcopy(charge_rule)

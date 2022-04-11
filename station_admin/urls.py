@@ -7,6 +7,7 @@ from .views.admin.qr_code_download_view import QrCodeDownloadView
 from .views.admin.rent_spot_qr_code_download_view import RentSpotQrCodeDownloadView
 from django.contrib.admin.views.decorators import staff_member_required
 from .views.client.parking.parking_gate_opening_view import ParkingGateOpeningView
+from .views.client.rent.end_rent_session_view import EndRentSessionView
 from .views.client.user.user_credits_view import UserCreditsView
 from .views.demo.site_demo_view import SiteDemoView
 from .views.client.parking.parking_site_service_view import ParkingSiteServiceView
@@ -34,5 +35,6 @@ urlpatterns = [
     path('user/credits', login_required(UserCreditsView.as_view()), name='user_credits'),
     path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),
     path('rent-spot/<int:id>/session/start', login_required(StartRentSessionView.as_view()), name='start_rent_session'),
+    path('rent-spot/<int:id>/session/end', login_required(EndRentSessionView.as_view()), name='end_rent_session'),
     path('rent-spot/<int:id>/vehicle', login_required(VehicleView.as_view()), name='rent_spot_vehicle')
 ]

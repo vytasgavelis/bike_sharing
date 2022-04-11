@@ -15,7 +15,7 @@
 
             <div class="col-4 m-4">
                 {% if has_active_session %}
-                    <a href="{% url 'end_parking_session' rent_spot.site.id user.id %}"
+                    <a href="{% url 'end_rent_session' rent_spot.site.id %}"
                        class="w-100 btn btn-lg btn-danger">
                         <div>End rent session</div>
                         <div>
