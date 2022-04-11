@@ -1,0 +1,45 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="container text-center border rounded">
+        {% if rent_spot.vehicle %}
+            <h2>{{ rent_spot.vehicle.spot_type }} - #{{ rent_spot.vehicle.id }}</h2>
+        {% endif %}
+        <h5>{{ rent_spot.site.name }} - #{{ rent_spot.site.id }}</h5>
+        <h5>Rent-spot - #{{ rent_spot.id }}</h5>
+
+
+        <div class="row justify-content-center">
+            {% include 'client/error_list.html' %}
+
+
+            <div class="col-4 m-4">
+                {% if has_active_session %}
+                    <a href="{% url 'end_parking_session' rent_spot.site.id user.id %}"
+                       class="w-100 btn btn-lg btn-danger">
+                        <div>End rent session</div>
+                        <div>
+                            <img style="width: 40px"
+                                 src="{% static 'station_admin/client/img/svg/stop.svg' %}">
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="#"
+                       class="w-100 btn btn-lg btn-primary">
+                        <div>Start rent</div>
+                    </a>
+                {% endif %}
+                <div class="m-4">
+                    {{ rent_spot.site.rent_charge_rule.price }}€ / min.
+                </div>
+                <div>
+                    Max time:
+                    {% if rent_spot.site.rent_charge_rule.max_time_mins %}
+                        {{ rent_spot.site.rent_charge_rule.get_max_time_formatted }}
+                    {% else %}
+                        ∞
+                    {% endif %}
+                </div>
+            </div>
+    </main>
+{% endblock %}

@@ -14,6 +14,7 @@ from .views.client.parking.parking_session_end_view import ParkingSessionEndView
 from django.views.decorators.csrf import csrf_exempt
 from .views.client.rent.rent_session_view import RentSessionView
 from .views.client.rent.renting_site_list_view import RentingSiteListView
+from .views.client.rent.vehicle_view import VehicleView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -33,4 +34,5 @@ urlpatterns = [
     path('user/credits', login_required(UserCreditsView.as_view()), name='user_credits'),
     path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),
     path('rent-spot/<int:id>/session', login_required(RentSessionView.as_view()), name='rent_session'),
+    path('rent-spot/<int:id>/vehicle', login_required(VehicleView.as_view()), name='rent_spot_vehicle')
 ]
