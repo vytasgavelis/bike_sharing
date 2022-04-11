@@ -4,4 +4,4 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    credits = models.IntegerField(default=0)
+    credits = models.FloatField(default=0)

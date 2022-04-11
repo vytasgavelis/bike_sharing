@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ChargeRule(models.Model):
-    price = models.IntegerField()  # todo: change type to float
+    price = models.FloatField()  # todo: change type to float
     max_time_mins = models.IntegerField(null=True, blank=True)
 
     # site = models.ForeignKey(
@@ -18,11 +18,11 @@ class ChargeRule(models.Model):
     def __str__(self) -> str:
         return f"{self.price}€ - {self.max_time_mins} min."
 
-    def get_min_parking_price(self) -> int:
+    def get_min_parking_price(self) -> float:
         # Hardcoded 5 minutes as min parking time
         return self.price * 5
 
-    def get_min_renting_price(self) -> int:
+    def get_min_renting_price(self) -> float:
         # Hardcoded 5 minutes as min renting time
         return self.price * 5
 
