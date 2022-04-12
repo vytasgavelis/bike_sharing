@@ -8,6 +8,9 @@ from station_admin.repository import renting_session_repository
 class RentingSiteListView(View):
     def get(self, request) -> HttpResponse:
         sites = site_repository.find_with_rent_configured()
-        active_sessions = renting_session_repository.find_active_sessions(self.request.user)
+        if request.user.is_authenticated:
+            active_sessions = renting_session_repository.find_active_sessions(self.request.user)
+        else:
+            active_sessions = None
 
         return render(request, 'client/renting_site/list.html', {'sites': sites, 'active_sessions': active_sessions})

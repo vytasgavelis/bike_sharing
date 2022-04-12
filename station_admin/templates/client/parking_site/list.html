@@ -5,6 +5,9 @@
         <div class="row justify-content-center">
             <div class="col m-4">
                 <h3 class="text-center">My parking sessions</h3>
+                {% if not request.user.is_authenticated %}
+                    <p class="text-center">You must be logged in to see sessions.</p>
+                {% else %}
                 {% for parking_session in active_sessions %}
                     <div class="card text-left rounded border-dark border-2">
                         <div class="card-body">
@@ -39,6 +42,7 @@
                     </div>
                     <br>
                 {% endfor %}
+            {% endif %}
             </div>
             <div class="col-7 m-4">
                 <h3 class="text-center">Sites</h3>

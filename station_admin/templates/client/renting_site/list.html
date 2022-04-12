@@ -6,49 +6,56 @@
             {% include 'client/error_list.html' %}
             <div class="col m-4">
                 <h3 class="text-center">My renting sessions</h3>
-                {% for rent_session in active_sessions %}
-                    <div class="card text-left rounded border-dark border-2">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ rent_session.taken_from_spot.site.name }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ rent_session.taken_from_spot.site.get_formatted_address }}</h6>
-                            <p class="card-text">
-                                {% if rent_session.taken_from_spot.spot_type == 'bike' %}
-                                    Bike
-                                    <img style="width: 40px"
-                                         src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
-                                {% else %}
-                                    Scooter
-                                    <img style="width: 40px"
-                                         src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
-                                {% endif %}
-                            </p>
-                            <p class="card-text">
-                                Elapsed time:
-                                {% if rent_session.charge_rule.max_time_mins %}
-                                    <span {% if rent_session.is_max_time_exceeded %} class="text-danger" {% endif %}>
+                {% if not request.user.is_authenticated %}
+                    <p class="text-center">You must be logged in to see sessions.</p>
+                {% else %}
+                    {% for rent_session in active_sessions %}
+                        <div class="card text-left rounded border-dark border-2">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ rent_session.taken_from_spot.site.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ rent_session.taken_from_spot.site.get_formatted_address }}</h6>
+                                <p class="card-text">
+                                    {% if rent_session.taken_from_spot.spot_type == 'bike' %}
+                                        Bike
+                                        <img style="width: 40px"
+                                             src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                                    {% else %}
+                                        Scooter
+                                        <img style="width: 40px"
+                                             src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                                    {% endif %}
+                                </p>
+                                <p class="card-text">
+                                    Elapsed time:
+                                    {% if rent_session.charge_rule.max_time_mins %}
+                                        <span {% if rent_session.is_max_time_exceeded %}
+                                            class="text-danger" {% endif %}>
                                         {{ rent_session.get_elapsed_minutes }} /
                                         {{ rent_session.charge_rule.get_max_time_formatted }}
                                     </span>
-                                {% else %}
-                                    {{ rent_session.get_elapsed_minutes }} / ∞
-                                {% endif %}
-                            </p>
-                            <p class="card-text">
-                                Price: {{ rent_session.get_price }} €
-                            </p>
+                                    {% else %}
+                                        {{ rent_session.get_elapsed_minutes }} / ∞
+                                    {% endif %}
+                                </p>
+                                <p class="card-text">
+                                    Price: {{ rent_session.get_price }} €
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                {% endfor %}
+                        <br>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="col-7 m-4">
                 <h3 class="text-center">Sites</h3>
                 {% for site in sites %}
                     <div class="card mb-2 rounded border-dark border-2">
-                        <img class="m-3 rounded" src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
+                        <img class="m-3 rounded"
+                             src="https://judu.lt/wp-content/uploads/2021/06/judu-vilnius-viesasis-transportas-klientu-aptarnavimas-parkavimas-82.jpg"
                              alt="...">
                         <div class="card-body">
-                            <a href="{% url 'parking_site_service_list' site.id %}"><h5 class="card-title">{{ site.name }}</h5></a>
+                            <a href="{% url 'parking_site_service_list' site.id %}"><h5
+                                    class="card-title">{{ site.name }}</h5></a>
                             <h6 class="card-subtitle mb-2 text-muted">{{ site.street }}, {{ site.city }}</h6>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk
                                 of
@@ -61,7 +68,8 @@
                             </p>
                             <p>
                                 <img style="width: 30px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
-                                {{ site.get_available_rent_scooter_spots|length }} / {{ site.get_scooter_rent_spots|length }}
+                                {{ site.get_available_rent_scooter_spots|length }}
+                                / {{ site.get_scooter_rent_spots|length }}
                             </p>
                             <p>Price: {{ site.rent_charge_rule.price }} € / min</p>
                             <p>

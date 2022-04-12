@@ -44,9 +44,20 @@ class RentHandler:
         vehicle.save()
 
     def end_session(self, spot: RentSpot, user: User) -> None:
-        self._validate_is_eligible_for_rent_completion(spot, user)
+        session = self._validate_is_eligible_for_rent_completion(spot, user)
 
         self._close_rent_spot_lock(spot)
+
+        vehicle = session.vehicle
+
+        session.end_time = datetime.datetime.now()
+        session.returned_to_spot = spot
+        vehicle.current_spot = spot
+        user.userprofile.credits -= session.get_price()
+
+        session.save()
+        vehicle.save()
+        user.userprofile.save()
 
     def _close_rent_spot_lock(self, spot: RentSpot) -> None:
         site = spot.site
@@ -58,7 +69,7 @@ class RentHandler:
         if response.status_code != 200:
             raise Exception('Could not close vehicle lock.')
 
-    def _validate_is_eligible_for_rent_completion(self, spot: RentSpot, user: User) -> None:
+    def _validate_is_eligible_for_rent_completion(self, spot: RentSpot, user: User) -> RentSession:
         try:
             if spot.vehicle:
                 raise Exception('Spot already has vehicle in it.')
@@ -72,6 +83,8 @@ class RentHandler:
         rented_vehicle = session.vehicle
         if spot.spot_type != rented_vehicle.spot_type:
             raise Exception('Rent spot and vehicle types do not match.')
+
+        return session
 
     def clone_charge_rule(self, charge_rule: ChargeRule) -> ChargeRule:
         copied_charge_rule: ChargeRule = deepcopy(charge_rule)

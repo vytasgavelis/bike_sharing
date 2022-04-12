@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from station_admin.handler.rent import rent_handler
@@ -12,4 +12,4 @@ class EndRentSessionView(View):
 
         rent_handler.end_session(rent_spot, self.request.user)
 
-        return HttpResponse('ending rent sesson!')
+        return redirect('renting_site_list')

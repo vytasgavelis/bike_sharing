@@ -9,6 +9,9 @@ from station_admin.repository import site_repository
 class ParkingSiteListView(View):
     def get(self, request) -> HttpResponse:
         sites = site_repository.find_with_parking_configured()
-        active_sessions = ParkingSessionRepository.find_active_sessions(request.user)
+        if request.user.is_authenticated:
+            active_sessions = ParkingSessionRepository.find_active_sessions(request.user)
+        else:
+            active_sessions = None
 
         return render(request, 'client/parking_site/list.html', {'sites': sites, 'active_sessions': active_sessions})
