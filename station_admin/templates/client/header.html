@@ -19,14 +19,14 @@
                 </div>
             {% else %}
                 <div class="dropdown text-end">
-                    <div>
-                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png"
-                                 alt="mdo"
-                                 width="32" height="32" class="rounded-circle"> {{ request.user.username }}
-                        </a>
-                    </div>
+
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png"
+                             alt="mdo"
+                             width="32" height="32" class="rounded-circle"> {{ request.user.username }}
+                    </a>
+
                     <div>Credits: {{ request.user.userprofile.credits }} €</div>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
