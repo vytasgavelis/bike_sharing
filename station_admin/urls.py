@@ -8,6 +8,8 @@ from .views.admin.rent_spot_qr_code_download_view import RentSpotQrCodeDownloadV
 from django.contrib.admin.views.decorators import staff_member_required
 from .views.client.parking.parking_gate_opening_view import ParkingGateOpeningView
 from .views.client.rent.end_rent_session_view import EndRentSessionView
+from .views.client.rent.rent_map_view import RentMapView
+from .views.client.rent.site_list_view import SiteListView
 from .views.client.user.user_profile_view import UserProfileView
 from .views.demo.site_demo_view import SiteDemoView
 from .views.client.parking.parking_site_service_view import ParkingSiteServiceView
@@ -23,6 +25,7 @@ urlpatterns = [
     path('register', RegistrationView.as_view(), name='register'),
     path('parking-site', ParkingSiteListView.as_view(), name='parking_site_list'),
     path('renting', RentingSiteListView.as_view(), name='renting_site_list'),
+    path('rent-map', RentMapView.as_view(), name='renting_map'),
     path('parking-site/<int:id>/services', login_required(ParkingSiteServiceView.as_view()),
          name='parking_site_service_list'),
     # todo: add following to admin urls.
@@ -38,5 +41,7 @@ urlpatterns = [
     path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),
     path('rent-spot/<int:id>/session/start', login_required(StartRentSessionView.as_view()), name='start_rent_session'),
     path('rent-spot/<int:id>/session/end', login_required(EndRentSessionView.as_view()), name='end_rent_session'),
-    path('rent-spot/<int:id>/vehicle', login_required(VehicleView.as_view()), name='rent_spot_vehicle')
+    path('rent-spot/<int:id>/vehicle', login_required(VehicleView.as_view()), name='rent_spot_vehicle'),
+
+    path('api/rent-sites', csrf_exempt(SiteListView.as_view()), name='get_rent_sites'),
 ]
