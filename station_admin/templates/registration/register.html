@@ -10,11 +10,11 @@
                     <div class="alert alert-danger" role="alert">
                         {{ field_name }}
                         <hr>
-                    <ul>
-                        {% for error in errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
+                        <ul>
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -24,8 +24,26 @@
 
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="{{ form.username.id_for_label }}"
-                       name="{{ form.username.html_name }}" placeholder="name@example.com">
+                       name="{{ form.username.html_name }}" placeholder="username">
                 <label for="{{ form.username.id_for_label }}">Username</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="{{ form.email.id_for_label }}"
+                       name="{{ form.email.html_name }}" placeholder="name@example.com">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="{{ form.first_name.id_for_label }}"
+                       name="{{ form.first_name.html_name }}" placeholder="John">
+                <label for="{{ form.first_name.id_for_label }}">First name</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="{{ form.last_name.id_for_label }}"
+                       name="{{ form.last_name.html_name }}" placeholder="Johnson">
+                <label for="{{ form.last_name.id_for_label }}">Last name</label>
             </div>
 
             <div class="form-floating mb-3">

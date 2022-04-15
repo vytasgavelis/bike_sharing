@@ -4,21 +4,28 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
+from station_admin.forms import SignupForm
+from station_admin.models import UserProfile
+
 
 class RegistrationView(View):
 
     def get(self, request) -> HttpResponse:
-        form = UserCreationForm()
+        form = SignupForm()
 
         context = {'form': form}
 
         return render(request, 'registration/register.html', context)
 
     def post(self, request) -> HttpResponse:
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
 
         if form.is_valid():
             user = form.save()
+            profile = UserProfile()
+            profile.credits = 0
+            profile.user = user
+            profile.save()
             login(request, user)
 
             return redirect('index')
