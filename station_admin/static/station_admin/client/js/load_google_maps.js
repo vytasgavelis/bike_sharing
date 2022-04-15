@@ -1,3 +1,13 @@
+function openNav() {
+  document.getElementById("sidebar-toggle-btn").style.width = "250px";
+//  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("sidebar-toggle-btn").style.width = "0";
+  //document.getElementById("main").style.marginLeft= "0";
+}
+
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
 
@@ -13,7 +23,6 @@ function initMap() {
             position: currentLocation,
             map: map,
             icon: {
-                url: "/static/station_admin/client/img/svg/garage.svg",
                 scaledSize: new google.maps.Size(38, 31),
             }
         });
