@@ -1,0 +1,46 @@
+{% extends 'client/base.html' %}
+
+{% block content %}
+    <main class="container text-center">
+        {% include 'client/error_list.html' %}
+        <div class="row justify-content-center">
+            <div class="col-4 m-4 card text-left rounded border-dark border-2">
+                <h3>Account information</h3>
+                <div class="row justify-content-center ">
+                    <div class="col-4 m-4">
+                        <img src="https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png"
+                             alt="mdo"
+                             width="32" height="32" class="rounded-circle">
+                    </div>
+                    <div class="col-4 m-4">
+                        <div>{{ request.user.username }}</div>
+                        <div>{{ request.user.userprofile.full_name }}</div>
+                        <div>{{ request.user.email }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
+                <h3>Parking sessions</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
+                <h3>Add credits</h3>
+                <form method="post" action="{% url 'add_credits' %}">
+                    {% csrf_token %}
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="credit_amount"
+                               name="credit_amount" placeholder="amount" step="0.01" min="0">
+                        <label for="credit_amount">Amount</label>
+
+                        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" >Add</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
+                <h3>Renting sessions</h3>
+            </div>
+        </div>
+    </main>
+{% endblock %}

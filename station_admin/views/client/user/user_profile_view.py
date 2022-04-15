@@ -3,6 +3,6 @@ from django.shortcuts import render
 from django.views import View
 
 
-class UserCreditsView(View):
+class UserProfileView(View):
     def get(self, request) -> HttpResponse:
-        return render(request, 'client/user/credits/index.html')
+        return render(request, 'client/user/profile/index.html')
