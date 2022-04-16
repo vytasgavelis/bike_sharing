@@ -17,8 +17,6 @@ class RentMapView(View):
             except ObjectDoesNotExist:
                 pass
 
-        print(spot_id)
-
         sites: list[Site] = site_repository.find_with_rent_configured()
 
         renting_session = renting_session_repository.find_active_session(self.request.user) if self.request.user.is_authenticated else None

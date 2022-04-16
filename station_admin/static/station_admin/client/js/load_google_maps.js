@@ -4,6 +4,16 @@ function closeAllSiteMenus() {
     });
 }
 
+function displaySuccess(message) {
+    const messageContainer = document.querySelector('[data-message-container]');
+    messageContainer.innerHTML = `<div class=\"bar success\">${message}</div>`;
+}
+
+function displayError(message) {
+    const messageContainer = document.querySelector('[data-message-container]');
+    messageContainer.innerHTML = `<div class=\"bar error\">${message}</div>\n`;
+}
+
 function unsetAllMarkerIcons() {
     markers.forEach((marker) => {
         marker.setIcon({
@@ -44,10 +54,53 @@ function startSessionTimeCounting(sessionTimer) {
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 
+function startSession(rentSpotId) {
+    fetch(`http://127.0.0.1:8000/station/rent-spot/${rentSpotId}/session/start`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Session has been started')
+            } else {
+                displayError(data.message);
+            }
+        });
+}
+
+function endRentSession(rentSpotId) {
+    fetch(`http://127.0.0.1:8000/station/rent-spot/${rentSpotId}/session/end`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Session has been ended')
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+            displayError(error);
+    });
+}
+
 function openRentSpotMenu(rentSpotId) {
     closeAllSiteMenus();
     unsetAllMarkerIcons();
     let rentSpotMenu = document.querySelector(`[data-rent-spot-id='${rentSpotId}']`)
+
+    let startRentSessionBtn = document.querySelector('[data-start-rent-session-btn]');
+    if (startRentSessionBtn) {
+        startRentSessionBtn.addEventListener('click', () => {
+            startSession(rentSpotId);
+        });
+    } else {
+        let endRentSessionBtn = document.querySelector('[data-end-rent-session-btn]');
+        endRentSessionBtn.addEventListener('click', () => {
+            endRentSession(rentSpotId);
+        });
+    }
+
     rentSpotMenu.style.height = "300px";
 }
 

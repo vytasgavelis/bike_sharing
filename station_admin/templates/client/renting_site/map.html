@@ -4,6 +4,7 @@
     <title>Add Map</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
+    <script>window.CSRF_TOKEN = "{{  csrf_token }}"</script>
     <link rel="stylesheet" type="text/css" href="{% static 'station_admin/client/css/style.css' %}"/>
     <script type="module" src="./index.js"></script>
     <script src="{% static 'station_admin/client/js/load_side_bar.js' %}"></script>
@@ -35,6 +36,8 @@
              data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
     </div>
 {% endif %}
+
+<div data-message-container></div>
 
 <div id="main">
     <div id="sidebar-toggle-btn" class="sidebarr">
@@ -103,25 +106,29 @@
 
 {% if spot %}
     <div class="site-bar" data-side-id='{{ site.id }}' data-rent-spot-id="{{ spot.id }}">
-        <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
-             data-site-bar-exit-btn='{{ site.id }}'>
-        <div class="rent-spot-menu-grid-container">
-            <div class="rent-spot-menu-grid-item1">
-                {% if spot.vehicle.type == 'bike' %}
-                    Bike #{{ spot.vehicle.id }}
-                {% else %}
-                    Scooter #{{ spot.vehicle.id }}
-                {% endif %}
-            </div>
+    <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
+         data-site-bar-exit-btn='{{ site.id }}'>
+    <div class="rent-spot-menu-grid-container">
+        <div class="rent-spot-menu-grid-item1">
             {% if spot.vehicle.type == 'bike' %}
-                <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                Bike #{{ spot.vehicle.id }}
             {% else %}
-                <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                Scooter #{{ spot.vehicle.id }}
             {% endif %}
-            </div>
+        </div>
+        {% if spot.vehicle.type == 'bike' %}
+            <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+        {% else %}
+            <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+        {% endif %}
+        </div>
         </div>
 
-        <button>Start ride</button>
+        {% if renting_session %}
+            <button data-end-rent-session-btn>End session</button>
+        {% else %}
+            <button data-start-rent-session-btn>Start ride</button>
+        {% endif %}
         <div>{{ spot.site.rent_charge_rule.price }}€ / min.</div>
     </div>
 {% endif %}
