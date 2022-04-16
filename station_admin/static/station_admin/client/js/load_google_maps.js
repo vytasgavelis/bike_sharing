@@ -19,6 +19,27 @@ function persistMarker(marker) {
     markers.push(marker)
 }
 
+let elapsedSeconds = 0;
+
+function startSessionTimeCounting(sessionTimer) {
+    elapsedSeconds += 1;
+    let time = elapsedSeconds;
+
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~time % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+
+    sessionTimer.innerHTML = ret;
+}
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
@@ -32,6 +53,8 @@ function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 18,
             center: currentLocation,
+            mapTypeControl: false,
+            streetViewControl: false
         });
 
         // The marker, positioned at Uluru
@@ -118,6 +141,15 @@ window.addEventListener('load', function () {
             }
         }
     });
+
+    let sessionTimer = document.querySelector('[data-session-elapsed-seconds]');
+    if (sessionTimer) {
+        let elapsedSecondsData = sessionTimer.getAttribute('data-session-elapsed-seconds');
+        elapsedSeconds = parseInt(elapsedSecondsData);
+        setInterval(function () {
+            startSessionTimeCounting(sessionTimer)
+        }, 1000);
+    }
 
     // tabs.onclick = e => {
     //     const id = e.target.dataset.id;

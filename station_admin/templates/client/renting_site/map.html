@@ -19,9 +19,17 @@
     <a href="#">Contact</a>
 </div>
 
+{% if renting_session %}
+    <div class="session-status-grid-container">
+        <div class="session-status-grid-item1">Ride is active</div>
+        <div class="session-status-grid-item2" data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+    </div>
+{% endif %}
+
 <div id="main">
     <div id="sidebar-toggle-btn" class="sidebarr">
-        <img style="width: 40px" src="{% static 'station_admin/client/img/svg/menu.png' %}">
+        <img style="width: 40px; position:absolute; top: 20vh; z-index: 4"
+             src="{% static 'station_admin/client/img/svg/garage_not_selected.svg' %}">
     </div>
 </div>
 
@@ -37,23 +45,49 @@
 
             <div class="site-menu-wrapper">
                 <div class="site-menu-button-wrapper">
-                    <button class="tab-button active" style="border-top-left-radius: 10px;" data-id="home" data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes</button>
+                    <button class="tab-button active" style="border-top-left-radius: 10px;" data-id="home"
+                            data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes
+                    </button>
 
-                    <button class="tab-button" style="border-top-right-radius: 10px;" data-id="contact" data-site-list-type="scooter" data-site-id="{{ site.id }}">Scooters</button>
+                    <button class="tab-button" style="border-top-right-radius: 10px;" data-id="contact"
+                            data-site-list-type="scooter" data-site-id="{{ site.id }}">Scooters
+                    </button>
                 </div>
                 <div class="contentWrapper">
-                    <p class="content active" id="home" data-site-vehicle-list="bike-{{ site.id }}">
-                        Bike list
-                    </p>
+                    <div class="content" id="contact"
+                         data-site-vehicle-list="bike-{{ site.id }}">
+                        <div class="site-menu-vehicle-list-grid-container">
+                            {% for spot in site.get_available_rent_bike_spots %}
+                                <div>
+                                    Bike - #{{ spot.vehicle.id }}
+                                </div>
+                                <div>
+                                    <button>Reserve</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
 
-                    <p class="content" id="contact" data-site-vehicle-list="scooter-{{ site.id }}">
-                        Scooter list
-                    </p>
+                    <div class="content" id="contact"
+                         data-site-vehicle-list="scooter-{{ site.id }}">
+                        <div class="site-menu-vehicle-list-grid-container">
+                            {% for spot in site.get_available_rent_scooter_spots %}
+                                <div>
+                                    Scooter - #{{ spot.vehicle.id }}
+                                </div>
+                                <div>
+                                    <button>Reserve</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-    </body>
 
-    </div>
+
+        </div>
+
+        {{ site.rent_charge_rule.price }} / min.
     </div>
 {% endfor %}
 

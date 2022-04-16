@@ -14,6 +14,9 @@ class RentSession(models.Model):
     returned_to_spot = models.ForeignKey(RentSpot, on_delete=models.CASCADE, related_name='returned_to_spot', null=True)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
 
+    def get_elapsed_seconds(self) -> int:
+        return int((datetime.now(timezone.utc) - self.start_time).total_seconds())
+
     def get_elapsed_minutes(self) -> str:
         return self.format_timedelta(datetime.now(timezone.utc) - self.start_time)
 

@@ -97,6 +97,19 @@
   box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
 }
 
+.site-menu-vehicle-list-grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.site-menu-vehicle-list-grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
 .site-menu-button-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -137,4 +150,25 @@ p {
 
 .content.active {
   display: block;
+}
+
+.session-status-grid-container {
+  position: absolute;
+  top: 5vh;
+  width:100%;
+  background-color: white;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto auto;
+  border-style: solid;
+  font-size: 30px;
+}
+
+.session-status-grid-item1 {
+  text-align:left;
+  margin-left: 20px;
+}
+.session-status-grid-item2 {
+  text-align:right;
+  margin-right: 20px;
 }
