@@ -1,7 +1,8 @@
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.views import View
 
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views import View
+from urllib.parse import urlencode
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
 from station_admin.exception.site_not_configured_correctly_exception import SiteNotConfiguredCorrectlyException
 from station_admin.exception.spot_missing_vehicle_exception import SpotMissingVehicleException
@@ -12,6 +13,12 @@ from station_admin.helper import user_helper
 
 class VehicleView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
+        response = redirect('renting_map')
+
+        query_string = urlencode({'spot_id': kwargs['id']})
+        response['Location'] += '?' + query_string
+
+        return response
 
         #spot_missing_vehicle = user_already_has_rent_session = not_enough_credits = site_not_configured = False
 

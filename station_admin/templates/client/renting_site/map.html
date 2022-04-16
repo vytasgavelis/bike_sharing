@@ -11,6 +11,15 @@
 </head>
 <body>
 {% load static %}
+{% if spot %}
+    <div
+            data-preselected-spot-id="{{ spot.id }}"
+            data-preselected-spot-latitude="{{ spot.site.latitude }}"
+            data-preselected-spot-longitude="{{ spot.site.longitude }}"
+            data-preselected-spot-site-id="{{ spot.site.id }}"
+    ></div>
+{% endif %}
+
 <div id="mySidebar" class="sidebar">
     <a class="closebtn" id="sidebar-exit-btn">×</a>
     <a href="#">About</a>
@@ -22,7 +31,8 @@
 {% if renting_session %}
     <div class="session-status-grid-container">
         <div class="session-status-grid-item1">Ride is active</div>
-        <div class="session-status-grid-item2" data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+        <div class="session-status-grid-item2"
+             data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
     </div>
 {% endif %}
 
@@ -37,7 +47,7 @@
 
 {% for site in sites %}
     <div class="site-bar" data-side-id='{{ site.id }}'>
-        <img style="width: 40px" src="{% static 'station_admin/client/img/svg/exit.png' %}"
+        <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="site-bar-content">
             <h3>{{ site.name }}</h3>
@@ -87,9 +97,34 @@
 
         </div>
 
-        {{ site.rent_charge_rule.price }} / min.
+        {{ site.rent_charge_rule.price }}€ / min.
     </div>
 {% endfor %}
+
+{% if spot %}
+    <div class="site-bar" data-side-id='{{ site.id }}' data-rent-spot-id="{{ spot.id }}">
+        <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
+             data-site-bar-exit-btn='{{ site.id }}'>
+        <div class="rent-spot-menu-grid-container">
+            <div class="rent-spot-menu-grid-item1">
+                {% if spot.vehicle.type == 'bike' %}
+                    Bike #{{ spot.vehicle.id }}
+                {% else %}
+                    Scooter #{{ spot.vehicle.id }}
+                {% endif %}
+            </div>
+            {% if spot.vehicle.type == 'bike' %}
+                <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+            {% else %}
+                <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+            {% endif %}
+            </div>
+        </div>
+
+        <button>Start ride</button>
+        <div>{{ spot.site.rent_charge_rule.price }}€ / min.</div>
+    </div>
+{% endif %}
 
 <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_rEmoEcSpdJD8JWwvtXmr8nzX_rzKqQQ&callback=initMap&v=weekly"

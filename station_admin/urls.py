@@ -41,7 +41,7 @@ urlpatterns = [
     path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),
     path('rent-spot/<int:id>/session/start', login_required(StartRentSessionView.as_view()), name='start_rent_session'),
     path('rent-spot/<int:id>/session/end', login_required(EndRentSessionView.as_view()), name='end_rent_session'),
-    path('rent-spot/<int:id>/vehicle', login_required(VehicleView.as_view()), name='rent_spot_vehicle'),
+    path('rent-spot/<int:id>/vehicle', VehicleView.as_view(), name='rent_spot_vehicle'),
 
     path('api/rent-sites', csrf_exempt(SiteListView.as_view()), name='get_rent_sites'),
 ]

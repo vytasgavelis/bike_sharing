@@ -44,12 +44,26 @@ function startSessionTimeCounting(sessionTimer) {
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 
+function openRentSpotMenu(rentSpotId) {
+    closeAllSiteMenus();
+    unsetAllMarkerIcons();
+    let rentSpotMenu = document.querySelector(`[data-rent-spot-id='${rentSpotId}']`)
+    rentSpotMenu.style.height = "300px";
+}
 
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
 
     function initCoordinates(position) {
-        const currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        const preselectedRentSpot = document.querySelector('[data-preselected-spot-id]');
+        if (preselectedRentSpot) {
+            currentLocation = {
+                lat: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-latitude')),
+                lng: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-longitude')),
+            };
+        }
+
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 18,
             center: currentLocation,
@@ -66,19 +80,23 @@ function initMap() {
             }
         });
 
-        marker.addListener('click', () => {
-            console.log('it was clicked!');
-        });
-
         fetch('http://127.0.0.1:8000/station/api/rent-sites')
             .then(response => response.json())
             .then(data => {
                 data.forEach((site) => {
+                    let garageIcon = NOT_SELECTED_GARAGE_IMG;
+                    if (
+                        preselectedRentSpot
+                        && preselectedRentSpot.getAttribute('data-preselected-spot-site-id') == site.id
+                    ) {
+                        garageIcon = SELECTED_GARAGE_IMG;
+                    }
+
                     const marker = new google.maps.Marker({
                         position: {lat: site.latitude, lng: site.longitude},
                         map: map,
                         icon: {
-                            url: NOT_SELECTED_GARAGE_IMG,
+                            url: garageIcon,
                             scaledSize: new google.maps.Size(60, 60),
                         }
                     });
@@ -96,7 +114,12 @@ function initMap() {
                             scaledSize: new google.maps.Size(60, 60),
                         });
                     });
-                })
+                });
+
+                if (preselectedRentSpot) {
+                    let rentSpotId = preselectedRentSpot.getAttribute('data-preselected-spot-id');
+                    openRentSpotMenu(rentSpotId);
+                }
             });
 
     }
@@ -151,25 +174,5 @@ window.addEventListener('load', function () {
         }, 1000);
     }
 
-    // tabs.onclick = e => {
-    //     const id = e.target.dataset.id;
-    //     const listType = e.target.getAttribute("data-site-list-type");
-    //     const siteId = e.target.getAttribute("data-site-id");
-    //
-    //     if (listType && siteId) {
-    //         tabButton.forEach(btn => {
-    //             btn.classList.remove("active");
-    //         });
-    //         e.target.classList.add("active");
-    //
-    //         contents.forEach(content => {
-    //             content.classList.remove("active");
-    //         });
-    //
-    //         const dataSelector = listType === 'bike' ? `bike-${siteId}` : `scooter-${siteId}`;
-    //         const element = document.querySelectorAll(`[data-site-vehicle-list=${dataSelector}]`)[0];
-    //
-    //         element.classList.add("active");
-    //     }
-    // }
+
 });
