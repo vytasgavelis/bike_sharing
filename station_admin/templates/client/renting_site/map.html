@@ -29,9 +29,31 @@
 
 {% for site in sites %}
     <div class="site-bar" data-side-id='{{ site.id }}'>
-        <img style="width: 40px" src="{% static 'station_admin/client/img/svg/exit.png' %}" data-site-bar-exit-btn='{{ site.id }}'>
-        <h3>{{ site.name }}</h3>
-        <p>12 km range</p>
+        <img style="width: 40px" src="{% static 'station_admin/client/img/svg/exit.png' %}"
+             data-site-bar-exit-btn='{{ site.id }}'>
+        <div class="site-bar-content">
+            <h3>{{ site.name }}</h3>
+            <p>12 km range</p>
+
+            <div class="site-menu-wrapper">
+                <div class="site-menu-button-wrapper">
+                    <button class="tab-button active" style="border-top-left-radius: 10px;" data-id="home" data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes</button>
+
+                    <button class="tab-button" style="border-top-right-radius: 10px;" data-id="contact" data-site-list-type="scooter" data-site-id="{{ site.id }}">Scooters</button>
+                </div>
+                <div class="contentWrapper">
+                    <p class="content active" id="home" data-site-vehicle-list="bike-{{ site.id }}">
+                        Bike list
+                    </p>
+
+                    <p class="content" id="contact" data-site-vehicle-list="scooter-{{ site.id }}">
+                        Scooter list
+                    </p>
+                </div>
+            </div>
+    </body>
+
+    </div>
     </div>
 {% endfor %}
 

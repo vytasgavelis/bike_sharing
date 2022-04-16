@@ -87,6 +87,57 @@ window.addEventListener('load', function () {
         item.onclick = () => {
             let siteMenu = document.querySelectorAll(`[data-side-id='${siteId}']`)[0];
             siteMenu.style.height = "0";
+            unsetAllMarkerIcons();
         }
     });
+
+    const tabs = document.querySelectorAll(".site-menu-wrapper");
+    const tabButton = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".content");
+
+    tabs.forEach((e) => {
+        e.onclick = (e) => {
+            const id = e.target.dataset.id;
+            const listType = e.target.getAttribute("data-site-list-type");
+            const siteId = e.target.getAttribute("data-site-id");
+
+            if (listType && siteId) {
+                tabButton.forEach(btn => {
+                    btn.classList.remove("active");
+                });
+                e.target.classList.add("active");
+
+                contents.forEach(content => {
+                    content.classList.remove("active");
+                });
+
+                const dataSelector = listType === 'bike' ? `bike-${siteId}` : `scooter-${siteId}`;
+                const element = document.querySelectorAll(`[data-site-vehicle-list=${dataSelector}]`)[0];
+
+                element.classList.add("active");
+            }
+        }
+    });
+
+    // tabs.onclick = e => {
+    //     const id = e.target.dataset.id;
+    //     const listType = e.target.getAttribute("data-site-list-type");
+    //     const siteId = e.target.getAttribute("data-site-id");
+    //
+    //     if (listType && siteId) {
+    //         tabButton.forEach(btn => {
+    //             btn.classList.remove("active");
+    //         });
+    //         e.target.classList.add("active");
+    //
+    //         contents.forEach(content => {
+    //             content.classList.remove("active");
+    //         });
+    //
+    //         const dataSelector = listType === 'bike' ? `bike-${siteId}` : `scooter-${siteId}`;
+    //         const element = document.querySelectorAll(`[data-site-vehicle-list=${dataSelector}]`)[0];
+    //
+    //         element.classList.add("active");
+    //     }
+    // }
 });
