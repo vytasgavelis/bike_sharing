@@ -6,24 +6,13 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'station_admin/client/css/style.css' %}"/>
     <script type="module" src="./index.js"></script>
-
-    <script>
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-    </script>
+    <script src="{% static 'station_admin/client/js/load_side_bar.js' %}"></script>
     <script type="module" src="{% static 'station_admin/client/js/load_google_maps.js' %}"></script>
 </head>
 <body>
 {% load static %}
-<h3>My Google Maps Demo</h3>
-
 <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a class="closebtn" id="sidebar-exit-btn">×</a>
     <a href="#">About</a>
     <a href="#">Services</a>
     <a href="#">Clients</a>
@@ -31,12 +20,21 @@
 </div>
 
 <div id="main">
-    <div id="sidebar-toggle-btn" class="sidebarr" onclick="openNav()">
+    <div id="sidebar-toggle-btn" class="sidebarr">
         <img style="width: 40px" src="{% static 'station_admin/client/img/svg/menu.png' %}">
     </div>
 </div>
 
 <div id="map"></div>
+
+{% for site in sites %}
+    <div class="site-bar" data-side-id='{{ site.id }}'>
+        <img style="width: 40px" src="{% static 'station_admin/client/img/svg/exit.png' %}" data-site-bar-exit-btn='{{ site.id }}'>
+        <h3>{{ site.name }}</h3>
+        <p>12 km range</p>
+    </div>
+{% endfor %}
+
 <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_rEmoEcSpdJD8JWwvtXmr8nzX_rzKqQQ&callback=initMap&v=weekly"
         defer

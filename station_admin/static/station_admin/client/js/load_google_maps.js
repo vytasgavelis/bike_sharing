@@ -1,13 +1,3 @@
-function openNav() {
-  document.getElementById("sidebar-toggle-btn").style.width = "250px";
-//  document.getElementById("main").style.marginLeft = "250px";
-}
-
-function closeNav() {
-  document.getElementById("sidebar-toggle-btn").style.width = "0";
-  //document.getElementById("main").style.marginLeft= "0";
-}
-
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
 
@@ -43,7 +33,11 @@ function initMap() {
                             scaledSize: new google.maps.Size(38, 31),
                         }
                     });
-                    console.log(marker);
+
+                    marker.addListener('click', () => {
+                        let siteMenu = document.querySelectorAll(`[data-side-id='${site.id}']`)[0];
+                        siteMenu.style.height = "500px";
+                    });
                 })
             });
 
@@ -51,3 +45,13 @@ function initMap() {
 }
 
 window.initMap = initMap;
+
+window.addEventListener('load', function () {
+    document.querySelectorAll('[data-site-bar-exit-btn]').forEach((item) => {
+        let siteId = item.getAttribute('data-site-bar-exit-btn');
+        item.onclick = () => {
+            let siteMenu = document.querySelectorAll(`[data-side-id='${siteId}']`)[0];
+            siteMenu.style.height = "0";
+        }
+    });
+});
