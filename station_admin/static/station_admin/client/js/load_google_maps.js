@@ -1,3 +1,29 @@
+function closeAllSiteMenus() {
+    document.querySelectorAll(`[data-side-id]`).forEach((siteMenu) => {
+        siteMenu.style.height = "0";
+    });
+}
+
+function unsetAllMarkerIcons() {
+    markers.forEach((marker) => {
+        marker.setIcon({
+            url: NOT_SELECTED_GARAGE_IMG,
+            scaledSize: new google.maps.Size(60, 60),
+        });
+    });
+}
+
+let markers = [];
+
+function persistMarker(marker) {
+    markers.push(marker)
+}
+
+
+const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
+const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
+
+
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
 
@@ -29,14 +55,23 @@ function initMap() {
                         position: {lat: site.latitude, lng: site.longitude},
                         map: map,
                         icon: {
-                            url: "/static/station_admin/client/img/svg/garage.svg",
-                            scaledSize: new google.maps.Size(38, 31),
+                            url: NOT_SELECTED_GARAGE_IMG,
+                            scaledSize: new google.maps.Size(60, 60),
                         }
                     });
 
+                    persistMarker(marker);
+
                     marker.addListener('click', () => {
+                        closeAllSiteMenus();
+                        unsetAllMarkerIcons();
                         let siteMenu = document.querySelectorAll(`[data-side-id='${site.id}']`)[0];
-                        siteMenu.style.height = "500px";
+                        siteMenu.style.height = "300px";
+
+                        marker.setIcon({
+                            url: SELECTED_GARAGE_IMG,
+                            scaledSize: new google.maps.Size(60, 60),
+                        });
                     });
                 })
             });
