@@ -1,8 +1,5 @@
-function closeAllSiteMenus() {
-    document.querySelectorAll(`[data-side-id]`).forEach((siteMenu) => {
-        siteMenu.style.height = "0";
-    });
-}
+import {createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus} from "./google_maps.js";
+
 
 function displaySuccess(message) {
     const messageContainer = document.querySelector('[data-message-container]');
@@ -12,21 +9,6 @@ function displaySuccess(message) {
 function displayError(message) {
     const messageContainer = document.querySelector('[data-message-container]');
     messageContainer.innerHTML = `<div class=\"bar error\">${message}</div>\n`;
-}
-
-function unsetAllMarkerIcons() {
-    markers.forEach((marker) => {
-        marker.setIcon({
-            url: NOT_SELECTED_GARAGE_IMG,
-            scaledSize: new google.maps.Size(60, 60),
-        });
-    });
-}
-
-let markers = [];
-
-function persistMarker(marker) {
-    markers.push(marker)
 }
 
 let elapsedSeconds = 0;
@@ -61,11 +43,14 @@ function startSession(rentSpotId) {
     }).then(response => response.json())
         .then(data => {
             if (data.success == true) {
-                displaySuccess('Session has been started')
+                displaySuccess('Session has been started');
+                //TODO: close down the window and start showing session timer
             } else {
                 displayError(data.message);
             }
-        });
+        }).catch((error) => {
+        displayError(error);
+    });
 }
 
 function endRentSession(rentSpotId) {
@@ -80,7 +65,7 @@ function endRentSession(rentSpotId) {
                 displayError(data.message);
             }
         }).catch((error) => {
-            displayError(error);
+        displayError(error);
     });
 }
 
@@ -145,35 +130,14 @@ function initMap() {
                         garageIcon = SELECTED_GARAGE_IMG;
                     }
 
-                    const marker = new google.maps.Marker({
-                        position: {lat: site.latitude, lng: site.longitude},
-                        map: map,
-                        icon: {
-                            url: garageIcon,
-                            scaledSize: new google.maps.Size(60, 60),
-                        }
-                    });
-
-                    persistMarker(marker);
-
-                    marker.addListener('click', () => {
-                        closeAllSiteMenus();
-                        unsetAllMarkerIcons();
-                        let siteMenu = document.querySelectorAll(`[data-side-id='${site.id}']`)[0];
-                        siteMenu.style.height = "300px";
-
-                        marker.setIcon({
-                            url: SELECTED_GARAGE_IMG,
-                            scaledSize: new google.maps.Size(60, 60),
-                        });
-                    });
+                    let marker = createSiteMarker(site, map, garageIcon);
                 });
-
-                if (preselectedRentSpot) {
-                    let rentSpotId = preselectedRentSpot.getAttribute('data-preselected-spot-id');
-                    openRentSpotMenu(rentSpotId);
-                }
             });
+
+        if (preselectedRentSpot) {
+            let rentSpotId = preselectedRentSpot.getAttribute('data-preselected-spot-id');
+            openRentSpotMenu(rentSpotId);
+        }
 
     }
 }
