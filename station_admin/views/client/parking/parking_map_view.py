@@ -14,4 +14,4 @@ class ParkingMapView(View):
         else:
             active_sessions = None
 
-        return render(request, 'client/parking_site/map.html', {'sites': sites, 'active_sessions': active_sessions})
+        return render(request, 'client/parking_site/map.html', {'sites': sites, 'active_sessions': active_sessions, 'site': sites[0]})

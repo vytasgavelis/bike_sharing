@@ -48,4 +48,24 @@ function createSiteMarker(site, map, garageIcon) {
     return marker;
 }
 
-export {createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus, NOT_SELECTED_GARAGE_IMG, SELECTED_GARAGE_IMG};
+function initSiteMenusExitButtons() {
+    document.querySelectorAll('[data-site-bar-exit-btn]').forEach((item) => {
+        let siteId = item.getAttribute('data-site-bar-exit-btn');
+        item.onclick = () => {
+            let siteMenu = document.querySelectorAll(`[data-side-id='${siteId}']`)[0];
+            siteMenu.style.height = "0";
+            unsetAllMarkerIcons();
+        }
+    });
+}
+
+
+
+export {
+    createSiteMarker,
+    unsetAllMarkerIcons,
+    closeAllSiteMenus,
+    NOT_SELECTED_GARAGE_IMG,
+    SELECTED_GARAGE_IMG,
+    initSiteMenusExitButtons
+};

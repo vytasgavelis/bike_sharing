@@ -1,4 +1,4 @@
-import {createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus} from "./google_maps.js";
+import {createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus, initSiteMenusExitButtons} from "./google_maps.js";
 
 
 function displaySuccess(message) {
@@ -145,14 +145,7 @@ function initMap() {
 window.initMap = initMap;
 
 window.addEventListener('load', function () {
-    document.querySelectorAll('[data-site-bar-exit-btn]').forEach((item) => {
-        let siteId = item.getAttribute('data-site-bar-exit-btn');
-        item.onclick = () => {
-            let siteMenu = document.querySelectorAll(`[data-side-id='${siteId}']`)[0];
-            siteMenu.style.height = "0";
-            unsetAllMarkerIcons();
-        }
-    });
+    initSiteMenusExitButtons();
 
     const tabs = document.querySelectorAll(".site-menu-wrapper");
     const tabButton = document.querySelectorAll(".tab-button");
@@ -190,6 +183,4 @@ window.addEventListener('load', function () {
             startSessionTimeCounting(sessionTimer)
         }, 1000);
     }
-
-
 });

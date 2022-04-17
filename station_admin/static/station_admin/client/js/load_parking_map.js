@@ -1,4 +1,4 @@
-import {createSiteMarker, NOT_SELECTED_GARAGE_IMG, SELECTED_GARAGE_IMG} from "./google_maps.js";
+import {createSiteMarker, NOT_SELECTED_GARAGE_IMG, SELECTED_GARAGE_IMG, initSiteMenusExitButtons} from "./google_maps.js";
 
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
@@ -50,3 +50,7 @@ function initMap() {
 }
 
 window.initMap = initMap;
+
+window.addEventListener('load', function () {
+    initSiteMenusExitButtons();
+});
