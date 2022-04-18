@@ -11,8 +11,6 @@ import {
 } from "./google_maps.js";
 
 
-
-
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 

@@ -25,7 +25,14 @@
 <div data-message-container></div>
 
 {% for site in sites_with_sessions %}
-    <div class="site-bar" data-side-id='{{ site.0.id }}'>
+    <div class="site-bar"
+         data-side-id='{{ site.0.id }}'
+         {% if preselected_site and preselected_site.id == site.0.id %}
+            data-preselected-site
+            data-preselected-site-latitude="{{ site.0.latitude }}"
+            data-preselected-site-longitude="{{ site.0.longitude }}"
+         {% endif %}
+    >
         <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
              data-site-bar-exit-btn='{{ site.0.id }}'>
         <div class="parking-spot-menu-grid-container">

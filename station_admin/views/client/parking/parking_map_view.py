@@ -1,7 +1,8 @@
+from station_admin.models.site import Site
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.views import View
-
+from django.core.exceptions import ObjectDoesNotExist
 from station_admin.helper import user_helper
 from station_admin.repository import site_repository
 from station_admin.repository.parking_session_repository import ParkingSessionRepository
@@ -9,6 +10,15 @@ from station_admin.repository.parking_session_repository import ParkingSessionRe
 
 class ParkingMapView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
+        site_id = request.GET.get('site_id')
+        preselected_site = None
+
+        if site_id:
+            try:
+                preselected_site = Site.objects.get(pk=site_id)
+            except ObjectDoesNotExist:
+                pass
+
         sites = site_repository.find_with_parking_configured()
         sites_with_sessions = []
         parking_session = None
@@ -25,10 +35,14 @@ class ParkingMapView(View):
             for site in sites:
                 sites_with_sessions.append((site, False))
 
-
-
         return render(
             request,
             'client/parking_site/map.html',
-            {'sites': sites, 'active_sessions': active_sessions, 'sites_with_sessions': sites_with_sessions, 'parking_session': parking_session}
+            {
+                'sites': sites,
+                'active_sessions': active_sessions,
+                'sites_with_sessions': sites_with_sessions,
+                'parking_session': parking_session,
+                'preselected_site': preselected_site
+            }
         )

@@ -1,4 +1,5 @@
 import {
+    openSiteMenu,
     hideSessionTimer,
     initSessionTimer,
     startSessionTimer,
@@ -76,13 +77,14 @@ function initMap() {
 
     function initCoordinates(position) {
         let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        // const preselectedRentSpot = document.querySelector('[data-preselected-spot-id]');
-        // if (preselectedRentSpot) {
-        //     currentLocation = {
-        //         lat: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-latitude')),
-        //         lng: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-longitude')),
-        //     };
-        // }
+        const preselectedSite = document.querySelector('[data-preselected-site]');
+
+        if (preselectedSite) {
+            currentLocation = {
+                lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
+                lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
+            };
+        }
 
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 18,
@@ -91,7 +93,6 @@ function initMap() {
             streetViewControl: false
         });
 
-        // The marker, positioned at Uluru
         const marker = new google.maps.Marker({
             position: currentLocation,
             map: map,
@@ -105,18 +106,21 @@ function initMap() {
             .then(data => {
                 data.forEach((site) => {
                     let garageIcon = NOT_SELECTED_GARAGE_IMG;
-                    // if (
-                    //     preselectedRentSpot
-                    //     && preselectedRentSpot.getAttribute('data-preselected-spot-site-id') == site.id
-                    // ) {
-                    //     garageIcon = SELECTED_GARAGE_IMG;
-                    // }
-
+                    if (
+                        preselectedSite
+                        && preselectedSite.getAttribute('data-side-id') == site.id
+                    ) {
+                        garageIcon = SELECTED_GARAGE_IMG;
+                    }
 
                     createSiteMarker(site, map, garageIcon);
                 });
             });
 
+        if (preselectedSite) {
+            const siteId = preselectedSite.getAttribute('data-side-id');
+            openSiteMenu(siteId);
+        }
     }
 }
 
