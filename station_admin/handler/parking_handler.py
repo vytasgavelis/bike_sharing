@@ -1,4 +1,6 @@
 import datetime
+from decimal import Decimal
+
 from django.contrib.auth.models import User
 from station_admin.models import Site
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
@@ -55,7 +57,7 @@ class ParkingHandler:
             raise ErrorOpeningSiteGateException('Could not open site doors.')
 
         session.end_time = datetime.datetime.now()
-        user.userprofile.credits -= session.get_price()
+        user.userprofile.credits -= Decimal(session.get_price())
         session.parking_spot.taken = False
 
         session.save()

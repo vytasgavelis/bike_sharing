@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -30,3 +30,19 @@ class ParkingSessionEndView(View):
 
         return redirect('parking_site_list')
 
+    def post(self, *args, **kwargs) -> HttpResponse:
+        site_id = kwargs['site_id']
+
+        site = Site.objects.get(pk=site_id)
+
+        sessions = ParkingSessionRepository.find_active_sessions(self.request.user, site)
+
+        if len(sessions) > 0:
+            try:
+                parking_handler.end_session(sessions[0], site, self.request.user)
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)}, safe=False)
+        else:
+            return JsonResponse({'success': False, 'message': 'You do not have parking session in this site.'}, safe=False)
+
+        return JsonResponse({'success': True}, safe=False)

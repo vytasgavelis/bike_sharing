@@ -31,18 +31,18 @@
         </div>
         <div class="parking-spot-menu-grid-container">
             {% if site.1 %}
-                <button>end parking</button>
+                <button data-end-parking-session-btn="{{ site.0.id }}">end parking</button>
             {% else %}
                 <div class="parking-spot-menu-grid-item1">
                     {% if site.0.get_available_bike_spots|length %}
-                        <button>Park my bike</button>
+                        <button data-start-parking-session-btn="{{ site.0.id }}" data-start-parking-session-btn-type="bike">Park my bike</button>
                     {% else %}
                         <button>No bike spots available</button>
                     {% endif %}
                 </div>
                 <div class="parking-spot-menu-grid-item2">
                     {% if site.0.get_available_scooter_spots|length %}
-                        <button>Park my scooter</button>
+                        <button  data-start-parking-session-btn="{{ site.0.id }}" data-start-parking-session-btn-type="scooter">Park my scooter</button>
                     {% else %}
                         <button>No scooter spots available</button>
                     {% endif %}

@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from station_admin.handler import parking_handler
@@ -7,12 +7,13 @@ from station_admin.exception.not_enough_credits_exception import NotEnoughCredit
 from django.contrib import messages
 
 
-class ParkingGateOpeningView(View):
+class ParkingSessionStartView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
         site_id = kwargs['id']
         parking_spot_type = kwargs['parking_spot_type']
 
         site = Site.objects.get(pk=site_id)
+
 
         try:
             parking_handler.open_site_door(
@@ -25,3 +26,20 @@ class ParkingGateOpeningView(View):
         parking_handler.start_session(self.request.user, site, parking_spot_type)
 
         return render(self.request, 'client/parking_site/parking_session_start_success.html')
+
+    def post(self, *args, **kwargs) -> HttpResponse:
+        site_id = kwargs['id']
+        parking_spot_type = kwargs['parking_spot_type']
+
+        site = Site.objects.get(pk=site_id)
+
+        try:
+            parking_handler.open_site_door(
+                self.request.user, site
+            )
+            parking_handler.start_session(self.request.user, site, parking_spot_type)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, safe=False)
+
+        return JsonResponse({'success': True}, safe=False)
+

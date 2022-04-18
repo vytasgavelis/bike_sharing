@@ -59,7 +59,15 @@ function initSiteMenusExitButtons() {
     });
 }
 
+function displaySuccess(message) {
+    const messageContainer = document.querySelector('[data-message-container]');
+    messageContainer.innerHTML = `<div class=\"bar success\">${message}</div>`;
+}
 
+function displayError(message) {
+    const messageContainer = document.querySelector('[data-message-container]');
+    messageContainer.innerHTML = `<div class=\"bar error\">${message}</div>\n`;
+}
 
 export {
     createSiteMarker,
@@ -67,5 +75,7 @@ export {
     closeAllSiteMenus,
     NOT_SELECTED_GARAGE_IMG,
     SELECTED_GARAGE_IMG,
-    initSiteMenusExitButtons
+    initSiteMenusExitButtons,
+    displayError,
+    displaySuccess
 };

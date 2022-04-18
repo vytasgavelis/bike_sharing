@@ -1,15 +1,4 @@
-import {createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus, initSiteMenusExitButtons} from "./google_maps.js";
-
-
-function displaySuccess(message) {
-    const messageContainer = document.querySelector('[data-message-container]');
-    messageContainer.innerHTML = `<div class=\"bar success\">${message}</div>`;
-}
-
-function displayError(message) {
-    const messageContainer = document.querySelector('[data-message-container]');
-    messageContainer.innerHTML = `<div class=\"bar error\">${message}</div>\n`;
-}
+import {displaySuccess, displayError, createSiteMarker, unsetAllMarkerIcons, closeAllSiteMenus, initSiteMenusExitButtons} from "./google_maps.js";
 
 let elapsedSeconds = 0;
 

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -53,7 +55,7 @@ class RentHandler:
         session.end_time = datetime.datetime.now()
         session.returned_to_spot = spot
         vehicle.current_spot = spot
-        user.userprofile.credits -= session.get_price()
+        user.userprofile.credits -= Decimal(session.get_price())
 
         session.save()
         vehicle.save()

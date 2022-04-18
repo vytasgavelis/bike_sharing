@@ -1,4 +1,66 @@
-import {createSiteMarker, NOT_SELECTED_GARAGE_IMG, SELECTED_GARAGE_IMG, initSiteMenusExitButtons} from "./google_maps.js";
+import {
+    displayError,
+    displaySuccess,
+    createSiteMarker,
+    NOT_SELECTED_GARAGE_IMG,
+    SELECTED_GARAGE_IMG,
+    initSiteMenusExitButtons
+} from "./google_maps.js";
+
+function startParkingSession(siteId, parkingSpotType) {
+    console.log(`Starting session for: ${siteId} type: ${parkingSpotType}`);
+
+    fetch(`http://127.0.0.1:8000/station/api/site/${siteId}/session/start/${parkingSpotType}`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Session has been started');
+                //TODO: close down the window and start showing session timer
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+}
+
+function endParkingSession(siteId) {
+    fetch(`http://127.0.0.1:8000/station/api/site/${siteId}/session/end`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Session has been ended');
+                //TODO: close down the window and start showing session timer
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+}
+
+function initSiteMenusSessionButtons() {
+    let startSessionBtns = document.querySelectorAll('[data-start-parking-session-btn]');
+    startSessionBtns.forEach((button) => {
+        const siteId = button.getAttribute('data-start-parking-session-btn');
+        const parkingSpotType = button.getAttribute('data-start-parking-session-btn-type');
+        button.addEventListener('click', () => {
+            startParkingSession(siteId, parkingSpotType)
+        });
+    });
+
+    let endSessionBtns = document.querySelectorAll('[data-end-parking-session-btn]');
+    endSessionBtns.forEach((button) => {
+        const siteId = button.getAttribute('data-end-parking-session-btn');
+        button.addEventListener('click', () => {
+            endParkingSession(siteId);
+        })
+    })
+}
 
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
@@ -53,4 +115,5 @@ window.initMap = initMap;
 
 window.addEventListener('load', function () {
     initSiteMenusExitButtons();
+    initSiteMenusSessionButtons();
 });

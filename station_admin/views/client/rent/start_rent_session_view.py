@@ -43,7 +43,7 @@ class StartRentSessionView(View):
             rent_handler.open_rent_spot_lock(rent_spot, self.request.user)
             rent_handler.start_session(rent_spot, self.request.user)
         except NotEnoughCreditsException:
-            return JsonResponse({'success': False, 'message': 'You don\'t have enough credits to use parking.'}, safe=False)
+            return JsonResponse({'success': False, 'message': 'You don\'t have enough credits to use renting.'}, safe=False)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)},safe=False)
 
