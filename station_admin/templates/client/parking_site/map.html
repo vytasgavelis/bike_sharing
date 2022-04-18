@@ -13,6 +13,15 @@
 <body>
 {% include 'client/sidebar.html' %}
 
+
+<div class="session-status-grid-container {% if not parking_session %} hidden{% endif %}">
+        <div class="session-status-grid-item1">Parking is active</div>
+        <div class="session-status-grid-item2"
+             data-session-elapsed-seconds=
+                     "{% if parking_session %}{{ parking_session.get_elapsed_seconds }}{% else %}0{% endif %}"
+        ></div>
+    </div>
+
 <div data-message-container></div>
 
 {% for site in sites_with_sessions %}

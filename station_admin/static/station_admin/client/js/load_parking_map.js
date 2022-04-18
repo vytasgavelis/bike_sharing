@@ -1,10 +1,13 @@
 import {
+    hideSessionTimer,
+    initSessionTimer,
+    startSessionTimer,
     displayError,
     displaySuccess,
     createSiteMarker,
     NOT_SELECTED_GARAGE_IMG,
     SELECTED_GARAGE_IMG,
-    initSiteMenusExitButtons
+    initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons
 } from "./google_maps.js";
 
 function startParkingSession(siteId, parkingSpotType) {
@@ -18,6 +21,9 @@ function startParkingSession(siteId, parkingSpotType) {
             if (data.success == true) {
                 displaySuccess('Session has been started');
                 //TODO: close down the window and start showing session timer
+                startSessionTimer();
+                closeAllSiteMenus();
+                unsetAllMarkerIcons();
             } else {
                 displayError(data.message);
             }
@@ -35,6 +41,9 @@ function endParkingSession(siteId) {
             if (data.success == true) {
                 displaySuccess('Session has been ended');
                 //TODO: close down the window and start showing session timer
+                hideSessionTimer();
+                closeAllSiteMenus();
+                unsetAllMarkerIcons();
             } else {
                 displayError(data.message);
             }
@@ -116,4 +125,5 @@ window.initMap = initMap;
 window.addEventListener('load', function () {
     initSiteMenusExitButtons();
     initSiteMenusSessionButtons();
+    initSessionTimer();
 });

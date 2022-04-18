@@ -173,6 +173,10 @@ p {
     font-size: 30px;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .session-status-grid-item1 {
     text-align: left;
     margin-left: 20px;

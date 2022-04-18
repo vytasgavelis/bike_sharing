@@ -19,6 +19,9 @@ class ParkingSession(models.Model):
     class Meta:
         db_table = "parking_session"
 
+    def get_elapsed_seconds(self) -> int:
+        return int((datetime.now(timezone.utc) - self.start_time).total_seconds())
+
     def get_elapsed_minutes(self) -> str:
         return self.format_timedelta(datetime.now(timezone.utc) - self.start_time)
 

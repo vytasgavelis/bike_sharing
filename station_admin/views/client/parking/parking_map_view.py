@@ -11,8 +11,10 @@ class ParkingMapView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         sites = site_repository.find_with_parking_configured()
         sites_with_sessions = []
+        parking_session = None
         if request.user.is_authenticated:
             active_sessions = ParkingSessionRepository.find_active_sessions(request.user)
+            parking_session = active_sessions[0] if len(active_sessions) > 0 else None
             for site in sites:
                 if user_helper.has_parking_session_in_site(site, request.user):
                     sites_with_sessions.append((site, True))
@@ -28,5 +30,5 @@ class ParkingMapView(View):
         return render(
             request,
             'client/parking_site/map.html',
-            {'sites': sites, 'active_sessions': active_sessions, 'sites_with_sessions': sites_with_sessions}
+            {'sites': sites, 'active_sessions': active_sessions, 'sites_with_sessions': sites_with_sessions, 'parking_session': parking_session}
         )
