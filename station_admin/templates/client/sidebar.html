@@ -2,14 +2,32 @@
 
 <div id="mySidebar" class="sidebar">
     <a class="closebtn" id="sidebar-exit-btn">×</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    {% if request.user.is_authenticated %}
+        <div class="sidebar-profile">
+            <a href="{% url 'user_profile' %}">
+                <img src="{% static 'station_admin/client/img/svg/user.png' %}"
+                             alt="mdo"
+                             width="32" height="32" class="rounded-circle"> {{ request.user.username }}
+                <div style="font-size:15px">Credits: {{ request.user.userprofile.credits }} €</div>
+            </a>
+        </div>
+    {% endif %}
+    <a href="{% url 'renting_map' %}">Rent</a>
+    <a href="{% url 'parking_map' %}">Park</a>
+    {% if request.user.is_authenticated %}
+        <div class="sidebar-login">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    {% else %}
+        <div class="sidebar-login">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Sign up</a>
+        </div>
+    {% endif %}
 </div>
 <div id="main">
     <div id="sidebar-toggle-btn" class="sidebarr">
-        <img style="width: 40px; position:absolute; top: 20vh; z-index: 4"
-             src="{% static 'station_admin/client/img/svg/garage_not_selected.svg' %}">
+        <img style="width: 40px; position:absolute; top: 20vh; z-index: 4; cursor: pointer"
+             src="{% static 'station_admin/client/img/svg/menu.svg' %}">
     </div>
 </div>
