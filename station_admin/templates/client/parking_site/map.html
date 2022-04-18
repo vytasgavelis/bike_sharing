@@ -15,11 +15,47 @@
 
 <div data-message-container></div>
 
-{% for site in sites %}
-    <div class="site-bar" data-side-id='{{ site.id }}'>
+{% for site in sites_with_sessions %}
+    <div class="site-bar" data-side-id='{{ site.0.id }}'>
         <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
-             data-site-bar-exit-btn='{{ site.id }}'>
-        {{ site.name }}
+             data-site-bar-exit-btn='{{ site.0.id }}'>
+        <div class="parking-spot-menu-grid-container">
+            <div class="parking-spot-menu-grid-item1">
+                {{ site.0.name }} #{{ site.0.id }}
+            </div>
+            <div class="parking-spot-menu-grid-item2">
+                <div>Bike spots:{{ site.0.get_available_bike_spots|length }} / {{ site.0.get_bike_spots|length }}</div>
+                <div>Scooter spots: {{ site.0.get_available_scooter_spots|length }}
+                    / {{ site.0.get_scooter_spots|length }}</div>
+            </div>
+        </div>
+        <div class="parking-spot-menu-grid-container">
+            {% if site.1 %}
+                <button>end parking</button>
+            {% else %}
+                <div class="parking-spot-menu-grid-item1">
+                    {% if site.0.get_available_bike_spots|length %}
+                        <button>Park my bike</button>
+                    {% else %}
+                        <button>No bike spots available</button>
+                    {% endif %}
+                </div>
+                <div class="parking-spot-menu-grid-item2">
+                    {% if site.0.get_available_scooter_spots|length %}
+                        <button>Park my scooter</button>
+                    {% else %}
+                        <button>No scooter spots available</button>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="parking-spot-menu-grid-container">
+            {% if site.0.is_bike_rent_available or site.0.is_scooter_rent_available %}
+                <button>Rent a vehicle</button>
+            {% else %}
+                <button>Rent is not available</button>
+            {% endif %}
+        </div>
     </div>
 {% endfor %}
 

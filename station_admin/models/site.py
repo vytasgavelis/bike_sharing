@@ -60,7 +60,7 @@ class Site(models.Model):
         return True
 
     def is_scooter_rent_available(self) -> bool:
-        return True
+        return False
 
     def __str__(self) -> str:
         return f"{self.name} - {self.street}, {self.city}"

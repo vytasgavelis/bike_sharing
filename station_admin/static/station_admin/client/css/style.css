@@ -206,6 +206,24 @@ p {
     width: 80px;
 }
 
+.parking-spot-menu-grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    /*letter-spacing: 3px;*/
+    margin-top: 20px;
+}
+
+.parking-spot-menu-grid-item1 {
+    font-size: 28px;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.parking-spot-menu-grid-item2 {
+    text-align: right;
+    margin-right: 20px;
+}
 
 /* (A) THE BASE */
 .bar {
