@@ -21,7 +21,6 @@ function startParkingSession(siteId, parkingSpotType) {
         .then(data => {
             if (data.success == true) {
                 displaySuccess('Session has been started');
-                //TODO: close down the window and start showing session timer
                 startSessionTimer();
                 closeAllSiteMenus();
                 unsetAllMarkerIcons();

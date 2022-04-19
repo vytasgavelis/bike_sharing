@@ -7,7 +7,7 @@ import {
     createSiteMarker,
     unsetAllMarkerIcons,
     closeAllSiteMenus,
-    initSiteMenusExitButtons,
+    initSiteMenusExitButtons, startSessionTimer,
 } from "./google_maps.js";
 
 
@@ -22,7 +22,9 @@ function startSession(rentSpotId) {
         .then(data => {
             if (data.success == true) {
                 displaySuccess('Session has been started');
-                //TODO: close down the window and start showing session timer
+                closeAllSiteMenus();
+                unsetAllMarkerIcons();
+                startSessionTimer()
             } else {
                 displayError(data.message);
             }
@@ -39,6 +41,8 @@ function endRentSession(rentSpotId) {
         .then(data => {
             if (data.success == true) {
                 displaySuccess('Session has been ended')
+                closeAllSiteMenus();
+                unsetAllMarkerIcons();
             } else {
                 displayError(data.message);
             }
