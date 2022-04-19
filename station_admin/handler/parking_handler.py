@@ -15,6 +15,10 @@ from station_admin.repository.parking_session_repository import ParkingSessionRe
 
 class ParkingHandler:
     def open_site_door(self, user: User, site: Site) -> None:
+        sessions = ParkingSessionRepository.find_active_sessions(user)
+        if len(sessions) > 0:
+            raise Exception('You already have parking session in progress')
+
         if not site.enough_credits_for_parking(user):
             raise NotEnoughCreditsException
 

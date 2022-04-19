@@ -37,7 +37,9 @@ class ParkingSessionEndView(View):
 
         sessions = ParkingSessionRepository.find_active_sessions(self.request.user, site)
 
-        if len(sessions) > 0:
+        if len(sessions) > 1:
+            return JsonResponse({'success': False, 'message': 'You have more than one parking session in progress'}, safe=False)
+        elif len(sessions) == 1:
             try:
                 parking_handler.end_session(sessions[0], site, self.request.user)
             except Exception as e:
