@@ -1,11 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
 from .models import Site
 from .models import ParkingSpot
 from .models.charge_rule import ChargeRule
 from .models.rent_spot import RentSpot
 from .models.vehicle import Vehicle
 
+admin.site.unregister(User)
+admin.site.unregister(Group)
 admin.site.register(ParkingSpot)
 admin.site.register(ChargeRule)
 admin.site.register(Vehicle)

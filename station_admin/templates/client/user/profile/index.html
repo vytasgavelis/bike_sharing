@@ -1,6 +1,7 @@
 {% extends 'client/base.html' %}
 
 {% block content %}
+    {% load static %}
     <main class="container text-center">
         {% include 'client/error_list.html' %}
         <div class="row justify-content-center">
@@ -8,7 +9,7 @@
                 <h3>Account information</h3>
                 <div class="row justify-content-center ">
                     <div class="col-4 m-4">
-                        <img src="https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png"
+                        <img src="{% static 'station_admin/client/img/svg/user.png' %}"
                              alt="mdo"
                              width="32" height="32" class="rounded-circle">
                     </div>
@@ -34,7 +35,7 @@
                                name="credit_amount" placeholder="amount" step="0.01" min="0">
                         <label for="credit_amount">Amount</label>
 
-                        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit" >Add</button>
+                        <button style="background-color: #78938A" class="w-100 btn btn-lg btn-primary mt-3" type="submit" >Add</button>
                     </div>
                 </form>
             </div>

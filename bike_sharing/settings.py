@@ -30,9 +30,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'station_admin.apps.StationAdminConfig',
     'django.contrib.admin',
     'django.contrib.auth',
+    'station_admin.apps.StationAdminConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
