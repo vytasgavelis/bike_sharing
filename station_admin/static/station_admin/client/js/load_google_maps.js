@@ -143,6 +143,7 @@ window.initMap = initMap;
 
 window.addEventListener('load', function () {
     initSiteMenusExitButtons();
+    initVehicleReserveButtons();
 
     const tabs = document.querySelectorAll(".site-menu-wrapper");
     const tabButton = document.querySelectorAll(".tab-button");
@@ -174,3 +175,30 @@ window.addEventListener('load', function () {
 
     initSessionTimer();
 });
+
+function initVehicleReserveButtons() {
+    document.querySelectorAll('[data-vehicle-reserve-id]').forEach((button) => {
+        button.addEventListener('click', () => {
+            reserveVehicle(button.getAttribute('data-vehicle-reserve-id'));
+        })
+    });
+}
+
+function reserveVehicle(spotId) {
+    fetch(`http://127.0.0.1:8000/station/api/spot/${spotId}/reservation/start`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Reservation has been started');
+                // closeAllSiteMenus();
+                // unsetAllMarkerIcons();
+                // startSessionTimer()
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+            displayError(error);
+    });
+}

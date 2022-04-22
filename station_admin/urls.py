@@ -10,6 +10,8 @@ from .views.client.parking.parking_session_start_view import ParkingSessionStart
 from .views.client.parking.parking_map_view import ParkingMapView
 from .views.client.parking.parking_site_open_gate_view import ParkingSiteOpenGateView
 from .views.client.rent.end_rent_session_view import EndRentSessionView
+from .views.client.rent.start_reservation_view import StartReservationView
+from .views.client.rent.end_reservation_view import EndReservationView
 from .views.client.rent.rent_map_view import RentMapView
 from .views.client.rent.site_list_view import SiteListView
 from .views.client.user.user_profile_view import UserProfileView
@@ -42,6 +44,10 @@ urlpatterns = [
          name='parking_site_gate_open'),
     path('api/site/<int:site_id>/session/end', login_required(ParkingSessionEndView.as_view()),
          name='end_parking_session'),
+    path('api/spot/<int:spot_id>/reservation/start', login_required(StartReservationView.as_view()),
+         name='start_reservation'),
+    path('api/reservation/end', login_required(EndReservationView.as_view()),
+         name='end_reservation'),
     path('user/profile', login_required(UserProfileView.as_view()), name='user_profile'),
     path('user/credits', login_required(AddCreditsView.as_view()), name='add_credits'),
     path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),

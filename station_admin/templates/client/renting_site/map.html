@@ -45,7 +45,7 @@
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="site-bar-content">
             <h3>{{ site.name }}</h3>
-            <p>12 km range</p>
+            {{ site.rent_charge_rule.price }}€ / min.
 
             <div class="site-menu-wrapper">
                 <div class="site-menu-button-wrapper">
@@ -58,15 +58,15 @@
                     </button>
                 </div>
                 <div class="contentWrapper">
-                    <div class="content" id="contact"
+                    <div class="content active" id="contact"
                          data-site-vehicle-list="bike-{{ site.id }}">
                         <div class="site-menu-vehicle-list-grid-container">
                             {% for spot in site.get_available_rent_bike_spots %}
                                 <div>
-                                    Bike - #{{ spot.vehicle.id }}
+                                    {{ spot.vehicle }}
                                 </div>
                                 <div>
-                                    <button>Reserve</button>
+                                    <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>
                                 </div>
                             {% endfor %}
                         </div>
@@ -77,7 +77,7 @@
                         <div class="site-menu-vehicle-list-grid-container">
                             {% for spot in site.get_available_rent_scooter_spots %}
                                 <div>
-                                    Scooter - #{{ spot.vehicle.id }}
+                                    {{ spot.vehicle }}
                                 </div>
                                 <div>
                                     <button>Reserve</button>
@@ -90,8 +90,6 @@
 
 
         </div>
-
-        {{ site.rent_charge_rule.price }}€ / min.
     </div>
 {% endfor %}
 
