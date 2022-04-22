@@ -17,6 +17,14 @@ class RentMapView(View):
             except ObjectDoesNotExist:
                 pass
 
+        site_id = request.GET.get('site_id')
+        preselected_site = None
+        if site_id:
+            try:
+                preselected_site = Site.objects.get(pk=site_id)
+            except ObjectDoesNotExist:
+                pass
+
         sites: list[Site] = site_repository.find_with_rent_configured()
 
         renting_session = renting_session_repository.find_active_session(self.request.user) if self.request.user.is_authenticated else None
@@ -24,5 +32,5 @@ class RentMapView(View):
         return render(
             request,
             'client/renting_site/map.html',
-            {'sites': sites, 'renting_session': renting_session, 'spot': spot}
+            {'sites': sites, 'renting_session': renting_session, 'spot': spot, 'preselected_site': preselected_site}
         )

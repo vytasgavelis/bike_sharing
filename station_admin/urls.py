@@ -8,6 +8,7 @@ from .views.admin.rent_spot_qr_code_download_view import RentSpotQrCodeDownloadV
 from django.contrib.admin.views.decorators import staff_member_required
 from .views.client.parking.parking_session_start_view import ParkingSessionStartView
 from .views.client.parking.parking_map_view import ParkingMapView
+from .views.client.parking.parking_site_open_gate_view import ParkingSiteOpenGateView
 from .views.client.rent.end_rent_session_view import EndRentSessionView
 from .views.client.rent.rent_map_view import RentMapView
 from .views.client.rent.site_list_view import SiteListView
@@ -37,6 +38,8 @@ urlpatterns = [
          name='rent_spot_qr_code_download'),
     path('api/site/<int:id>/session/start/<str:parking_spot_type>', login_required(ParkingSessionStartView.as_view()),
          name='parking_gate_open'),
+    path('api/site/<int:id>/gate/open', login_required(ParkingSiteOpenGateView.as_view()),
+         name='parking_site_gate_open'),
     path('api/site/<int:site_id>/session/end', login_required(ParkingSessionEndView.as_view()),
          name='end_parking_session'),
     path('user/profile', login_required(UserProfileView.as_view()), name='user_profile'),

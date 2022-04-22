@@ -30,6 +30,15 @@ class ParkingHandler:
         if response.status_code != 200:
             raise ErrorOpeningSiteGateException()
 
+    def open_site_door_for_renting(self, user: User, site: Site) -> None:
+        if not site.gate_open_url or not site.external_id:
+            raise SiteNotConfiguredCorrectlyException
+
+        response = requests.post(f"{site.gate_open_url}", json={'id': site.external_id})
+
+        if response.status_code != 200:
+            raise ErrorOpeningSiteGateException()
+
     def start_session(self, user: User, site: Site, spot_type: str) -> None:
         spot: ParkingSpot = site.get_available_spots(spot_type).first()
 

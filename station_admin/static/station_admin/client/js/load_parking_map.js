@@ -71,6 +71,31 @@ function initSiteMenusSessionButtons() {
     })
 }
 
+function initRentButtons() {
+    document.querySelectorAll('[data-rent-vehicle-btn]').forEach((button) => {
+        const siteId = button.getAttribute('data-rent-vehicle-btn');
+        button.addEventListener('click', () => {
+            openSiteGate(siteId);
+        });
+    });
+}
+
+function openSiteGate(siteId) {
+    fetch(`http://127.0.0.1:8000/station/api/site/${siteId}/gate/open`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                window.location.href = `http://127.0.0.1:8000/station/rent-map?site_id=${siteId}`;
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+}
+
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates);
 
@@ -129,4 +154,5 @@ window.addEventListener('load', function () {
     initSiteMenusExitButtons();
     initSiteMenusSessionButtons();
     initSessionTimer();
+    initRentButtons();
 });

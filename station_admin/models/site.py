@@ -96,3 +96,7 @@ class Site(models.Model):
 
     def get_scooter_rent_spots(self) -> QuerySet:
         return self.rentspot_set.filter(spot_type=VehicleType.SCOOTER)
+
+    def is_rent_available(self) -> bool:
+        return self.rent_charge_rule and \
+               (len(self.get_available_bike_spots()) > 0 or len(self.get_available_scooter_spots()) > 0)

@@ -31,11 +31,16 @@
 
 <div data-message-container></div>
 
-
 <div id="map"></div>
 
 {% for site in sites %}
-    <div class="site-bar" data-side-id='{{ site.id }}'>
+    <div class="site-bar" data-side-id='{{ site.id }}'
+         {% if preselected_site and preselected_site.id == site.id %}
+             data-preselected-site
+             data-preselected-site-latitude="{{ site.latitude }}"
+             data-preselected-site-longitude="{{ site.longitude }}"
+         {% endif %}
+    >
         <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="site-bar-content">

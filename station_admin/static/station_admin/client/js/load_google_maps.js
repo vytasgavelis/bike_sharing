@@ -7,7 +7,7 @@ import {
     createSiteMarker,
     unsetAllMarkerIcons,
     closeAllSiteMenus,
-    initSiteMenusExitButtons, startSessionTimer,
+    initSiteMenusExitButtons, startSessionTimer, openSiteMenu,
 } from "./google_maps.js";
 
 
@@ -77,10 +77,17 @@ function initMap() {
     function initCoordinates(position) {
         let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         const preselectedRentSpot = document.querySelector('[data-preselected-spot-id]');
+        const preselectedSite = document.querySelector('[data-preselected-site]');
+
         if (preselectedRentSpot) {
             currentLocation = {
                 lat: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-latitude')),
                 lng: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-longitude')),
+            };
+        } else if (preselectedSite) {
+            currentLocation = {
+                lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
+                lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
             };
         }
 
@@ -105,10 +112,13 @@ function initMap() {
             .then(data => {
                 data.forEach((site) => {
                     let garageIcon = NOT_SELECTED_GARAGE_IMG;
-                    if (
-                        preselectedRentSpot
-                        && preselectedRentSpot.getAttribute('data-preselected-spot-site-id') == site.id
-                    ) {
+                    const preselectedRentSpotExists = preselectedRentSpot
+                        && preselectedRentSpot.getAttribute('data-preselected-spot-site-id') == site.id;
+
+                    const preselectedSiteExists = preselectedSite
+                        && preselectedSite.getAttribute('data-side-id') == site.id;
+
+                    if (preselectedRentSpotExists || preselectedSiteExists) {
                         garageIcon = SELECTED_GARAGE_IMG;
                     }
 
@@ -119,6 +129,11 @@ function initMap() {
         if (preselectedRentSpot) {
             let rentSpotId = preselectedRentSpot.getAttribute('data-preselected-spot-id');
             openRentSpotMenu(rentSpotId);
+        }
+
+        if (preselectedSite) {
+            let siteId = preselectedSite.getAttribute('data-side-id');
+            openSiteMenu(siteId);
         }
 
     }
