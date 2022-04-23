@@ -3,6 +3,7 @@
     --dark-green: #78938A;
     --navy: #525E75;
     --brown: #F1DDBF;
+    --red: #FA8072;
 }
 
 #map {
@@ -190,6 +191,10 @@ p {
     grid-template-columns: auto auto;
     border-style: solid;
     font-size: 30px;
+}
+
+.session-status-cancel-btn {
+    background-color: var(--red) !important;
 }
 
 .hidden {

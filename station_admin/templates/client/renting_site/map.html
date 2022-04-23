@@ -24,9 +24,11 @@
 {% include 'client/sidebar.html' %}
 
 <div class="session-status-grid-container {% if not renting_session %} hidden{% endif %}">
-    <div class="session-status-grid-item1">Ride is active</div>
-    <div class="session-status-grid-item2"
-         data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+    <div class="session-status-grid-item1" data-session-status-text>Ride is active</div>
+    <div class="session-status-grid-item2">
+        <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+        <div><button class="session-status-cancel-btn hidden">Cancel reservation</button></div>
+    </div>
 </div>
 
 <div data-message-container></div>

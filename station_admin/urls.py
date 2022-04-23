@@ -44,7 +44,7 @@ urlpatterns = [
          name='parking_site_gate_open'),
     path('api/site/<int:site_id>/session/end', login_required(ParkingSessionEndView.as_view()),
          name='end_parking_session'),
-    path('api/spot/<int:spot_id>/reservation/start', login_required(StartReservationView.as_view()),
+    path('api/spot/<int:id>/reservation/start', login_required(StartReservationView.as_view()),
          name='start_reservation'),
     path('api/reservation/end', login_required(EndReservationView.as_view()),
          name='end_reservation'),

@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from station_admin.exception.cannot_start_reservation_exception import CannotStartReservationException
 from station_admin.exception.not_enough_credits_exception import NotEnoughCreditsException
 from station_admin.exception.site_not_configured_correctly_exception import SiteNotConfiguredCorrectlyException
 from station_admin.exception.spot_missing_vehicle_exception import SpotMissingVehicleException
@@ -44,6 +45,36 @@ class RentHandler:
         copied_charge_rule.save()
         session.save()
         vehicle.save()
+
+    def start_reservation(self, spot: RentSpot, user: User) -> None:
+        user_helper.validate_is_eligible_for_rent(spot, user)
+        self.validate_spot_is_not_reserved(spot)
+
+        copied_charge_rule = self.clone_charge_rule(spot.site.rent_charge_rule)
+
+        session = self._create_session(copied_charge_rule, None, user, spot.vehicle)
+        copied_charge_rule.save()
+        session.save()
+
+    def end_reservation(self, user: User) -> None:
+        sessions = renting_session_repository.find_active_reservations_by_user(user)
+        if len(sessions) == 0:
+            raise Exception('You do not have a reservation')
+
+        session = sessions[0]
+
+        session.end_time = datetime.datetime.now()
+        user.userprofile.credits -= Decimal(session.get_price())
+
+        session.save()
+        user.userprofile.save()
+
+    def validate_spot_is_not_reserved(self, spot: RentSpot) -> None:
+        reservations = renting_session_repository.find_active_reservations_by_vehicle(spot.vehicle)
+        if len(reservations) > 0:
+            raise CannotStartReservationException('This vehicle is already reserved')
+
+
 
     def end_session(self, spot: RentSpot, user: User) -> None:
         session = self._validate_is_eligible_for_rent_completion(spot, user)
@@ -97,15 +128,18 @@ class RentHandler:
     def _create_session(
             self,
             charge_rule: ChargeRule,
-            spot: RentSpot,
+            spot: RentSpot | None,
             user: User,
             vehicle: Vehicle
     ) -> RentSession:
         session = RentSession()
         session.start_time = datetime.datetime.now()
-        session.taken_from_spot = spot
         session.user = user
         session.charge_rule = charge_rule
         session.vehicle = vehicle
 
+        if spot:
+            session.taken_from_spot = spot
+
         return session
+

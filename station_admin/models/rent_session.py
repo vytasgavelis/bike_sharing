@@ -10,7 +10,7 @@ class RentSession(models.Model):
     end_time = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     charge_rule = models.ForeignKey(ChargeRule, on_delete=models.CASCADE)
-    taken_from_spot = models.ForeignKey(RentSpot, on_delete=models.CASCADE, related_name='taken_from_spot')
+    taken_from_spot = models.ForeignKey(RentSpot, on_delete=models.CASCADE, related_name='taken_from_spot', null=True)
     returned_to_spot = models.ForeignKey(RentSpot, on_delete=models.CASCADE, related_name='returned_to_spot', null=True)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
 

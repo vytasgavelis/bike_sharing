@@ -104,12 +104,20 @@ function initSessionTimer() {
     }
 }
 
-function startSessionTimer() {
+function startSessionTimer(showStopReservationBtn = false) {
     let sessionTimer = document.querySelector('[data-session-elapsed-seconds]');
     if (sessionTimer) {
         elapsedSeconds = 0
         let sessionTimerContainer = document.getElementsByClassName('session-status-grid-container')[0];
         sessionTimerContainer.classList.remove('hidden');
+
+        if (showStopReservationBtn) {
+            let stopReservationBtn = document.getElementsByClassName('session-status-cancel-btn')[0];
+            stopReservationBtn.classList.remove('hidden');
+            stopReservationBtn.addEventListener('click', () => {
+                stopReservation();
+            })
+        }
     }
 }
 
@@ -120,6 +128,25 @@ function hideSessionTimer() {
         let sessionTimerContainer = document.getElementsByClassName('session-status-grid-container')[0];
         sessionTimerContainer.classList.add('hidden');
     }
+}
+
+function stopReservation() {
+    fetch(`http://127.0.0.1:8000/station/api/reservation/end`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                displaySuccess('Reservation has been ended');
+                hideSessionTimer();
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+
+
 }
 
 export {

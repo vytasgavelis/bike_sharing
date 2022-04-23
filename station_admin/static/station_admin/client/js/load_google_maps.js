@@ -192,9 +192,12 @@ function reserveVehicle(spotId) {
         .then(data => {
             if (data.success == true) {
                 displaySuccess('Reservation has been started');
+                startSessionTimer(true);
+                // Display stop reservation button
+                // Remove vehicle from reservation list
                 // closeAllSiteMenus();
                 // unsetAllMarkerIcons();
-                // startSessionTimer()
+
             } else {
                 displayError(data.message);
             }
