@@ -13,3 +13,7 @@ class ParkingSessionRepository:
             return user_sessions
 
         return [session for session in user_sessions if session.parking_spot.site == site]
+
+    @staticmethod
+    def find_sessions(user: User) -> QuerySet:
+        return ParkingSession.objects.filter(user=user)

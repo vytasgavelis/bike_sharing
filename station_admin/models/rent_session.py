@@ -6,6 +6,7 @@ from station_admin.models.vehicle import Vehicle
 from datetime import datetime, timezone, timedelta
 import math
 
+
 class RentSession(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True)
@@ -50,3 +51,6 @@ class RentSession(models.Model):
             return f"{days} day{suffix} {time_fmt}"
 
         return time_fmt
+
+    def is_finished(self) -> bool:
+        return self.end_time is not None

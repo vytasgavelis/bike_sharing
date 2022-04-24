@@ -31,3 +31,6 @@ class RentingSessionRepository:
         return RentSession.objects.filter(
             user=user, taken_from_spot=None, returned_to_spot=None, end_time=None
         )
+
+    def find_sessions(self, user: User) -> QuerySet:
+        return RentSession.objects.filter(user=user)

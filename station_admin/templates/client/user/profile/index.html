@@ -5,27 +5,22 @@
     <main class="container text-center">
         {% include 'client/error_list.html' %}
         <div class="row justify-content-center">
-            <div class="col-4 m-4 card text-left rounded border-dark border-2">
+            <div class="col-md m-4 card text-left rounded border-dark border-2">
                 <h3>Account information</h3>
                 <div class="row justify-content-center ">
-                    <div class="col-4 m-4">
+                    <div class="col-sm m-4">
                         <img src="{% static 'station_admin/client/img/svg/user.png' %}"
                              alt="mdo"
                              width="32" height="32" class="rounded-circle">
                     </div>
-                    <div class="col-4 m-4">
+                    <div class="col-sm m-4">
                         <div>{{ request.user.username }}</div>
                         <div>{{ request.user.userprofile.full_name }}</div>
                         <div>{{ request.user.email }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
-                <h3>Parking sessions</h3>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
+            <div class="col-md m-4  m-4 card text-left rounded border-dark border-2">
                 <h3>Add credits</h3>
                 <form method="post" action="{% url 'add_credits' %}">
                     {% csrf_token %}
@@ -35,12 +30,60 @@
                                name="credit_amount" placeholder="amount" step="0.01" min="0">
                         <label for="credit_amount">Amount</label>
 
-                        <button style="background-color: #78938A" class="w-100 btn btn-lg btn-primary mt-3" type="submit" >Add</button>
+                        <button style="background-color: #78938A" class="w-100 btn btn-lg btn-primary mt-3"
+                                type="submit">Add
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="col-4 m-4  m-4 card text-left rounded border-dark border-2">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md m-4  m-4 card rounded border-dark border-2">
+                <h3>Parking sessions</h3>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle type</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for session in parking_sessions %}
+                        <tr {% if not session.end_time %} class="active-row" {% endif %}>
+                            <td>{{ session.id }}</td>
+                            <td>{{ session.parking_spot.spot_type }}</td>
+                            <td>{{ session.end_time }}</td>
+                            <td>{{ session.get_price }}€</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md m-4  m-4 card rounded border-dark border-2">
                 <h3>Renting sessions</h3>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle type</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for session in renting_sessions %}
+                        <tr {% if not session.is_finished %} class="active-row" {% endif %}>
+                            <td>{{ session.id }}</td>
+                            <td>{{ session.vehicle.spot_type }}</td>
+                            <td>{{ session.end_time }}</td>
+                            <td>{{ session.get_price }}€</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
