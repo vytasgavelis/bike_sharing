@@ -1,24 +1,67 @@
 {% extends 'client/base.html' %}
 
 {% block content %}
+    <style>
+        .stats {
+            background: #f2f5f8 !important;
+            color: #000 !important
+        }
+
+        .articles {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number1 {
+            font-weight: 500
+        }
+
+        .followers {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number2 {
+            font-weight: 500
+        }
+
+        .rating {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number3 {
+            font-weight: 500
+        }
+    </style>
+
     {% load static %}
     <main class="container text-center">
         {% include 'client/error_list.html' %}
         <div class="row justify-content-center">
             <div class="col-md m-4 card text-left rounded border-dark border-2">
                 <h3>Account information</h3>
-                <div class="row justify-content-center ">
-                    <div class="col-sm m-4">
-                        <img src="{% static 'station_admin/client/img/svg/user.png' %}"
-                             alt="mdo"
-                             width="32" height="32" class="rounded-circle">
-                    </div>
-                    <div class="col-sm m-4">
-                        <div>{{ request.user.username }}</div>
-                        <div>{{ request.user.userprofile.full_name }}</div>
-                        <div>{{ request.user.email }}</div>
+                {#                <div class="container mt-5 d-flex justify-content-center">#}
+                <div class="card p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="image"><img
+                                src="{% static 'station_admin/client/img/svg/user.png' %}"
+                                class="rounded" width="120"></div>
+                        <div class="ml-3 w-100">
+                            <h4 class="mb-0 mt-0">{{ request.user.userprofile.full_name }}</h4>
+                            <span>{{ request.user.email }}</span>
+                            <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                                <div class="d-flex flex-column"><span class="articles">Parking sessions</span> <span
+                                        class="number1">{{ parking_sessions|length }}</span></div>
+                                <div class="d-flex flex-column"><span class="followers">Renting sessions</span> <span
+                                        class="number2">{{ renting_sessions|length }}</span></div>
+                                <div class="d-flex flex-column"><span class="rating">Join date</span> <span
+                                        class="number3">{{ request.user.userprofile.date_joined }}</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {#                </div>#}
             </div>
             <div class="col-md m-4  m-4 card text-left rounded border-dark border-2">
                 <h3>Add credits</h3>

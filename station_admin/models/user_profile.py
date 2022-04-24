@@ -8,3 +8,6 @@ class UserProfile(models.Model):
 
     def full_name(self) -> str:
         return f"{self.user.first_name} {self.user.last_name}"
+
+    def date_joined(self) -> str:
+        return self.user.date_joined.strftime("%m/%d/%Y")
