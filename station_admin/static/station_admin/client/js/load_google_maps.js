@@ -7,7 +7,7 @@ import {
     createSiteMarker,
     unsetAllMarkerIcons,
     closeAllSiteMenus,
-    initSiteMenusExitButtons, startSessionTimer, openSiteMenu,
+    initSiteMenusExitButtons, startSessionTimer, openSiteMenu, initStopReservationBtn, hideSessionTimer
 } from "./google_maps.js";
 
 
@@ -43,6 +43,7 @@ function endRentSession(rentSpotId) {
                 displaySuccess('Session has been ended')
                 closeAllSiteMenus();
                 unsetAllMarkerIcons();
+                hideSessionTimer();
             } else {
                 displayError(data.message);
             }
@@ -174,6 +175,7 @@ window.addEventListener('load', function () {
     });
 
     initSessionTimer();
+    initStopReservationBtn(false);
 });
 
 function initVehicleReserveButtons() {
@@ -193,10 +195,7 @@ function reserveVehicle(spotId) {
             if (data.success == true) {
                 displaySuccess('Reservation has been started');
                 startSessionTimer(true);
-                // Display stop reservation button
-                // Remove vehicle from reservation list
-                // closeAllSiteMenus();
-                // unsetAllMarkerIcons();
+                removeVehicleFromList(spotId);
 
             } else {
                 displayError(data.message);
@@ -204,4 +203,10 @@ function reserveVehicle(spotId) {
         }).catch((error) => {
             displayError(error);
     });
+}
+
+function removeVehicleFromList(spotId) {
+    document.querySelectorAll(`[data-rent-vehicle-row='${spotId}']`).forEach((element) => {
+        element.remove();
+    })
 }

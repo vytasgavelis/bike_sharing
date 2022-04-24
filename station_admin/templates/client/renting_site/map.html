@@ -27,7 +27,7 @@
     <div class="session-status-grid-item1" data-session-status-text>Ride is active</div>
     <div class="session-status-grid-item2">
         <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
-        <div><button class="session-status-cancel-btn hidden">Cancel reservation</button></div>
+        <div><button class="session-status-cancel-btn {% if not has_renting_reservation %} hidden {% endif %}">Cancel reservation</button></div>
     </div>
 </div>
 
@@ -64,10 +64,10 @@
                          data-site-vehicle-list="bike-{{ site.id }}">
                         <div class="site-menu-vehicle-list-grid-container">
                             {% for spot in site.get_available_rent_bike_spots %}
-                                <div>
+                                <div data-rent-vehicle-row="{{ spot.id }}">
                                     {{ spot.vehicle }}
                                 </div>
-                                <div>
+                                <div data-rent-vehicle-row="{{ spot.id }}">
                                     <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>
                                 </div>
                             {% endfor %}
@@ -82,7 +82,7 @@
                                     {{ spot.vehicle }}
                                 </div>
                                 <div>
-                                    <button>Reserve</button>
+                                    <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>
                                 </div>
                             {% endfor %}
                         </div>
@@ -102,9 +102,9 @@
     <div class="rent-spot-menu-grid-container">
         <div class="rent-spot-menu-grid-item1">
             {% if spot.vehicle.spot_type == 'bike' %}
-                Bike #{{ spot.vehicle.id }}
+                {{ spot.vehicle }}
             {% else %}
-                Scooter #{{ spot.vehicle.id }}
+                {{ spot.vehicle }}
             {% endif %}
         </div>
         {% if spot.vehicle.spot_type == 'bike' %}

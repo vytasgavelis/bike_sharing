@@ -9,9 +9,7 @@ class RentingSessionRepository:
     # TODO: this should throw exception if more than one session is found.
     #TODO: this causes bug in reservation beause it reservation do not have returned to spot and it counts that as actuve
     def find_active_sessions(self, user: User) -> QuerySet:
-        return \
-            RentSession.objects.filter(user=user, returned_to_spot=None) \
-            | RentSession.objects.filter(user=user, end_time=None)
+        return RentSession.objects.filter(user=user, end_time=None)
 
     def find_active_session(self, user: User) -> RentSession | None:
         sessions = self.find_active_sessions(user)

@@ -112,12 +112,21 @@ function startSessionTimer(showStopReservationBtn = false) {
         sessionTimerContainer.classList.remove('hidden');
 
         if (showStopReservationBtn) {
-            let stopReservationBtn = document.getElementsByClassName('session-status-cancel-btn')[0];
-            stopReservationBtn.classList.remove('hidden');
-            stopReservationBtn.addEventListener('click', () => {
-                stopReservation();
-            })
+            initStopReservationBtn();
         }
+    }
+}
+
+function initStopReservationBtn(shouldUnhide = true) {
+    let elements = document.getElementsByClassName('session-status-cancel-btn');
+    if (elements.length > 0) {
+        let stopReservationBtn = elements[0]
+        if (shouldUnhide) {
+            stopReservationBtn.classList.remove('hidden');
+        }
+        stopReservationBtn.addEventListener('click', () => {
+            stopReservation();
+        })
     }
 }
 
@@ -163,5 +172,6 @@ export {
     SELECTED_GARAGE_IMG,
     initSiteMenusExitButtons,
     displayError,
-    displaySuccess
+    displaySuccess,
+    initStopReservationBtn
 };

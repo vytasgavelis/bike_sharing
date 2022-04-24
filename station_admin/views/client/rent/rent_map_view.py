@@ -28,9 +28,20 @@ class RentMapView(View):
         sites: list[Site] = site_repository.find_with_rent_configured()
 
         renting_session = renting_session_repository.find_active_session(self.request.user) if self.request.user.is_authenticated else None
+        has_renting_reservation = False
+        if self.request.user:
+            reservations = renting_session_repository.find_active_reservations_by_user(self.request.user)
+            if len(reservations) > 0:
+                has_renting_reservation = True
 
         return render(
             request,
             'client/renting_site/map.html',
-            {'sites': sites, 'renting_session': renting_session, 'spot': spot, 'preselected_site': preselected_site}
+            {
+                'sites': sites,
+                'renting_session': renting_session,
+                'spot': spot,
+                'preselected_site': preselected_site,
+                'has_renting_reservation': has_renting_reservation,
+            }
         )
