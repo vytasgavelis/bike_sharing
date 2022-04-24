@@ -1,11 +1,10 @@
 from django.db import models
-
 from station_admin.models import ParkingSpot
 from station_admin.models.charge_rule import ChargeRule
 from django.contrib.auth.models import User
 from datetime import datetime, timezone, timedelta
 from django.db.models import QuerySet
-
+import math
 
 class ParkingSession(models.Model):
     start_time = models.DateTimeField()
@@ -26,7 +25,7 @@ class ParkingSession(models.Model):
         return self.format_timedelta(datetime.now(timezone.utc) - self.start_time)
 
     def get_price(self) -> float:
-        elapsed_minutes = int((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
+        elapsed_minutes = math.ceil((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
 
         return elapsed_minutes * self.charge_rule.price
 

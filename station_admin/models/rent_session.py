@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from station_admin.models.rent_spot import RentSpot
 from station_admin.models.vehicle import Vehicle
 from datetime import datetime, timezone, timedelta
+import math
 
 class RentSession(models.Model):
     start_time = models.DateTimeField()
@@ -21,7 +22,7 @@ class RentSession(models.Model):
         return self.format_timedelta(datetime.now(timezone.utc) - self.start_time)
 
     def get_price(self) -> float:
-        elapsed_minutes = int((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
+        elapsed_minutes = math.ceil((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
 
         return elapsed_minutes * self.charge_rule.price
 
