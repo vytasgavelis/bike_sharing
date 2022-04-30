@@ -17,3 +17,7 @@ class ParkingSessionRepository:
     @staticmethod
     def find_sessions(user: User) -> QuerySet:
         return ParkingSession.objects.filter(user=user)
+
+    @staticmethod
+    def find_all_active_sessions() -> QuerySet:
+        return ParkingSession.objects.filter(end_time=None)

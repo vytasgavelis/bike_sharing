@@ -28,11 +28,11 @@
                 <label for="{{ form.username.id_for_label }}">Username</label>
             </div>
 
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="{{ form.email.id_for_label }}"
-                       name="{{ form.email.html_name }}" placeholder="name@example.com">
-                <label for="{{ form.email.id_for_label }}">Email</label>
-            </div>
+{#            <div class="form-floating mb-3">#}
+{#                <input type="text" class="form-control" id="{{ form.email.id_for_label }}"#}
+{#                       name="{{ form.email.html_name }}" placeholder="name@example.com">#}
+{#                <label for="{{ form.email.id_for_label }}">Email</label>#}
+{#            </div>#}
 
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="{{ form.first_name.id_for_label }}"
@@ -44,6 +44,12 @@
                 <input type="text" class="form-control" id="{{ form.last_name.id_for_label }}"
                        name="{{ form.last_name.html_name }}" placeholder="Johnson">
                 <label for="{{ form.last_name.id_for_label }}">Last name</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="{{ form.phone_number.id_for_label }}"
+                       name="{{ form.phone_number.html_name }}" placeholder="+37061231231">
+                <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
             </div>
 
             <div class="form-floating mb-3">

@@ -74,8 +74,6 @@ class RentHandler:
         if len(reservations) > 0:
             raise CannotStartReservationException('This vehicle is already reserved')
 
-
-
     def end_session(self, spot: RentSpot, user: User) -> None:
         session = self._validate_is_eligible_for_rent_completion(spot, user)
 

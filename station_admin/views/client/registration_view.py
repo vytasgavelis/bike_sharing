@@ -25,6 +25,7 @@ class RegistrationView(View):
             profile = UserProfile()
             profile.credits = 0
             profile.user = user
+            profile.phone_number = form.cleaned_data['phone_number']
             profile.save()
             login(request, user)
 

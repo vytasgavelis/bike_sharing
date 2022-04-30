@@ -34,3 +34,6 @@ class RentingSessionRepository:
 
     def find_sessions(self, user: User) -> QuerySet:
         return RentSession.objects.filter(user=user)
+
+    def find_all_active_sessions(self) -> QuerySet:
+        return RentSession.objects.filter(end_time=None)
