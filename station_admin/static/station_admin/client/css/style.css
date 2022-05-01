@@ -6,6 +6,7 @@
     --red: #FA8072;
 }
 
+
 #map {
     height: 100%;
     /* The height is 400 pixels */
@@ -142,6 +143,13 @@
 .site-menu-button-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.site-menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 590px;
+    margin: auto;
 }
 
 button {

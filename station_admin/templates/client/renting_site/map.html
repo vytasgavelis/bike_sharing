@@ -26,13 +26,13 @@
 <div class="session-status-grid-container {% if not renting_session and not has_renting_reservation %} hidden{% endif %}">
     <div class="session-status-grid-item1" data-session-status-text>Ride is active</div>
     <div class="session-status-grid-item2">
-    {% if renting_session %}
-        <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
-    {% elif renting_reservation %}
-        <div data-session-elapsed-seconds="{{ renting_reservation.get_elapsed_seconds }}"></div>
-    {% else %}
-        <div data-session-elapsed-seconds="0"></div>
-    {% endif %}
+        {% if renting_session %}
+            <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+        {% elif renting_reservation %}
+            <div data-session-elapsed-seconds="{{ renting_reservation.get_elapsed_seconds }}"></div>
+        {% else %}
+            <div data-session-elapsed-seconds="0"></div>
+        {% endif %}
         <div>
             <button class="session-status-cancel-btn {% if not has_renting_reservation %} hidden {% endif %}">Cancel
                 reservation
@@ -59,14 +59,20 @@
             <h3>{{ site.name }}</h3>
             {{ site.rent_charge_rule.price }}€ / min.
 
+            <div class="site-menu-grid">
+                <div>Free bike spots: {{ site.get_unused_rent_bike_spots|length }}
+                    / {{ site.get_bike_rent_spots|length }}</div>
+                <div>Free scooter spots: {{ site.get_unused_rent_scooter_spots|length }}
+                    / {{ site.get_scooter_rent_spots|length }}</div>
+            </div>
             <div class="site-menu-wrapper">
                 <div class="site-menu-button-wrapper">
                     <button class="tab-button active" style="border-top-left-radius: 10px;" data-id="home"
-                            data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes
+                            data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes for rent
                     </button>
 
                     <button class="tab-button" style="border-top-right-radius: 10px;" data-id="contact"
-                            data-site-list-type="scooter" data-site-id="{{ site.id }}">Scooters
+                            data-site-list-type="scooter" data-site-id="{{ site.id }}">Scooters for rent
                     </button>
                 </div>
                 <div class="contentWrapper">
@@ -97,14 +103,14 @@
                     <div class="content" id="contact"
                          data-site-vehicle-list="scooter-{{ site.id }}">
                         <div class="site-menu-vehicle-list-grid-container">
-{#                            {% for spot in site.get_available_rent_scooter_spots %}#}
-{#                                <div data-rent-vehicle-row="{{ spot.id }}">#}
-{#                                    {{ spot.vehicle }}#}
-{#                                </div>#}
-{#                                <div data-rent-vehicle-row="{{ spot.id }}">#}
-{#                                    <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>#}
-{#                                </div>#}
-{#                            {% endfor %}#}
+                            {#                            {% for spot in site.get_available_rent_scooter_spots %}#}
+                            {#                                <div data-rent-vehicle-row="{{ spot.id }}">#}
+                            {#                                    {{ spot.vehicle }}#}
+                            {#                                </div>#}
+                            {#                                <div data-rent-vehicle-row="{{ spot.id }}">#}
+                            {#                                    <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>#}
+                            {#                                </div>#}
+                            {#                            {% endfor %}#}
                             {% for spot in available_rent_spots %}
                                 {% if spot.site.id == site.id and spot.spot_type == 'scooter' %}
                                     <div data-rent-vehicle-row="{{ spot.id }}">

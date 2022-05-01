@@ -17,7 +17,8 @@ from .views.client.rent.end_reservation_view import EndReservationView
 from .views.client.rent.rent_map_view import RentMapView
 from .views.client.rent.site_list_view import SiteListView
 from .views.client.user.user_profile_view import UserProfileView
-from .views.demo.site_demo_view import SiteDemoView
+from .views.demo.site_demo_view_success import SiteDemoViewSuccess
+from .views.demo.site_demo_view_fail import SiteDemoViewFail
 from .views.client.parking.parking_site_service_view import ParkingSiteServiceView
 from .views.client.parking.parking_session_end_view import ParkingSessionEndView
 from django.views.decorators.csrf import csrf_exempt
@@ -61,7 +62,8 @@ urlpatterns = [
          name='end_reservation'),
     path('user/profile', login_required(UserProfileView.as_view()), name='user_profile'),
     path('user/credits', login_required(AddCreditsView.as_view()), name='add_credits'),
-    path('demo/open-gate', csrf_exempt(SiteDemoView.as_view()), name='demo_open_gate'),
+    path('demo/success', csrf_exempt(SiteDemoViewSuccess.as_view()), name='demo_open_gate_success'),
+    path('demo/fail', csrf_exempt(SiteDemoViewFail.as_view()), name='demo_open_gate_fail'),
     path('rent-spot/<int:id>/session/start', login_required(StartRentSessionView.as_view()), name='start_rent_session'),
     path('rent-spot/<int:id>/session/end', login_required(EndRentSessionView.as_view()), name='end_rent_session'),
     path('rent-spot/<int:id>/vehicle', VehicleView.as_view(), name='rent_spot_vehicle'),

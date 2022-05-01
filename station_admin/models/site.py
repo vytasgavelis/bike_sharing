@@ -91,6 +91,12 @@ class Site(models.Model):
     def get_available_rent_scooter_spots(self) -> QuerySet:
         return self.get_scooter_rent_spots().exclude(vehicle=None)
 
+    def get_unused_rent_bike_spots(self) -> QuerySet:
+        return self.get_bike_rent_spots().filter(vehicle=None)
+
+    def get_unused_rent_scooter_spots(self) -> QuerySet:
+        return self.get_scooter_rent_spots().filter(vehicle=None)
+
     def get_bike_rent_spots(self) -> QuerySet:
         return self.rentspot_set.filter(spot_type=VehicleType.BIKE)
 
