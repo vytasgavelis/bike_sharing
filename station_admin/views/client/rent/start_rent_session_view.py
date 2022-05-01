@@ -7,6 +7,7 @@ from station_admin.exception.not_enough_credits_exception import NotEnoughCredit
 from django.shortcuts import redirect, render, get_object_or_404
 
 from station_admin.models import RentSpot
+from station_admin.repository import renting_session_repository
 
 
 class StartRentSessionView(View):
@@ -39,13 +40,21 @@ class StartRentSessionView(View):
             except ObjectDoesNotExist:
                 return JsonResponse({'success': False, 'message': 'Rent spot does not exist'}, safe=False)
 
-        try:
-            rent_handler.open_rent_spot_lock(rent_spot, self.request.user)
-            rent_handler.start_session(rent_spot, self.request.user)
-        except NotEnoughCreditsException:
-            return JsonResponse({'success': False, 'message': 'You don\'t have enough credits to use renting.'}, safe=False)
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)},safe=False)
+        rent_sessions = renting_session_repository.find_active_reservations_by_user(self.request.user)
+
+        if len(rent_sessions) > 0:
+            try:
+                rent_handler.start_session_with_reservation(rent_spot, self.request.user)
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)}, safe=False)
+        else:
+            try:
+                rent_handler.open_rent_spot_lock(rent_spot, self.request.user)
+                rent_handler.start_session(rent_spot, self.request.user)
+            except NotEnoughCreditsException:
+                return JsonResponse({'success': False, 'message': 'You don\'t have enough credits to use renting.'}, safe=False)
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)},safe=False)
 
         return JsonResponse({'success': True}, safe=False)
 

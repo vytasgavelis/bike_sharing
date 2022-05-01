@@ -19,7 +19,6 @@ class UserHelper:
         return 0 < len(renting_session_repository.find_active_sessions(user))
 
     def validate_is_eligible_for_rent(self, spot: RentSpot, user: User) -> None:
-        #TODO: bug exists here because it allows for reserved vehicle to be rented.
         try:
             if not spot.vehicle:
                 raise SpotMissingVehicleException

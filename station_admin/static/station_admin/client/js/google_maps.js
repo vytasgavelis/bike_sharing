@@ -108,7 +108,7 @@ function initSessionTimer() {
 function startSessionTimer(showStopReservationBtn = false) {
     let sessionTimer = document.querySelector('[data-session-elapsed-seconds]');
     if (sessionTimer) {
-        elapsedSeconds = 0
+        elapsedSeconds = parseInt(sessionTimer.getAttribute('data-session-elapsed-seconds'))
         let sessionTimerContainer = document.getElementsByClassName('session-status-grid-container')[0];
         sessionTimerContainer.classList.remove('hidden');
 

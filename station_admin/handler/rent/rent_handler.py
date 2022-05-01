@@ -21,10 +21,11 @@ from station_admin.repository import renting_session_repository
 
 
 class RentHandler:
-    def open_rent_spot_lock(self, spot: RentSpot, user: User) -> None:
+    def open_rent_spot_lock(self, spot: RentSpot, user: User, validate=True) -> None:
         site = spot.site
 
-        user_helper.validate_is_eligible_for_rent(spot, user)
+        if validate:
+            user_helper.validate_is_eligible_for_rent(spot, user)
 
         response = requests.post(f"{site.lock_open_url}", json={'id': spot.external_id})
 
@@ -33,6 +34,7 @@ class RentHandler:
 
     def start_session(self, spot: RentSpot, user: User) -> None:
         user_helper.validate_is_eligible_for_rent(spot, user)
+        self.validate_spot_is_not_reserved(spot)
 
         site = spot.site
         vehicle = spot.vehicle
@@ -45,6 +47,28 @@ class RentHandler:
         copied_charge_rule.save()
         session.save()
         vehicle.save()
+
+    def start_session_with_reservation(self, spot: RentSpot, user: User) -> None:
+        try:
+            user_helper.validate_is_eligible_for_rent(spot, user)
+        except UserAlreadyHasRentSessionException as e:
+            pass
+
+        self.open_rent_spot_lock(spot, user, False)
+
+        sessions = renting_session_repository.find_active_reservations_by_user(user)
+        if len(sessions) == 0:
+            raise Exception('You do not have a reservation')
+
+        session: RentSession = sessions[0]
+        vehicle = session.vehicle
+
+        session.taken_from_spot = spot
+        vehicle.current_spot = None
+
+        session.save()
+        vehicle.save()
+
 
     def start_reservation(self, spot: RentSpot, user: User) -> None:
         user_helper.validate_is_eligible_for_rent(spot, user)
