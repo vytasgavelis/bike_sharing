@@ -6,10 +6,11 @@ import {
     displayError,
     displaySuccess,
     createSiteMarker,
-    NOT_SELECTED_GARAGE_IMG,
-    SELECTED_GARAGE_IMG,
     initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons
 } from "./google_maps.js";
+
+const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_not_selected.svg"
+const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_selected.svg"
 
 function startParkingSession(siteId, parkingSpotType) {
     console.log(`Starting session for: ${siteId} type: ${parkingSpotType}`);
@@ -23,7 +24,7 @@ function startParkingSession(siteId, parkingSpotType) {
                 displaySuccess('Session has been started');
                 startSessionTimer();
                 closeAllSiteMenus();
-                unsetAllMarkerIcons();
+                unsetAllMarkerIcons(NOT_SELECTED_GARAGE_IMG);
             } else {
                 displayError(data.message);
             }
@@ -43,7 +44,7 @@ function endParkingSession(siteId) {
                 //TODO: close down the window and start showing session timer
                 hideSessionTimer();
                 closeAllSiteMenus();
-                unsetAllMarkerIcons();
+                unsetAllMarkerIcons(NOT_SELECTED_GARAGE_IMG);
             } else {
                 displayError(data.message);
             }
@@ -137,7 +138,7 @@ function initMap() {
                         garageIcon = SELECTED_GARAGE_IMG;
                     }
 
-                    createSiteMarker(site, map, garageIcon);
+                    createSiteMarker(site, map, garageIcon, SELECTED_GARAGE_IMG, NOT_SELECTED_GARAGE_IMG);
                 });
             });
 
@@ -151,7 +152,7 @@ function initMap() {
 window.initMap = initMap;
 
 window.addEventListener('load', function () {
-    initSiteMenusExitButtons();
+    initSiteMenusExitButtons(NOT_SELECTED_GARAGE_IMG);
     initSiteMenusSessionButtons();
     initSessionTimer();
     initRentButtons();

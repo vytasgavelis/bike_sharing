@@ -18,16 +18,18 @@ function openSiteMenu(siteId) {
     siteMenu.style.height = "300px";
 }
 
-function unsetAllMarkerIcons() {
+function unsetAllMarkerIcons(garageImg = NOT_SELECTED_GARAGE_IMG) {
     markers.forEach((marker) => {
         marker.setIcon({
-            url: NOT_SELECTED_GARAGE_IMG,
+            url: garageImg,
             scaledSize: new google.maps.Size(60, 60),
         });
     });
 }
 
-function createSiteMarker(site, map, garageIcon) {
+function createSiteMarker(
+    site, map, garageIcon, selectedGarageImg = SELECTED_GARAGE_IMG, notSelectedGarageImg = NOT_SELECTED_GARAGE_IMG
+) {
     const marker = new google.maps.Marker({
         position: {lat: site.latitude, lng: site.longitude},
         map: map,
@@ -39,10 +41,10 @@ function createSiteMarker(site, map, garageIcon) {
 
     marker.addListener('click', () => {
         closeAllSiteMenus();
-        unsetAllMarkerIcons();
+        unsetAllMarkerIcons(notSelectedGarageImg);
         openSiteMenu(site.id)
         marker.setIcon({
-            url: SELECTED_GARAGE_IMG,
+            url: selectedGarageImg,
             scaledSize: new google.maps.Size(60, 60),
         });
     });
@@ -52,13 +54,13 @@ function createSiteMarker(site, map, garageIcon) {
     return marker;
 }
 
-function initSiteMenusExitButtons() {
+function initSiteMenusExitButtons(notSelectedGarageImg = NOT_SELECTED_GARAGE_IMG) {
     document.querySelectorAll('[data-site-bar-exit-btn]').forEach((item) => {
         let siteId = item.getAttribute('data-site-bar-exit-btn');
         item.onclick = () => {
             let siteMenu = document.querySelectorAll(`[data-side-id='${siteId}']`)[0];
             siteMenu.style.height = "0";
-            unsetAllMarkerIcons();
+            unsetAllMarkerIcons(notSelectedGarageImg);
         }
     });
 }

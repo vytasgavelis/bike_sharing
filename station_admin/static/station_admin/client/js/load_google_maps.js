@@ -14,6 +14,10 @@ import {
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 
+function hideStopReservationBtn() {
+    document.getElementsByClassName('session-status-cancel-btn')[0].classList.add('hidden');
+}
+
 function startSession(rentSpotId) {
     fetch(`http://127.0.0.1:8000/station/rent-spot/${rentSpotId}/session/start`, {
         method: 'POST',
@@ -25,6 +29,7 @@ function startSession(rentSpotId) {
                 closeAllSiteMenus();
                 unsetAllMarkerIcons();
                 startSessionTimer()
+                hideStopReservationBtn();
             } else {
                 displayError(data.message);
             }
