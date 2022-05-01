@@ -21,6 +21,14 @@ class RentingSessionRepository:
 
         return None
 
+    def find_active_rent_session(self, user: User) -> RentSession | None:
+        sessions = RentSession.objects.filter(user=user, end_time=None).exclude(taken_from_spot=None)
+        if len(sessions) > 1:
+            raise Exception('More than one rent session found.')
+
+        if len(sessions) == 1:
+            return sessions[0]
+
     def find_active_reservations_by_vehicle(self, vehicle: Vehicle) -> QuerySet:
         # Reservation - session with no taken from spot and returned to spot and no end time
         return RentSession.objects.filter(

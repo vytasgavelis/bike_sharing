@@ -9,4 +9,4 @@ class RentSpotRepository:
         rent_sessions: list[RentSession] = RentSession.objects.filter(end_time=None)
         taken_vehicle_ids = [rent_session.vehicle_id for rent_session in rent_sessions]
 
-        return RentSpot.objects.exclude(vehicle__in=taken_vehicle_ids)
+        return RentSpot.objects.exclude(vehicle__in=taken_vehicle_ids).exclude(vehicle=None)

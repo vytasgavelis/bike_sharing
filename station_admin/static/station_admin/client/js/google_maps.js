@@ -98,6 +98,7 @@ function initSessionTimer() {
     if (sessionTimer) {
         let elapsedSecondsData = sessionTimer.getAttribute('data-session-elapsed-seconds');
         elapsedSeconds = parseInt(elapsedSecondsData);
+
         setInterval(function () {
             startSessionTimeCounting(sessionTimer)
         }, 1000);

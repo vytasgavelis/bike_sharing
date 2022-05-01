@@ -23,10 +23,16 @@
 
 {% include 'client/sidebar.html' %}
 
-<div class="session-status-grid-container {% if not renting_session %} hidden{% endif %}">
+<div class="session-status-grid-container {% if not renting_session and not has_renting_reservation %} hidden{% endif %}">
     <div class="session-status-grid-item1" data-session-status-text>Ride is active</div>
     <div class="session-status-grid-item2">
+    {% if renting_session %}
         <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
+    {% elif renting_reservation %}
+        <div data-session-elapsed-seconds="{{ renting_reservation.get_elapsed_seconds }}"></div>
+    {% else %}
+        <div data-session-elapsed-seconds="0"></div>
+    {% endif %}
         <div>
             <button class="session-status-cancel-btn {% if not has_renting_reservation %} hidden {% endif %}">Cancel
                 reservation
@@ -131,7 +137,7 @@
                 {{ spot.vehicle }}
             {% endif %}
         </div>
-        {% if spot.vehicle.spot_type == 'bike' %}
+        {% if spot.spot_type == 'bike' %}
             <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
         {% else %}
             <div class="rent-spot-menu-grid-item2"><img src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
