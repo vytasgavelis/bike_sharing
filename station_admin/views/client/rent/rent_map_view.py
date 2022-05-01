@@ -31,7 +31,7 @@ class RentMapView(View):
 
         renting_reservation = None
         has_renting_reservation = False
-        if self.request.user:
+        if self.request.user.is_authenticated:
             reservations = renting_session_repository.find_active_reservations_by_user(self.request.user)
             if len(reservations) > 0:
                 has_renting_reservation = True

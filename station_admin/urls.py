@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
+
+from .helper.response_helper import ResponseHelper
 from .views import RegistrationView
 from .views import IndexView
 from .views.client.parking import ParkingSiteListView
@@ -25,6 +27,15 @@ from .views.client.rent.vehicle_view import VehicleView
 from .views.client.user.add_credits_view import AddCreditsView
 from .views.client.parking.site_list_view import SiteListView as ParkingSiteListView
 
+def login_required_json(function):
+    def wrapper(request, *args, **kw):
+        user = request.user
+        if not user.id:
+            return ResponseHelper.get_failed_response('You must be logged in')
+        else:
+            return function(request, *args, **kw)
+    return wrapper
+
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('register', RegistrationView.as_view(), name='register'),
@@ -38,15 +49,15 @@ urlpatterns = [
     path('site/<int:id>/qr-code', staff_member_required(QrCodeDownloadView.as_view()), name='qr_code_download'),
     path('rent-spot/<int:id>/qr-code', staff_member_required(RentSpotQrCodeDownloadView.as_view()),
          name='rent_spot_qr_code_download'),
-    path('api/site/<int:id>/session/start/<str:parking_spot_type>', login_required(ParkingSessionStartView.as_view()),
+    path('api/site/<int:id>/session/start/<str:parking_spot_type>', login_required_json(ParkingSessionStartView.as_view()),
          name='parking_gate_open'),
-    path('api/site/<int:id>/gate/open', login_required(ParkingSiteOpenGateView.as_view()),
+    path('api/site/<int:id>/gate/open', login_required_json(ParkingSiteOpenGateView.as_view()),
          name='parking_site_gate_open'),
-    path('api/site/<int:site_id>/session/end', login_required(ParkingSessionEndView.as_view()),
+    path('api/site/<int:site_id>/session/end', login_required_json(ParkingSessionEndView.as_view()),
          name='end_parking_session'),
-    path('api/spot/<int:id>/reservation/start', login_required(StartReservationView.as_view()),
+    path('api/spot/<int:id>/reservation/start', login_required_json(StartReservationView.as_view()),
          name='start_reservation'),
-    path('api/reservation/end', login_required(EndReservationView.as_view()),
+    path('api/reservation/end', login_required_json(EndReservationView.as_view()),
          name='end_reservation'),
     path('user/profile', login_required(UserProfileView.as_view()), name='user_profile'),
     path('user/credits', login_required(AddCreditsView.as_view()), name='add_credits'),

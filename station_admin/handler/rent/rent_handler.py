@@ -56,7 +56,7 @@ class RentHandler:
 
         self.open_rent_spot_lock(spot, user, False)
 
-        sessions = renting_session_repository.find_active_reservations_by_user(user)
+        sessions = renting_session_repository.find_active_reservations_by_user_and_vehicle(user, spot.vehicle)
         if len(sessions) == 0:
             raise Exception('You do not have a reservation')
 
