@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import View
 
 from station_admin.models import Site, RentSpot
-from station_admin.repository import site_repository, renting_session_repository
+from station_admin.repository import site_repository, renting_session_repository, rent_spot_repository
 
 
 class RentMapView(View):
@@ -34,6 +34,8 @@ class RentMapView(View):
             if len(reservations) > 0:
                 has_renting_reservation = True
 
+        available_rent_spots = rent_spot_repository.get_available_rent_spots()
+
         return render(
             request,
             'client/renting_site/map.html',
@@ -43,5 +45,6 @@ class RentMapView(View):
                 'spot': spot,
                 'preselected_site': preselected_site,
                 'has_renting_reservation': has_renting_reservation,
+                'available_rent_spots': available_rent_spots,
             }
         )

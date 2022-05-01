@@ -10,6 +10,7 @@ MINUTES_UNTIL_NOTIFICATION = 30
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
+        print('start sms command')
         parking_sessions: list[ParkingSession] = ParkingSessionRepository.find_all_active_sessions()
         rent_sessions: list[RentSession] = renting_session_repository.find_all_active_sessions()
 
@@ -24,6 +25,8 @@ class Command(BaseCommand):
                 phone_number = session.user.userprofile.phone_number
                 print(f"Sending sms to: {phone_number}")
                 sms_notifier.notify_user(phone_number)
+
+        print('end sms command')
 
     def _session_is_near_end(self, session: ParkingSession | RentSession) -> bool:
         return session.charge_rule.max_time_mins \
