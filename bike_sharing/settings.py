@@ -126,8 +126,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/station/'
-LOGOUT_REDIRECT_URL = '/station/'
+LOGIN_REDIRECT_URL = '/station/user/profile'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 BASE_URL = 'http://127.0.0.1:8000'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

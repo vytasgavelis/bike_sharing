@@ -15,7 +15,7 @@ class RentSpot(models.Model):
     )
 
     def __str__(self):
-        return f"{self.site}.  {self.id} - {self.spot_type}"
+        return f"{self.site.name}.  {self.id} - {self.spot_type}"
 
     @admin.display
     def get_qr_code_url_html(self) -> str:

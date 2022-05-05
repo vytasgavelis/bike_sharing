@@ -57,7 +57,7 @@
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="site-bar-content">
             <h3>{{ site.name }}</h3>
-            {{ site.rent_charge_rule.price }}€ / min.
+            Rent price: {{ site.rent_charge_rule.price }}€ / min.
 
             <div class="site-menu-grid">
                 <div>Free bike spots: {{ site.get_unused_rent_bike_spots|length }}
@@ -156,7 +156,7 @@
         {% else %}
             <button data-start-rent-session-btn>Start ride</button>
         {% endif %}
-        <div>{{ spot.site.rent_charge_rule.price }}€ / min.</div>
+        <div>Rent price: {{ spot.site.rent_charge_rule.price }}€ / min.</div>
     </div>
 {% endif %}
 

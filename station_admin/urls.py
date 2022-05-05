@@ -44,7 +44,7 @@ urlpatterns = [
     path('renting', RentingSiteListView.as_view(), name='renting_site_list'),
     path('rent-map', RentMapView.as_view(), name='renting_map'),
     path('parking-map', ParkingMapView.as_view(), name='parking_map'),
-    path('parking-site/<int:id>/services', login_required(ParkingSiteServiceView.as_view()),
+    path('parking-site/<int:id>/services', ParkingSiteServiceView.as_view(),
          name='parking_site_service_list'),
     # todo: add following to admin urls.
     path('site/<int:id>/qr-code', staff_member_required(QrCodeDownloadView.as_view()), name='qr_code_download'),
