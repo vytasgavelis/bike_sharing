@@ -1,10 +1,10 @@
 from django.db import models
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
-
+from django.db.models.functions import Round
 # TODO: use inline forms to edit parking spot in site form.
 from django.contrib import admin
-
+from django.core.exceptions import ValidationError
 from station_admin.models.charge_rule import ChargeRule
 from station_admin.provider import qr_code_url_provider
 from django.utils.html import format_html
@@ -106,3 +106,9 @@ class Site(models.Model):
     def is_rent_available(self) -> bool:
         return self.rent_charge_rule and \
                (len(self.get_available_bike_spots()) > 0 or len(self.get_available_scooter_spots()) > 0)
+
+    def clean(self) -> None:
+        nearby_sites = Site.objects.exclude(pk=self.id)
+        for site in nearby_sites:
+            if round(self.latitude, 4) == round(site.latitude, 4) and round(self.longitude, 4) == round(site.longitude, 4):
+                raise ValidationError('Site close to these coordinates already exists.')
