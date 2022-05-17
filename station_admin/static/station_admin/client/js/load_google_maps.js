@@ -78,7 +78,11 @@ function openRentSpotMenu(rentSpotId) {
 }
 
 function initMap() {
-    navigator.geolocation.getCurrentPosition(initCoordinates);
+    navigator.geolocation.getCurrentPosition(initCoordinates, handleFailedGetPosition);
+
+    function handleFailedGetPosition() {
+        alert('You must allow location access in order to use the system.');
+    }
 
     function initCoordinates(position) {
         let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
