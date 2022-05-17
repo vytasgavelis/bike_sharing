@@ -15,23 +15,23 @@
 
 
 <div class="session-status-grid-container {% if not parking_session %} hidden{% endif %}">
-        <div class="session-status-grid-item1">Parking is active</div>
-        <div class="session-status-grid-item2"
-             data-session-elapsed-seconds=
-                     "{% if parking_session %}{{ parking_session.get_elapsed_seconds }}{% else %}0{% endif %}"
-        ></div>
-    </div>
+    <div class="session-status-grid-item1">Parking is active</div>
+    <div class="session-status-grid-item2"
+         data-session-elapsed-seconds=
+                 "{% if parking_session %}{{ parking_session.get_elapsed_seconds }}{% else %}0{% endif %}"
+    ></div>
+</div>
 
-<div data-message-container></div>
+<div class="message-container" data-message-container></div>
 
 {% for site in sites_with_sessions %}
     <div class="site-bar"
          data-side-id='{{ site.0.id }}'
-         {% if preselected_site and preselected_site.id == site.0.id %}
-            data-preselected-site
-            data-preselected-site-latitude="{{ site.0.latitude }}"
-            data-preselected-site-longitude="{{ site.0.longitude }}"
-         {% endif %}
+            {% if preselected_site and preselected_site.id == site.0.id %}
+         data-preselected-site
+         data-preselected-site-latitude="{{ site.0.latitude }}"
+         data-preselected-site-longitude="{{ site.0.longitude }}"
+            {% endif %}
     >
         <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
              data-site-bar-exit-btn='{{ site.0.id }}'>
@@ -51,31 +51,37 @@
                     / {{ site.0.get_scooter_spots|length }}</div>
             </div>
         </div>
-        <div class="parking-spot-menu-grid-container">
-            {% if site.1 %}
-                <button data-end-parking-session-btn="{{ site.0.id }}">end parking</button>
-            {% else %}
+        {% if site.1 %}
+            <div class="site-menu-rent-section">
+                <button class="site-menu-button" data-end-parking-session-btn="{{ site.0.id }}">End parking</button>
+            </div>
+        {% else %}
+            <div class="parking-spot-menu-grid-container">
                 <div class="parking-spot-menu-grid-item1">
                     {% if site.0.get_available_bike_spots|length %}
-                        <button data-start-parking-session-btn="{{ site.0.id }}" data-start-parking-session-btn-type="bike">Park my bike</button>
+                        <button class="site-menu-button" data-start-parking-session-btn="{{ site.0.id }}"
+                                data-start-parking-session-btn-type="bike">Park my bike
+                        </button>
                     {% else %}
-                        <button>No bike spots available</button>
+                        <button class="site-menu-button">No bike spots</button>
                     {% endif %}
                 </div>
                 <div class="parking-spot-menu-grid-item2">
                     {% if site.0.get_available_scooter_spots|length %}
-                        <button  data-start-parking-session-btn="{{ site.0.id }}" data-start-parking-session-btn-type="scooter">Park my scooter</button>
+                        <button class="site-menu-button" data-start-parking-session-btn="{{ site.0.id }}"
+                                data-start-parking-session-btn-type="scooter">Park my scooter
+                        </button>
                     {% else %}
-                        <button>No scooter spots available</button>
+                        <button class="site-menu-button">No scooter spots</button>
                     {% endif %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="parking-spot-menu-grid-container">
+            </div>
+        {% endif %}
+        <div class="site-menu-rent-section">
             {% if site.0.is_rent_available %}
-                <button data-rent-vehicle-btn="{{ site.0.id }}">Rent</button>
+                <button class="site-menu-button" data-rent-vehicle-btn="{{ site.0.id }}">Rent</button>
             {% else %}
-                <button>Rent is not available</button>
+                <button class="site-menu-button">Rent not available</button>
             {% endif %}
         </div>
     </div>
