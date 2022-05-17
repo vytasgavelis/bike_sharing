@@ -1,5 +1,69 @@
-{% extends 'client/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Help</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static %}
+    <script>window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+    <link rel="stylesheet" type="text/css" href="{% static 'station_admin/client/css/style.css' %}"/>
 
-{% block content %}
-    <h1>Client index page</h1>
-{% endblock %}
+    <script src="{% static 'station_admin/client/js/load_side_bar.js' %}"></script>
+</head>
+<body>
+{% include 'client/sidebar.html' %}
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left: 50px">
+
+    <div class="w3-row w3-padding-64">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal" style="color: var(--dark-green) !important">Parking</h1>
+            <p>In order to use parking services you must visit any site that provides parking services. You can view available sites in the parking map.</p>
+            <p>After you arrive to the site scan the QR code on the door and you will be taken to that sites window. Then you can
+            select to either park your bike or scooter and begin your parking session.</p>
+            <p>Finally when you want to take back your vehicle, visit the site and scan the QR code again, press "End parking" button and that's it!</p>
+        </div>
+        <div class="w3-third w3-container">
+            <img style="width: 100%; height:auto" class="w3-padding-large w3-padding-16 w3-center" src="{% static 'station_admin/client/img/png/site.png' %}"></img>
+            <img style="width: 100%; height:auto" class="w3-padding-large w3-padding-16 w3-center" src="{% static 'station_admin/client/img/png/site_interior.png' %}"></img>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal" style="color: var(--dark-green) !important">Renting</h1>
+            <p>To use renting services you must visit any site that provide renting services. You can view these sites in the rent map.</p>
+            <p>After you arrive to the site scan the QR code of the vehicle and you will be taken to that vehicles window.
+            Then you can press "Start rent" button and your vehicle will be unlocked.</p>
+            <p>Finally when you want to return the vehicle you can do that any site that has unoccupied rent spots. You can view them in the rent map.
+            After you arrive to the site scan the QR code of the rent spot, park your vehicle into that rent spot and press the button "End rent".
+            The vehicle will be locked and your rent session will be ended</p>
+        </div>
+        <div class="w3-third w3-container">
+            <img style="width: 100%; height:auto" class="w3-padding-large w3-padding-16 w3-center" src="{% static 'station_admin/client/img/png/rent_spots.png' %}"></img>
+        </div>
+    </div>
+
+    <div class="w3-row w3-padding-64">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal" style="color: var(--dark-green) !important">Reservations</h1>
+            <p>If you want to reserve vehicle in advance go to rent map, select site and you will see all available vehicles for rent.
+            Then click "Reserve" button and the vehicle will be reserved. Keep in mind you can only have up to one reservation maximum.</p>
+        </div>
+        <div class="w3-third w3-container">
+            <img style="width: 100%; height:auto" class="w3-padding-large w3-padding-16 w3-center" src="{% static 'station_admin/client/img/png/vehicle_reservation.png' %}"></img>
+        </div>
+    </div>
+
+    <!-- END MAIN -->
+</div>
+
+</body>
+</html>

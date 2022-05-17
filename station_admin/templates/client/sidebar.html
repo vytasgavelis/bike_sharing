@@ -14,6 +14,7 @@
     {% endif %}
     <a href="{% url 'renting_map' %}">Rent</a>
     <a href="{% url 'parking_map' %}">Park</a>
+    <a href="{% url 'index' %}">Help</a>
     {% if request.user.is_authenticated %}
         <div class="sidebar-login">
             <a href="{% url 'logout' %}">Logout</a>
@@ -27,7 +28,7 @@
 </div>
 <div id="main">
     <div id="sidebar-toggle-btn" class="sidebarr">
-        <img style="width: 40px; position:absolute; top: 20vh; z-index: 4; cursor: pointer"
+        <img style="width: 40px; position:fixed; top: 20vh; z-index: 4; cursor: pointer"
              src="{% static 'station_admin/client/img/svg/menu.svg' %}">
     </div>
 </div>
