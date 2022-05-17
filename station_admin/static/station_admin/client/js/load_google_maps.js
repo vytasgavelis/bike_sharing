@@ -89,17 +89,17 @@ function initMap() {
         const preselectedRentSpot = document.querySelector('[data-preselected-spot-id]');
         const preselectedSite = document.querySelector('[data-preselected-site]');
 
-        if (preselectedRentSpot) {
-            currentLocation = {
-                lat: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-latitude')),
-                lng: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-longitude')),
-            };
-        } else if (preselectedSite) {
-            currentLocation = {
-                lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
-                lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
-            };
-        }
+        // if (preselectedRentSpot) {
+        //     currentLocation = {
+        //         lat: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-latitude')),
+        //         lng: parseFloat(preselectedRentSpot.getAttribute('data-preselected-spot-longitude')),
+        //     };
+        // } else if (preselectedSite) {
+        //     currentLocation = {
+        //         lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
+        //         lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
+        //     };
+        // }
 
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 18,

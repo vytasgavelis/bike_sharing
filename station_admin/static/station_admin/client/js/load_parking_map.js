@@ -108,12 +108,13 @@ function initMap() {
         let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         const preselectedSite = document.querySelector('[data-preselected-site]');
 
-        if (preselectedSite) {
-            currentLocation = {
-                lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
-                lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
-            };
-        }
+        console.log('not preslecting!');
+        // if (preselectedSite) {
+        //     currentLocation = {
+        //         lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
+        //         lng: parseFloat(preselectedSite.getAttribute('data-preselected-site-longitude')),
+        //     };
+        // }
 
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 18,
