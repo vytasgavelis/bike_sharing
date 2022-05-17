@@ -2,7 +2,7 @@ import {
     openSiteMenu,
     hideSessionTimer,
     initSessionTimer,
-    startSessionTimer,
+    startParkingTimer,
     displayError,
     displaySuccess,
     createSiteMarker,
@@ -22,7 +22,7 @@ function startParkingSession(siteId, parkingSpotType) {
         .then(data => {
             if (data.success == true) {
                 displaySuccess('Session has been started');
-                startSessionTimer();
+                startParkingTimer(data.max_time_mins);
                 closeAllSiteMenus();
                 unsetAllMarkerIcons(NOT_SELECTED_GARAGE_IMG);
             } else {

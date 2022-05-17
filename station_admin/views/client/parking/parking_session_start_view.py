@@ -37,9 +37,9 @@ class ParkingSessionStartView(View):
             parking_handler.open_site_door(
                 self.request.user, site
             )
-            parking_handler.start_session(self.request.user, site, parking_spot_type)
+            session = parking_handler.start_session(self.request.user, site, parking_spot_type)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, safe=False)
 
-        return JsonResponse({'success': True}, safe=False)
+        return JsonResponse({'success': True, 'max_time_mins': session.charge_rule.max_time_mins}, safe=False)
 

@@ -39,7 +39,7 @@ class ParkingHandler:
         if response.status_code != 200:
             raise ErrorOpeningSiteGateException()
 
-    def start_session(self, user: User, site: Site, spot_type: str) -> None:
+    def start_session(self, user: User, site: Site, spot_type: str) -> ParkingSession:
         spot: ParkingSpot = site.get_available_spots(spot_type).first()
 
         if not spot:
@@ -59,6 +59,8 @@ class ParkingHandler:
         copied_charge_rule.save()
         session.save()
         spot.save()
+
+        return session
 
     def end_session(self, session: ParkingSession, site: Site, user: User) -> None:
         if not site.gate_open_url or not site.external_id:

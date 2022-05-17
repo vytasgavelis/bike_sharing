@@ -120,6 +120,17 @@ function startSessionTimer(showStopReservationBtn = false) {
     }
 }
 
+function startParkingTimer(max_time_mins) {
+    let sessionTimer = document.querySelector('[data-session-elapsed-seconds]');
+    if (sessionTimer) {
+        elapsedSeconds = parseInt(sessionTimer.getAttribute('data-session-elapsed-seconds'))
+        let sessionTimerContainer = document.getElementsByClassName('session-status-grid-container')[0];
+        sessionTimerContainer.classList.remove('hidden');
+        let parkingLabel = sessionTimerContainer.getElementsByClassName('session-status-grid-item1')[0];
+        parkingLabel.innerHTML = max_time_mins && max_time_mins > 0 ? `Parking is active. Max time: ${max_time_mins} mins.` : "Parking is active.";
+    }
+}
+
 function initStopReservationBtn(shouldUnhide = true) {
     let elements = document.getElementsByClassName('session-status-cancel-btn');
     if (elements.length > 0) {
@@ -176,5 +187,6 @@ export {
     initSiteMenusExitButtons,
     displayError,
     displaySuccess,
-    initStopReservationBtn
+    initStopReservationBtn,
+    startParkingTimer,
 };
