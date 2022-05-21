@@ -156,15 +156,16 @@ window.addEventListener('load', function () {
     initVehicleReserveButtons();
 
     const tabs = document.querySelectorAll(".site-menu-wrapper");
-    const tabButton = document.querySelectorAll(".tab-button");
-    const contents = document.querySelectorAll(".content");
+    //const tabButton = document.querySelectorAll(".tab-button");
+    //const contents = document.querySelectorAll(".content");
 
     tabs.forEach((e) => {
         e.onclick = (e) => {
             const id = e.target.dataset.id;
             const listType = e.target.getAttribute("data-site-list-type");
             const siteId = e.target.getAttribute("data-site-id");
-
+            const contents = e.target.closest('.site-menu-wrapper').querySelectorAll(".content");
+            const tabButton = e.target.closest('.site-menu-wrapper').querySelectorAll(".tab-button");
             if (listType && siteId) {
                 tabButton.forEach(btn => {
                     btn.classList.remove("active");
