@@ -24,7 +24,9 @@
 {% include 'client/sidebar.html' %}
 
 <div class="session-status-grid-container {% if not renting_session and not has_renting_reservation %} hidden{% endif %}">
-    <div class="session-status-grid-item1" data-session-status-text>Ride is active</div>
+    <div class="session-status-grid-item1" data-session-status-text>Ride is active. {% if renting_session and renting_session.charge_rule.max_time_mins %} Max time: {{ renting_session.charge_rule.max_time_mins }} mins.
+        {% elif renting_reservation and renting_reservation.charge_rule.max_time_mins %} Max time: {{ renting_reservation.charge_rule.max_time_mins }} mins. {% endif %}
+    </div>
     <div class="session-status-grid-item2">
         {% if renting_session %}
             <div data-session-elapsed-seconds="{{ renting_session.get_elapsed_seconds }}"></div>
@@ -151,10 +153,10 @@
          data-site-bar-exit-btn='{{ site.id }}'>
     <div class="rent-spot-menu-grid-container">
         <div class="rent-spot-menu-grid-item1">
-            {% if spot.vehicle.spot_type == 'bike' %}
+            {% if spot.vehicle %}
                 {{ spot.vehicle }}
             {% else %}
-                {{ spot.vehicle }}
+                Unoccupied rent spot
             {% endif %}
         </div>
         {% if spot.spot_type == 'bike' %}
