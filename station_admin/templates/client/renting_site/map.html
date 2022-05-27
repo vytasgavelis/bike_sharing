@@ -58,16 +58,19 @@
         <img class="site-menu-exit-btn" src="{% static 'station_admin/client/img/svg/exit.png' %}"
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="parking-spot-menu-grid-container">
-        <div class="parking-spot-menu-grid-item1" style="font-size: 28px">
+        <div class="parking-spot-menu-grid-item1" style="font-size: 20px">
                 <div>{{ site.name }}</div>
                 <div>
                     Rent price: {{ site.rent_charge_rule.price }}€ / min.
+                </div>
+                <div>
                     {% if site.rent_charge_rule.max_time_mins %}
                         Maximum time: {{ site.rent_charge_rule.max_time_mins }} min.
                     {% endif %}
                 </div>
+
             </div>
-            <div class="parking-spot-menu-grid-item2" style="font-size: 28px">
+            <div class="parking-spot-menu-grid-item2" style="font-size: 20px">
                 <div>Free bike spots: {{ site.get_unused_rent_bike_spots|length }}
                     / {{ site.get_bike_rent_spots|length }}</div>
                 <div>Free scooter spots: {{ site.get_unused_rent_scooter_spots|length }}

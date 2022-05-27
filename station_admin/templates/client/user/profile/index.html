@@ -39,14 +39,14 @@
     <main class="container text-center">
         {% include 'client/error_list.html' %}
         <div class="row justify-content-center">
-            <div class="col-md m-4 card text-left rounded border-dark border-2">
+            <div class="col-lg m-4 card text-left rounded border-dark border-2">
                 <h3>Account information</h3>
                 {#                <div class="container mt-5 d-flex justify-content-center">#}
                 <div class="card p-3">
                     <div class="d-flex align-items-center">
                         <div class="image"><img
                                 src="{% static 'station_admin/client/img/svg/user.png' %}"
-                                class="rounded" width="120"></div>
+                                class="rounded" width="80"></div>
                         <div class="ml-3 w-100">
                             <h4 class="mb-0 mt-0">{{ request.user.userprofile.full_name }}</h4>
                             <span>{{ request.user.email }}</span>
@@ -63,7 +63,7 @@
                 </div>
                 {#                </div>#}
             </div>
-            <div class="col-md m-4  m-4 card text-left rounded border-dark border-2">
+            <div class="col-lg m-4  m-4 card text-left rounded border-dark border-2">
                 <h3>Add credits</h3>
                 <form method="post" action="{% url 'add_credits' %}">
                     {% csrf_token %}
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md m-4  m-4 card rounded border-dark border-2" style="max-height:400px; overflow-y:scroll">
+            <div class="col-lg m-4  m-4 card rounded border-dark border-2" style="max-height:400px; overflow-y:scroll">
                 <h3>Parking sessions</h3>
                 <table class="styled-table">
                     <thead>
@@ -105,7 +105,7 @@
                 </table>
 
             </div>
-            <div class="col-md m-4  m-4 card rounded border-dark border-2" style="max-height:400px; overflow-y:scroll">
+            <div class="col-lg m-4  m-4 card rounded border-dark border-2" style="max-height:400px; overflow-y:scroll">
                 <h3>Renting sessions</h3>
                 <table class="styled-table">
                     <thead>
