@@ -13,6 +13,7 @@ import {
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
+const NO_RENT_SPOTS_IMG = "/static/station_admin/client/img/svg/no_rent_spots.svg"
 
 function hideStopReservationBtn() {
     document.getElementsByClassName('session-status-cancel-btn')[0].classList.add('hidden');
@@ -121,7 +122,7 @@ function initMap() {
             .then(response => response.json())
             .then(data => {
                 data.forEach((site) => {
-                    let garageIcon = NOT_SELECTED_GARAGE_IMG;
+                    let garageIcon = site.hasOpenSpots ? NOT_SELECTED_GARAGE_IMG : NO_RENT_SPOTS_IMG;
                     const preselectedRentSpotExists = preselectedRentSpot
                         && preselectedRentSpot.getAttribute('data-preselected-spot-site-id') == site.id;
 
@@ -132,7 +133,9 @@ function initMap() {
                         garageIcon = SELECTED_GARAGE_IMG;
                     }
 
-                    let marker = createSiteMarker(site, map, garageIcon);
+                    let marker = createSiteMarker(
+                        site, map, garageIcon, SELECTED_GARAGE_IMG, NOT_SELECTED_GARAGE_IMG, NO_RENT_SPOTS_IMG, 'renting'
+                    );
                 });
             });
 

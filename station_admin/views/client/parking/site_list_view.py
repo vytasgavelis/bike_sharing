@@ -11,7 +11,14 @@ class SiteListView(View):
         sites: list[Site] = site_repository.find_with_parking_configured()
         site_data = []
         for site in sites:
-            site_data.append({'id': site.id, 'name': site.name, 'latitude': site.latitude, 'longitude': site.longitude})
+            site_data.append(
+                {
+                    'id': site.id,
+                    'name': site.name,
+                    'latitude': site.latitude,
+                    'longitude': site.longitude,
+                    'hasOpenSpots': len(site.get_available_scooter_spots()) + len(site.get_available_bike_spots()) > 0
+                 })
 
         return JsonResponse(site_data, safe=False)
 

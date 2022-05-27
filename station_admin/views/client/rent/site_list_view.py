@@ -11,7 +11,15 @@ class SiteListView(View):
         sites: list[Site] = site_repository.find_with_rent_configured()
         site_data = []
         for site in sites:
-            site_data.append({'id': site.id, 'name': site.name, 'latitude': site.latitude, 'longitude': site.longitude})
+            site_data.append(
+                {
+                    'id': site.id,
+                    'name': site.name,
+                    'latitude': site.latitude,
+                    'longitude': site.longitude,
+                    'hasOpenSpots': len(site.get_bike_rent_spots()) + len(site.get_scooter_rent_spots()) > 0,
+                    'rentSite': True
+                 })
 
         return JsonResponse(site_data, safe=False)
 

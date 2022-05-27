@@ -2,7 +2,10 @@ let markers = [];
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 let elapsedSeconds = 0;
-
+const NO_PARKING_SPOTS_IMG = "/static/station_admin/client/img/svg/parking_no_spots.svg"
+const NO_RENT_SPOTS_IMG = "/static/station_admin/client/img/svg/no_rent_spots.svg"
+const PARKING_TYPE = 'parking';
+const RENTING_TYPE = 'renting';
 function persistMarker(marker) {
     markers.push(marker)
 }
@@ -20,15 +23,17 @@ function openSiteMenu(siteId) {
 
 function unsetAllMarkerIcons(garageImg = NOT_SELECTED_GARAGE_IMG) {
     markers.forEach((marker) => {
-        marker.setIcon({
-            url: garageImg,
+        let noSpotsImg = marker.type === PARKING_TYPE ? NO_PARKING_SPOTS_IMG : NO_RENT_SPOTS_IMG;
+
+        marker.marker.setIcon({
+            url: marker.hasOpenSpots ? garageImg : noSpotsImg,
             scaledSize: new google.maps.Size(60, 60),
         });
     });
 }
 
 function createSiteMarker(
-    site, map, garageIcon, selectedGarageImg = SELECTED_GARAGE_IMG, notSelectedGarageImg = NOT_SELECTED_GARAGE_IMG
+    site, map, garageIcon, selectedGarageImg = SELECTED_GARAGE_IMG, notSelectedGarageImg = NOT_SELECTED_GARAGE_IMG, noSiteSpotsImg = NO_PARKING_SPOTS_IMG, type='parking'
 ) {
     const marker = new google.maps.Marker({
         position: {lat: site.latitude, lng: site.longitude},
@@ -45,11 +50,11 @@ function createSiteMarker(
         openSiteMenu(site.id)
         marker.setIcon({
             url: selectedGarageImg,
-            scaledSize: new google.maps.Size(60, 60),
+            scaledSize: new google.maps.Size(60, 60)
         });
     });
 
-    persistMarker(marker);
+    persistMarker({'marker': marker, 'hasOpenSpots': site.hasOpenSpots, 'type': type});
 
     return marker;
 }

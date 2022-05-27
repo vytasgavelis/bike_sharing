@@ -11,6 +11,7 @@ import {
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_not_selected.svg"
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_selected.svg"
+const NO_SPOTS_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_no_spots.svg"
 
 function startParkingSession(siteId, parkingSpotType) {
     console.log(`Starting session for: ${siteId} type: ${parkingSpotType}`);
@@ -108,7 +109,7 @@ function initMap() {
         let currentLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         const preselectedSite = document.querySelector('[data-preselected-site]');
 
-        console.log('not preslecting!');
+
         // if (preselectedSite) {
         //     currentLocation = {
         //         lat: parseFloat(preselectedSite.getAttribute('data-preselected-site-latitude')),
@@ -135,15 +136,17 @@ function initMap() {
             .then(response => response.json())
             .then(data => {
                 data.forEach((site) => {
-                    let garageIcon = NOT_SELECTED_GARAGE_IMG;
+                    let garageIcon = site.hasOpenSpots ? NOT_SELECTED_GARAGE_IMG : NO_SPOTS_GARAGE_IMG;
                     if (
                         preselectedSite
                         && preselectedSite.getAttribute('data-side-id') == site.id
                     ) {
                         garageIcon = SELECTED_GARAGE_IMG;
                     }
+                    let notSelectedGarageImg = site.hasOpenSpots ? NOT_SELECTED_GARAGE_IMG : NO_SPOTS_GARAGE_IMG;
 
-                    createSiteMarker(site, map, garageIcon, SELECTED_GARAGE_IMG, NOT_SELECTED_GARAGE_IMG);
+
+                    createSiteMarker(site, map, garageIcon, SELECTED_GARAGE_IMG, NOT_SELECTED_GARAGE_IMG, NO_SPOTS_GARAGE_IMG);
                 });
             });
 
