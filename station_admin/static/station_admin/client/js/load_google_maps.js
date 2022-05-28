@@ -7,13 +7,19 @@ import {
     createSiteMarker,
     unsetAllMarkerIcons,
     closeAllSiteMenus,
-    initSiteMenusExitButtons, startSessionTimer, openSiteMenu, initStopReservationBtn, hideSessionTimer
+    initSiteMenusExitButtons,
+    startSessionTimer,
+    openSiteMenu,
+    initStopReservationBtn,
+    hideSessionTimer,
+    markMarkerAsOpen
 } from "./google_maps.js";
 
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_not_selected.svg";
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/garage_selected.svg";
 const NO_RENT_SPOTS_IMG = "/static/station_admin/client/img/svg/no_rent_spots.svg"
+let googleMap = null;
 
 function hideStopReservationBtn() {
     document.getElementsByClassName('session-status-cancel-btn')[0].classList.add('hidden');
@@ -31,6 +37,7 @@ function startSession(rentSpotId) {
                 unsetAllMarkerIcons();
                 startSessionTimer()
                 hideStopReservationBtn();
+                toggleShowReservationSpotBtn()
             } else {
                 displayError(data.message);
             }
@@ -76,6 +83,48 @@ function openRentSpotMenu(rentSpotId) {
     }
 
     rentSpotMenu.style.height = "300px";
+}
+
+function initShowVehicleSpotBtn() {
+    document.querySelector('.show-rent-spot-btn').addEventListener('click', () => {
+        fetch(`http://127.0.0.1:8000/station/api/current-reservation`, {
+        method: 'GET',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                googleMap.setCenter({lat: data.latitude, lng: data.longitude})
+                openSiteMenu(data.siteId)
+                markMarkerAsOpen(data.siteId)
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+    })
+
+    toggleShowReservationSpotBtn();
+}
+
+function toggleShowReservationSpotBtn() {
+    fetch(`http://127.0.0.1:8000/station/api/current-reservation`, {
+        method: 'GET',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                document.querySelector('.show-rent-spot-btn').classList.remove('hidden');
+            } else {
+                document.querySelector('.show-rent-spot-btn').classList.add('hidden');
+            }
+        }).catch((error) => {
+            displayError(error);
+    });
+}
+
+function persistMap(googlemap) {
+    googleMap = googlemap
 }
 
 function initMap() {
@@ -149,7 +198,9 @@ function initMap() {
             openSiteMenu(siteId);
         }
 
+        persistMap(map);
     }
+
 }
 
 window.initMap = initMap;
@@ -189,6 +240,7 @@ window.addEventListener('load', function () {
 
     initSessionTimer();
     initStopReservationBtn(false);
+    initShowVehicleSpotBtn();
 });
 
 function initVehicleReserveButtons() {
@@ -209,7 +261,7 @@ function reserveVehicle(spotId) {
                 displaySuccess('Reservation has been started');
                 startSessionTimer(true);
                 removeVehicleFromList(spotId);
-
+                toggleShowReservationSpotBtn();
             } else {
                 displayError(data.message);
             }

@@ -36,8 +36,9 @@ function unsetAllMarkerIcons(garageImg = NOT_SELECTED_GARAGE_IMG) {
 function markMarkerAsOpen(siteId) {
     markers.forEach((marker) => {
         if (marker.siteId == siteId) {
+            let img = marker.type === PARKING_TYPE ? SELECTED_PARKING_MARKER_IMG : SELECTED_GARAGE_IMG;
             marker.marker.setIcon({
-                url: SELECTED_PARKING_MARKER_IMG,
+                url: img,
                 scaledSize: new google.maps.Size(60, 60)
             });
         }

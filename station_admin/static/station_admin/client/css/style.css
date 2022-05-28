@@ -211,6 +211,11 @@ p {
     margin-bottom: 10px;
 }
 
+.show-rent-spot-btn {
+    background-color: var(--dark-green) !important;
+    margin-bottom: 10px;
+}
+
 .hidden {
     display: none !important;
 }
