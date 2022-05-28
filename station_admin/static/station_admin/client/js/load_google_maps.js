@@ -12,7 +12,7 @@ import {
     openSiteMenu,
     initStopReservationBtn,
     hideSessionTimer,
-    markMarkerAsOpen
+    markMarkerAsOpen, initSiteImage
 } from "./google_maps.js";
 
 
@@ -272,6 +272,7 @@ window.addEventListener('load', function () {
     initStopReservationBtn(false);
     initShowVehicleSpotBtn();
     initVehicleImages();
+    initSiteImage()
 });
 
 function initVehicleReserveButtons() {

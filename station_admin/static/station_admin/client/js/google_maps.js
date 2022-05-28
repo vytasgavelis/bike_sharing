@@ -190,6 +190,23 @@ function stopReservation() {
 
 }
 
+function showSiteImgModal() {
+    let modal = document.getElementById('site-image-modal');
+    modal.style.display = 'block';
+}
+
+function initSiteImage() {
+    document.querySelectorAll('.site-image').forEach((element) => {
+        element.addEventListener('click', () => {
+            showSiteImgModal()
+        })
+    })
+
+    document.getElementById('close-site-image').addEventListener('click', () => {
+        document.getElementById('site-image-modal').style.display = 'none'
+    })
+}
+
 export {
     openSiteMenu,
     hideSessionTimer,
@@ -207,5 +224,6 @@ export {
     displaySuccess,
     initStopReservationBtn,
     startParkingTimer,
-    markMarkerAsOpen
+    markMarkerAsOpen,
+    initSiteImage
 };

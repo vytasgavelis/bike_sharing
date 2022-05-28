@@ -23,6 +23,12 @@
 
 {% include 'client/sidebar.html' %}
 
+<div id="site-image-modal" class="image-modal">
+    <span id="close-site-image" class="close">&times;</span>
+    <img id="site-img" class="image-modal-content" src="{% static 'station_admin/client/img/png/rent_spots.png' %}">
+    <div id="bike-caption">Site</div>
+</div>
+
 <div class="session-status-grid-container {% if not renting_session and not has_renting_reservation %} hidden{% endif %}">
     <div class="session-status-grid-item1" data-session-status-text>
         <div>
@@ -83,7 +89,10 @@
              data-site-bar-exit-btn='{{ site.id }}'>
         <div class="parking-spot-menu-grid-container">
             <div class="parking-spot-menu-grid-item1" style="font-size: 20px">
-                <div>{{ site.name }}</div>
+                <div>
+                    {{ site.name }}
+                    <img class="site-image" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}">
+                </div>
                 <div>
                     Rent price: {{ site.rent_charge_rule.price }}€ / min.
                 </div>

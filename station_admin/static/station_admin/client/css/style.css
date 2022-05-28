@@ -372,6 +372,11 @@ p {
     cursor: pointer;
 }
 
+.site-image {
+    width: 20px;
+    cursor: pointer;
+}
+
 .image-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */

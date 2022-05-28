@@ -6,7 +6,8 @@ import {
     displayError,
     displaySuccess,
     createSiteMarker,
-    initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons, markMarkerAsOpen
+    initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons, markMarkerAsOpen,
+    initSiteImage
 } from "./google_maps.js";
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_not_selected.svg"
@@ -192,4 +193,5 @@ window.addEventListener('load', function () {
     initSessionTimer();
     initRentButtons();
     initShowParkingSpotBtn();
+    initSiteImage()
 });
