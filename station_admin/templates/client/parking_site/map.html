@@ -15,7 +15,18 @@
 
 
 <div class="session-status-grid-container {% if not parking_session %} hidden{% endif %}">
-    <div class="session-status-grid-item1">Parking is active. {% if parking_session and parking_session.charge_rule.max_time_mins %} Max time: {{ parking_session.charge_rule.max_time_mins }} mins. {% endif %}</div>
+    <div class="session-status-grid-item1">
+        <div>
+            Parking is active.
+            {% if parking_session and parking_session.charge_rule.max_time_mins %} Max time:
+                {{ parking_session.charge_rule.max_time_mins }} mins. {% endif %}
+        </div>
+        <div>
+            <button class="show-parking-spot-btn">
+                Show parking spot
+            </button>
+        </div>
+    </div>
     <div class="session-status-grid-item2"
          data-session-elapsed-seconds=
                  "{% if parking_session %}{{ parking_session.get_elapsed_seconds }}{% else %}0{% endif %}"

@@ -6,12 +6,13 @@ import {
     displayError,
     displaySuccess,
     createSiteMarker,
-    initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons
+    initSiteMenusExitButtons, closeAllSiteMenus, unsetAllMarkerIcons, markMarkerAsOpen
 } from "./google_maps.js";
 
 const NOT_SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_not_selected.svg"
 const SELECTED_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_selected.svg"
 const NO_SPOTS_GARAGE_IMG = "/static/station_admin/client/img/svg/parking_no_spots.svg"
+let googleMap = null;
 
 function startParkingSession(siteId, parkingSpotType) {
     console.log(`Starting session for: ${siteId} type: ${parkingSpotType}`);
@@ -98,6 +99,30 @@ function openSiteGate(siteId) {
     });
 }
 
+function persistMap(googlemap) {
+    googleMap = googlemap
+}
+
+function initShowParkingSpotBtn() {
+    document.querySelector('.show-parking-spot-btn').addEventListener('click', () => {
+        fetch(`http://127.0.0.1:8000/station/api/current-parking-session`, {
+        method: 'GET',
+        headers: {'X-CSRFToken': window.CSRF_TOKEN},
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success == true) {
+                googleMap.setCenter({lat: data.latitude, lng: data.longitude})
+                openSiteMenu(data.siteId)
+                markMarkerAsOpen(data.siteId)
+            } else {
+                displayError(data.message);
+            }
+        }).catch((error) => {
+        displayError(error);
+    });
+    })
+}
+
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates, handleFailedGetPosition);
 
@@ -154,6 +179,8 @@ function initMap() {
             const siteId = preselectedSite.getAttribute('data-side-id');
             openSiteMenu(siteId);
         }
+
+        persistMap(map);
     }
 }
 
@@ -164,4 +191,5 @@ window.addEventListener('load', function () {
     initSiteMenusSessionButtons();
     initSessionTimer();
     initRentButtons();
+    initShowParkingSpotBtn();
 });

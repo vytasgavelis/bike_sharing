@@ -8,6 +8,8 @@ from .views.client.parking import ParkingSiteListView
 from .views.admin.qr_code_download_view import QrCodeDownloadView
 from .views.admin.rent_spot_qr_code_download_view import RentSpotQrCodeDownloadView
 from django.contrib.admin.views.decorators import staff_member_required
+
+from .views.client.parking.current_session_view import CurrentSessionView
 from .views.client.parking.parking_session_start_view import ParkingSessionStartView
 from .views.client.parking.parking_map_view import ParkingMapView
 from .views.client.parking.parking_site_open_gate_view import ParkingSiteOpenGateView
@@ -70,4 +72,5 @@ urlpatterns = [
 
     path('api/rent-sites', csrf_exempt(SiteListView.as_view()), name='get_rent_sites'),
     path('api/parking-sites', csrf_exempt(ParkingSiteListView.as_view()), name='get_parking_sites'),
+    path('api/current-parking-session', login_required_json(CurrentSessionView.as_view()), name='get_current_parking_session'),
 ]

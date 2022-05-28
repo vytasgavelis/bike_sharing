@@ -203,6 +203,12 @@ p {
 
 .session-status-cancel-btn {
     background-color: var(--red) !important;
+    margin-bottom: 10px;
+}
+
+.show-parking-spot-btn {
+    background-color: var(--dark-green) !important;
+    margin-bottom: 10px;
 }
 
 .hidden {
