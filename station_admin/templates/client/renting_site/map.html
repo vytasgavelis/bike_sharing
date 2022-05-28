@@ -59,6 +59,18 @@
 
 <div id="map"></div>
 
+<div id="bike-image-modal" class="image-modal">
+    <span id="close-bike-image" class="close">&times;</span>
+    <img id="bike-img" class="image-modal-content" src="{% static 'station_admin/client/img/jpg/bicycle.jpg' %}">
+    <div id="bike-caption">Bike</div>
+</div>
+
+<div id="scooter-image-modal" class="image-modal">
+    <span id="close-scooter-image" class="close">&times;</span>
+    <img id="scooter-img" class="image-modal-content" src="{% static 'station_admin/client/img/jpg/scooter.jpeg' %}">
+    <div id="scooter-caption">Scooter</div>
+</div>
+
 {% for site in sites %}
     <div class="site-bar" data-side-id='{{ site.id }}'
             {% if preselected_site and preselected_site.id == site.id %}
@@ -121,7 +133,7 @@
                         {% for spot in available_rent_spots %}
                             {% if spot.site.id == site.id and spot.spot_type == 'bike' %}
                                 <div data-rent-vehicle-row="{{ spot.id }}">
-                                    {{ spot.vehicle }}
+                                    <img class="vehicle-image" data-img-type="bike" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}"> {{ spot.vehicle }}
                                 </div>
                                 <div data-rent-vehicle-row="{{ spot.id }}">
                                     <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>
@@ -145,7 +157,7 @@
                         {% for spot in available_rent_spots %}
                             {% if spot.site.id == site.id and spot.spot_type == 'scooter' %}
                                 <div data-rent-vehicle-row="{{ spot.id }}">
-                                    {{ spot.vehicle }}
+                                    <img class="vehicle-image" data-img-type="scooter" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}"> {{ spot.vehicle }}
                                 </div>
                                 <div data-rent-vehicle-row="{{ spot.id }}">
                                     <button data-vehicle-reserve-id="{{ spot.id }}">Reserve</button>

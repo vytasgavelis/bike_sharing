@@ -127,6 +127,36 @@ function persistMap(googlemap) {
     googleMap = googlemap
 }
 
+function showBikeImgModal() {
+    let modal = document.getElementById('bike-image-modal');
+    modal.style.display = 'block';
+}
+
+function showScooterImgModal() {
+    let modal = document.getElementById('scooter-image-modal');
+    modal.style.display = 'block';
+}
+
+function initVehicleImages() {
+    document.querySelectorAll('.vehicle-image').forEach((element) => {
+        element.addEventListener('click', () => {
+            if (element.getAttribute('data-img-type') === 'bike') {
+                showBikeImgModal()
+            } else {
+                showScooterImgModal()
+            }
+        })
+    })
+
+    document.getElementById('close-bike-image').addEventListener('click', () => {
+        document.getElementById('bike-image-modal').style.display = 'none'
+    })
+
+    document.getElementById('close-scooter-image').addEventListener('click', () => {
+        document.getElementById('scooter-image-modal').style.display = 'none'
+    })
+}
+
 function initMap() {
     navigator.geolocation.getCurrentPosition(initCoordinates, handleFailedGetPosition);
 
@@ -241,6 +271,7 @@ window.addEventListener('load', function () {
     initSessionTimer();
     initStopReservationBtn(false);
     initShowVehicleSpotBtn();
+    initVehicleImages();
 });
 
 function initVehicleReserveButtons() {
