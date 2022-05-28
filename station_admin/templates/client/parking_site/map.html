@@ -54,20 +54,32 @@
         <div class="parking-spot-menu-grid-container">
             <div class="parking-spot-menu-grid-item1" style="font-size: 28px">
                 <div>
+                    <img class="site-image" src="{% static 'station_admin/client/img/svg/label.svg' %}">
                     {{ site.0.name }}
                     <img class="site-image" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}">
                 </div>
                 <div>
+                <div>
+                    <img class="site-image" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
                     Parking price: {{ site.0.parking_charge_rule.price }}€ / min.
+                </div>
                     {% if site.0.parking_charge_rule.max_time_mins %}
-                        Maximum time: {{ site.0.parking_charge_rule.max_time_mins }} min.
+                        <div>
+                            <img class="site-image" src="{% static 'station_admin/client/img/svg/time.svg' %}">
+                            Max time: {{ site.0.parking_charge_rule.max_time_mins }} min.
+                        </div>
                     {% endif %}
                 </div>
             </div>
             <div class="parking-spot-menu-grid-item2" style="font-size: 28px">
-                <div>Bike spots: {{ site.0.get_available_bike_spots|length }} / {{ site.0.get_bike_spots|length }}</div>
-                <div>Scooter spots: {{ site.0.get_available_scooter_spots|length }}
-                    / {{ site.0.get_scooter_spots|length }}</div>
+                <div>
+                    Bike spots: {{ site.0.get_available_bike_spots|length }} / {{ site.0.get_bike_spots|length }}
+                    <img style="width:28px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                </div>
+                <div>
+                    Scooter spots: {{ site.0.get_available_scooter_spots|length }} / {{ site.0.get_scooter_spots|length }}
+                    <img style="width:28px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                </div>
             </div>
         </div>
         {% if site.1 %}

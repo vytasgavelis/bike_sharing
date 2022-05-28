@@ -90,24 +90,31 @@
         <div class="parking-spot-menu-grid-container">
             <div class="parking-spot-menu-grid-item1" style="font-size: 20px">
                 <div>
+                    <img class="site-image" src="{% static 'station_admin/client/img/svg/label.svg' %}">
                     {{ site.name }}
                     <img class="site-image" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}">
                 </div>
                 <div>
+                    <img class="site-image" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
                     Rent price: {{ site.rent_charge_rule.price }}€ / min.
                 </div>
                 <div>
                     {% if site.rent_charge_rule.max_time_mins %}
-                        Maximum time: {{ site.rent_charge_rule.max_time_mins }} min.
+                        <img class="site-image" src="{% static 'station_admin/client/img/svg/time.svg' %}">
+                        Max time: {{ site.rent_charge_rule.max_time_mins }} min.
                     {% endif %}
                 </div>
 
             </div>
             <div class="parking-spot-menu-grid-item2" style="font-size: 20px">
-                <div>Free bike spots: {{ site.get_unused_rent_bike_spots|length }}
-                    / {{ site.get_bike_rent_spots|length }}</div>
-                <div>Free scooter spots: {{ site.get_unused_rent_scooter_spots|length }}
-                    / {{ site.get_scooter_rent_spots|length }}</div>
+                <div>
+                    Free bike spots: {{ site.get_unused_rent_bike_spots|length }} / {{ site.get_bike_rent_spots|length }}
+                    <img style="width:28px" src="{% static 'station_admin/client/img/svg/bicycle.svg' %}">
+                </div>
+                <div>
+                    Free scooter spots: {{ site.get_unused_rent_scooter_spots|length }} / {{ site.get_scooter_rent_spots|length }}
+                    <img style="width:28px" src="{% static 'station_admin/client/img/svg/scooter.svg' %}">
+                </div>
             </div>
 
             {#            <div class="site-menu-grid">#}
@@ -120,7 +127,7 @@
         <div class="site-menu-wrapper">
             <div class="site-menu-button-wrapper">
                 <button class="tab-button active" style="border-top-left-radius: 10px;" data-id="home"
-                        data-site-list-type="bike" data-site-id="{{ site.id }}">Bikes for rent
+                        data-site-list-type="bike" data-site-id="{{ site.id }}"> Bikes for rent
                 </button>
 
                 <button class="tab-button" style="border-top-right-radius: 10px;" data-id="contact"
