@@ -16,7 +16,7 @@
 
 <div class="session-status-grid-container {% if not parking_session %} hidden{% endif %}">
     <div class="session-status-grid-item1">
-        <div>
+        <div class="session-status-parking-label">
             Parking is active.
             {% if parking_session and parking_session.charge_rule.max_time_mins %} Max time:
                 {{ parking_session.charge_rule.max_time_mins }} mins. {% endif %}

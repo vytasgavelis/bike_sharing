@@ -144,7 +144,7 @@ function startParkingTimer(max_time_mins) {
         elapsedSeconds = parseInt(sessionTimer.getAttribute('data-session-elapsed-seconds'))
         let sessionTimerContainer = document.getElementsByClassName('session-status-grid-container')[0];
         sessionTimerContainer.classList.remove('hidden');
-        let parkingLabel = sessionTimerContainer.getElementsByClassName('session-status-grid-item1')[0];
+        let parkingLabel = sessionTimerContainer.getElementsByClassName('session-status-parking-label')[0];
         parkingLabel.innerHTML = max_time_mins && max_time_mins > 0 ? `Parking is active. Max time: ${max_time_mins} mins.` : "Parking is active.";
     }
 }
