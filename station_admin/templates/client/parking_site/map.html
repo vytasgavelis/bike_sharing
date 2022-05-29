@@ -54,18 +54,18 @@
         <div class="parking-spot-menu-grid-container">
             <div class="parking-spot-menu-grid-item1" style="font-size: 28px">
                 <div>
-                    <img class="site-image" src="{% static 'station_admin/client/img/svg/label.svg' %}">
+                    <img class="site-icon" src="{% static 'station_admin/client/img/svg/label.svg' %}">
                     {{ site.0.name }}
                     <img class="site-image" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}">
                 </div>
                 <div>
                 <div>
-                    <img class="site-image" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
+                    <img class="site-icon" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
                     Parking price: {{ site.0.parking_charge_rule.price }}€ / min.
                 </div>
                     {% if site.0.parking_charge_rule.max_time_mins %}
                         <div>
-                            <img class="site-image" src="{% static 'station_admin/client/img/svg/time.svg' %}">
+                            <img class="site-icon" src="{% static 'station_admin/client/img/svg/time.svg' %}">
                             Max time: {{ site.0.parking_charge_rule.max_time_mins }} min.
                         </div>
                     {% endif %}

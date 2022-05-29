@@ -377,6 +377,11 @@ p {
     cursor: pointer;
 }
 
+.site-icon {
+    width: 20px;
+    cursor: pointer;
+}
+
 .image-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */

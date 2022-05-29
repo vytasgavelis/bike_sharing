@@ -90,17 +90,17 @@
         <div class="parking-spot-menu-grid-container">
             <div class="parking-spot-menu-grid-item1" style="font-size: 20px">
                 <div>
-                    <img class="site-image" src="{% static 'station_admin/client/img/svg/label.svg' %}">
+                    <img class="site-icon" src="{% static 'station_admin/client/img/svg/label.svg' %}">
                     {{ site.name }}
                     <img class="site-image" src="{% static 'station_admin/client/img/svg/image_logo.svg' %}">
                 </div>
                 <div>
-                    <img class="site-image" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
+                    <img class="site-icon" src="{% static 'station_admin/client/img/svg/euro.svg' %}">
                     Rent price: {{ site.rent_charge_rule.price }}€ / min.
                 </div>
                 <div>
                     {% if site.rent_charge_rule.max_time_mins %}
-                        <img class="site-image" src="{% static 'station_admin/client/img/svg/time.svg' %}">
+                        <img class="site-icon" src="{% static 'station_admin/client/img/svg/time.svg' %}">
                         Max time: {{ site.rent_charge_rule.max_time_mins }} min.
                     {% endif %}
                 </div>
