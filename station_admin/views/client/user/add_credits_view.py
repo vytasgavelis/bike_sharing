@@ -1,3 +1,4 @@
+import decimal
 from decimal import Decimal
 
 from django.http import HttpResponse, HttpRequest
@@ -12,7 +13,7 @@ class AddCreditsView(View):
 
         try:
             credit_amount = Decimal(credit_amount)
-        except ValueError:
+        except decimal.InvalidOperation:
             messages.error(request, 'Credit amount must be a float number')
             return redirect('user_profile')
 
