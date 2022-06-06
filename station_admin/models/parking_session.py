@@ -29,6 +29,11 @@ class ParkingSession(models.Model):
 
         return elapsed_minutes * self.charge_rule.price
 
+    def get_final_price(self) -> float:
+        elapsed_minutes = math.ceil((self.end_time - self.start_time).total_seconds() / 60)
+
+        return elapsed_minutes * self.charge_rule.price
+
     def is_max_time_exceeded(self) -> bool:
         elapsed_minutes = int((datetime.now(timezone.utc) - self.start_time).total_seconds() / 60)
 
